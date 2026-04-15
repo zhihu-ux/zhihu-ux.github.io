@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fox群管使用说明书</title>
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		:root {
+			--bg-base: #f0f2f5;
+			--glass-bg: rgba(255, 255, 255, 0.72);
+			--glass-border: rgba(255, 255, 255, 0.9);
+			--shadow-elevation: 0 8px 32px rgba(0, 0, 0, 0.06);
+			--text-primary: #1a1d21;
+			--text-secondary: #65676b;
+			--accent-1: #4f46e5;
+			--accent-2: #a855f7;
+			--accent-3: #ec4899;
+			--accent-4: #10b981;
+			--accent-5: #f59e0b;
+		}
+
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+
+		body {
+			font-family: 'Outfit', sans-serif;
+			background-color: var(--bg-base);
+			background-image: 
+				radial-gradient(at 10% 20%, rgba(79, 70, 229, 0.06) 0px, transparent 50%),
+				radial-gradient(at 90% 80%, rgba(168, 85, 247, 0.06) 0px, transparent 50%),
+				radial-gradient(at 50% 50%, rgba(236, 72, 153, 0.04) 0px, transparent 50%);
+			min-height: 100vh;
+			color: var(--text-primary);
+		}
+
+		/* Header */
+		.header {
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			padding: 14px 24px;
+			margin: 16px;
+			border-radius: 20px;
+			background: var(--glass-bg);
+			backdrop-filter: blur(20px);
+			border: 1px solid var(--glass-border);
+			box-shadow: var(--shadow-elevation);
+			display: flex;
+			align-items: center;
+			gap: 20px;
+		}
+
+		.logo {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			flex-shrink: 0;
+		}
+
+		.logo-icon {
+			width: 48px;
+			height: 48px;
+			background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+			border-radius: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 22px;
+			color: white;
+			box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.logo-text {
+			font-size: 24px;
+			font-weight: 800;
+			letter-spacing: -0.5px;
+			background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		/* Search */
+		.search-container {
+			display: flex;
+			gap: 12px;
+			flex: 1;
+			min-width: 0;
+		}
+
+		.search-box {
+			flex: 1;
+			position: relative;
+		}
+
+		.search-input {
+			width: 100%;
+			padding: 12px 16px 12px 44px;
+			background: rgba(255,255,255,0.85);
+			border: 1px solid rgba(0,0,0,0.08);
+			border-radius: 12px;
+			font-family: 'Outfit';
+			font-size: 14px;
+			font-weight: 500;
+			transition: all 0.3s ease;
+		}
+
+		.search-input:focus {
+			outline: none;
+			border-color: var(--accent-1);
+			box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+			background: white;
+		}
+
+		.search-icon {
+			position: absolute;
+			left: 16px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: var(--text-secondary);
+		}
+
+		/* Main Grid - 4x10 */
+		.main-grid {
+			padding: 8px 16px 32px;
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 12px;
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		/* Function Card */
+		.func-card {
+			background: var(--glass-bg);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.8);
+			border-radius: 18px;
+			padding: 22px 12px;
+			text-align: center;
+			cursor: pointer;
+			transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+			position: relative;
+			overflow: hidden;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+		}
+
+		.func-card:hover {
+			transform: translateY(-6px) scale(1.03);
+			box-shadow: 
+				0 20px 40px rgba(0, 0, 0, 0.08),
+				0 0 0 1px rgba(79, 70, 229, 0.2),
+				inset 0 0 20px rgba(255, 255, 255, 0.5);
+			border-color: rgba(79, 70, 229, 0.3);
+		}
+
+		.func-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 3px;
+			background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.func-card:hover::before {
+			opacity: 1;
+		}
+
+		.func-icon {
+			font-size: 30px;
+			margin-bottom: 12px;
+			display: block;
+			transition: transform 0.3s ease;
+		}
+
+		.func-card:hover .func-icon {
+			transform: scale(1.15);
+		}
+
+		.func-name {
+			font-size: 13px;
+			font-weight: 600;
+			line-height: 1.3;
+			color: var(--text-primary);
+		}
+
+		/* Color Coding */
+		.func-card:nth-child(5n+1) .func-icon { color: var(--accent-1); }
+		.func-card:nth-child(5n+2) .func-icon { color: var(--accent-2); }
+		.func-card:nth-child(5n+3) .func-icon { color: var(--accent-3); }
+		.func-card:nth-child(5n+4) .func-icon { color: var(--accent-4); }
+		.func-card:nth-child(5n+5) .func-icon { color: var(--accent-5); }
+
+		/* Modal */
+		.modal-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(8px);
+			z-index: 1000;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s ease;
+		}
+
+		.modal-overlay.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.modal-content {
+			background: white;
+			border-radius: 24px;
+			width: 100%;
+			max-width: 720px;
+			max-height: 85vh;
+			overflow: hidden;
+			transform: translateY(20px) scale(0.98);
+			transition: transform 0.3s ease;
+			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+			border: 1px solid rgba(255,255,255,0.5);
+		}
+
+		.modal-overlay.active .modal-content {
+			transform: translateY(0) scale(1);
+		}
+
+		.modal-header {
+			padding: 24px 28px;
+			border-bottom: 1px solid rgba(0,0,0,0.08);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.modal-title {
+			font-size: 20px;
+			font-weight: 700;
+			background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.close-btn {
+			width: 40px;
+			height: 40px;
+			border-radius: 12px;
+			background: rgba(0,0,0,0.05);
+			border: none;
+			color: var(--text-secondary);
+			font-size: 18px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.2s ease;
+		}
+
+		.close-btn:hover {
+			background: rgba(239, 68, 68, 0.1);
+			color: #ef4444;
+		}
+
+		.modal-body {
+			padding: 28px;
+			overflow-y: auto;
+			max-height: calc(85vh - 90px);
+		}
+
+		/* Command Card */
+		.cmd-card {
+			background: rgba(0,0,0,0.02);
+			border: 1px solid rgba(0,0,0,0.06);
+			border-radius: 14px;
+			padding: 18px;
+			margin-bottom: 14px;
+			transition: all 0.2s ease;
+		}
+
+		.cmd-card:hover {
+			background: rgba(79, 70, 229, 0.03);
+			border-color: rgba(79, 70, 229, 0.15);
+		}
+
+		.cmd-name {
+			font-size: 15px;
+			font-weight: 700;
+			color: var(--accent-1);
+			margin-bottom: 8px;
+			font-family: 'SF Mono', monospace;
+		}
+
+		.cmd-desc {
+			font-size: 14px;
+			color: var(--text-secondary);
+			line-height: 1.6;
+			margin-bottom: 10px;
+		}
+
+		.cmd-example {
+			font-size: 13px;
+			color: var(--accent-4);
+			background: rgba(16, 185, 129, 0.1);
+			padding: 8px 12px;
+			border-radius: 8px;
+			font-family: 'SF Mono', monospace;
+			border: 1px solid rgba(16, 185, 129, 0.2);
+		}
+
+		.tip-box {
+			background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
+			border: 1px solid rgba(245, 158, 11, 0.2);
+			border-radius: 12px;
+			padding: 16px 20px;
+			margin-top: 24px;
+		}
+
+		.tip-text {
+			font-size: 14px;
+			color: #d97706;
+			font-weight: 500;
+		}
+
+		/* Search Results */
+		.search-results {
+			position: absolute;
+			top: calc(100% + 8px);
+			left: 0;
+			right: 0;
+			background: white;
+			border: 1px solid rgba(0,0,0,0.08);
+			border-radius: 16px;
+			overflow: hidden;
+			max-height: 350px;
+			overflow-y: auto;
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(-10px);
+			transition: all 0.2s ease;
+			z-index: 10;
+			box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+		}
+
+		.search-results.show {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
+		.search-item {
+			padding: 14px 18px;
+			border-bottom: 1px solid rgba(0,0,0,0.05);
+			cursor: pointer;
+			transition: all 0.2s ease;
+		}
+
+		.search-item:hover {
+			background: rgba(79, 70, 229, 0.05);
+		}
+
+		.search-module {
+			font-size: 11px;
+			color: var(--accent-2);
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			margin-bottom: 4px;
+		}
+
+		.search-cmd {
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--text-primary);
+			margin-bottom: 4px;
+		}
+
+		.search-desc {
+			font-size: 12px;
+			color: var(--text-secondary);
+		}
+
+		mark {
+			background: rgba(245, 158, 11, 0.2);
+			color: #d97706;
+			padding: 0 2px;
+			border-radius: 3px;
+		}
+
+		/* Responsive */
+		@media (max-width: 768px) {
+			.header { flex-direction: column; margin: 12px; padding: 16px; }
+			.search-container { width: 100%; flex-direction: column; }
+			.main-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 10px; }
+			.func-card { padding: 18px 8px; border-radius: 16px; }
+			.func-icon { font-size: 26px; margin-bottom: 10px; }
+			.func-name { font-size: 12px; }
+		}
+
+		@media (max-width: 380px) {
+			.main-grid { gap: 8px; }
+			.func-card { padding: 14px 6px; }
+			.func-icon { font-size: 22px; }
+			.func-name { font-size: 11px; }
+		}
+	</style>
+</head>
+<body>
+	<header class="header">
+		<div class="logo">
+			<div class="logo-icon"><i class="fas fa-robot"></i></div>
+			<div class="logo-text">Fox群管使用说明书</div>
+		</div>
+		<div class="search-container">
+			<div class="search-box">
+				<i class="fas fa-search search-icon"></i>
+				<input type="text" class="search-input" placeholder="搜索指令..." id="searchInput">
+				<div class="search-results" id="searchResults"></div>
+			</div>
+			<div class="search-box">
+				<i class="fas fa-filter search-icon"></i>
+				<input type="text" class="search-input" placeholder="搜索变量..." id="varSearchInput">
+				<div class="search-results" id="varSearchResults"></div>
+			</div>
+		</div>
+	</header>
+
+	<div class="main-grid" id="mainGrid"></div>
+
+	<div class="modal-overlay" id="modalOverlay">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="modal-title" id="modalTitle">模块详情</div>
+				<button class="close-btn" id="closeModal"><i class="fas fa-times"></i></button>
+			</div>
+			<div class="modal-body" id="modalBody"></div>
+		</div>
+	</div>
+
+	<script>
+		// 完整40个模块真实数据
+		const modules = [
+			{ name: "群管功能", icon: "users-cog", content: `清屏|快速清空当前群内机器人可清理的聊天记录|清屏[换行]踢@某人|将群内被@的指定成员移出当前群组|踢@小明[换行]踢黑@某人|踢出被@成员并将其加入本群黑名单|踢黑@广告号[换行]多群同踢+QQ|同步踢出机器人管理群内的该QQ|多群同踢12345678[换行]解禁@某人|解除被@成员的禁言状态|解禁@小李[换行]禁言@某人 分钟|对被@成员执行禁言|禁言@张三 10[换行]一键解禁|解除当前群所有禁言|一键解禁[换行]全体禁言|开启全员禁言模式|全体禁言[换行]全体解禁|关闭全员禁言模式|全体解禁[换行]艾特全体+内容|@全体成员并发送内容|艾特全体今晚8点开会[换行]撤+QQ 条数|撤回指定QQ的消息|撤123456 5[换行]撤以上+条数|撤回当前位置上方消息|撤以上10[换行]延迟撤回+秒|延迟撤回成员消息|延迟撤回3[换行]自身撤回+秒|延迟撤回机器人消息|自身撤回5[换行]发公告+内容|发送群公告|发公告禁止广告[换行]搜指令+内容|搜索指令用法|搜指令禁言`, tips: "指令无需输入加号，直接连写即可。" },
+			{ name: "功能开关", icon: "toggle-on", content: `管理权限开/关|控制机器人基础管理权限|管理权限开[换行]菜单权限开/关|控制菜单调用权限|菜单权限关[换行]图片模式开/关|控制菜单展示形式|图片模式开[换行]引用模式开/关|控制回复是否引用|引用模式关[换行]静默模式开/关|减少冗余提示|静默模式开[换行]退群撤回开/关|退群时撤回历史消息|退群撤回关[换行]撤回转发开/关|撤回后转发管理员|撤回转发开[换行]表情回应开/关|自动表情互动|表情回应关[换行]整点报时开/关|整点自动报时|整点报时开`, tips: "" },
+			{ name: "权限管理", icon: "user-shield", content: `所有权限开/关|一键开关所有超管权限|所有权限开[换行]问答权限开/关|控制问答功能权限|问答权限关[换行]名单权限开/关|控制黑白名单权限|名单权限开[换行]名片权限开/关|控制名片修改权限|名片权限关[换行]审核权限开/关|控制入群审核权限|审核权限开[换行]验证权限开/关|控制人机验证权限|验证权限关[换行]提示权限开/关|控制欢迎/提示权限|提示权限开[换行]广告权限开/关|控制广告检测权限|广告权限关[换行]定时权限开/关|控制定时任务权限|定时权限开[换行]循环权限开/关|控制循环任务权限|循环权限关[换行]引流权限开/关|控制引流检测权限|引流权限开[换行]积分权限开/关|控制积分系统权限|积分权限关[换行]撤禁权限开/关|控制撤回禁言权限|撤禁权限开[换行]刷屏权限开/关|控制刷屏检测权限|刷屏权限关[换行]发言权限开/关|控制发言统计权限|发言权限开[换行]针对权限开/关|控制针对系统权限|针对权限关[换行]头衔权限开/关|控制头衔管理权限|头衔权限开[换行]清人权限开/关|控制清人系统权限|清人权限关`, tips: "仅超管可修改，普通管理员无权限。" },
+			{ name: "撤回系统", icon: "undo", content: `设置禁言时间+分钟|设置违规后默认禁言时长|设置禁言时间5[换行]设置号码位数+数量|设置号码识别位数|设置号码位数11[换行]撤禁违规提示开/关|撤回时是否提示|撤禁违规提示开[换行]红包撤回开/关|撤回红包消息|红包撤回关[换行]图片撤回开/关|撤回图片消息|图片撤回开[换行]表情撤回开/关|撤回大表情|表情撤回关[换行]语音撤回开/关|撤回语音消息|语音撤回开[换行]卡片撤回开/关|撤回分享卡片|卡片撤回关[换行]链接撤回开/关|撤回外部链接|链接撤回开[换行]号码撤回开/关|撤回手机号/QQ号|号码撤回关[换行]视频撤回开/关|撤回视频消息|视频撤回开[换行]合并撤回开/关|撤回合并转发|合并撤回关[换行]鉴黄撤回开/关|撤回涉黄图片|鉴黄撤回开[换行]二维码撤回开/关|撤回二维码|二维码撤回关`, tips: "" },
+			{ name: "禁言系统", icon: "microphone-slash", content: `设置禁言时间+分钟|设置违规后禁言时长|设置禁言时间5[换行]设置号码位数+数量|设置号码识别位数|设置号码位数11[换行]撤禁违规提示开/关|禁言时是否提示|撤禁违规提示开[换行]红包禁言开/关|发红包即禁言|红包禁言关[换行]图片禁言开/关|发图片即禁言|图片禁言开[换行]表情禁言开/关|发表情即禁言|表情禁言关[换行]语音禁言开/关|发语音即禁言|语音禁言开[换行]卡片禁言开/关|发卡即禁言|卡片禁言关[换行]链接禁言开/关|发链接即禁言|链接禁言开[换行]号码禁言开/关|发号码即禁言|号码禁言关[换行]视频禁言开/关|发视频即禁言|视频禁言开[换行]合并禁言开/关|发合并即禁言|合并禁言关[换行]鉴黄禁言开/关|发黄即禁言|鉴黄禁言开[换行]二维码禁言开/关|发二维码即禁言|二维码禁言关`, tips: "" },
+			{ name: "踢出系统", icon: "user-times", content: `设置禁言时间+分钟|设置违规后禁言时长|设置禁言时间5[换行]设置号码位数+数量|设置号码识别位数|设置号码位数11[换行]撤禁违规提示开/关|踢出时是否提示|撤禁违规提示开[换行]红包踢出开/关|发红包即踢出|红包踢出关[换行]图片踢出开/关|发图片即踢出|图片踢出关[换行]表情踢出开/关|发表情即踢出|表情踢出关[换行]语音踢出开/关|发语音即踢出|语音踢出关[换行]卡片踢出开/关|发卡即踢出|卡片踢出关[换行]链接踢出开/关|发链接即踢出|链接踢出关[换行]号码踢出开/关|发号码即踢出|号码踢出关[换行]视频踢出开/关|发视频即踢出|视频踢出关[换行]合并踢出开/关|发合并即踢出|合并踢出关[换行]鉴黄踢出开/关|发黄即踢出|鉴黄踢出开[换行]二维码踢出开/关|发二维码即踢出|二维码踢出关`, tips: "" },
+			{ name: "定时任务", icon: "clock", content: `定时任务开/关|控制定时任务总开关|定时任务开[换行]循环任务开/关|控制循环任务开关|循环任务开[换行]查定时任务列表|查看定时任务|查定时任务列表[换行]查循环任务列表|查看循环任务|查循环任务列表[换行]查定时任务+序号|查看指定定时任务|查定时任务1[换行]查循环任务+序号|查看指定循环任务|查循环任务2[换行]删定时任务+序号|删除定时任务|删定时任务1[换行]删循环任务+序号|删除循环任务|删循环任务2[换行]添加循环任务 间隔 内容|添加循环任务|添加循环任务 60 整点报时[换行]添加定时任务 小时 分钟 内容|添加定点任务|添加定时任务 20 0 晚上8点开会`, tips: "定时禁言：添加定时任务 23 59 [全体禁言]" },
+			{ name: "发言统计", icon: "chart-bar", content: `查发言|查看自己发言数|查发言[换行]查发言+QQ|查看指定QQ发言数|查发言123456[换行]昨日排行|查看昨日发言榜|昨日排行[换行]发言日榜|查看今日发言榜|发言日榜[换行]发言周榜|查看本周发言榜|发言周榜[换行]发言月榜|查看本月发言榜|发言月榜[换行]重置日榜|清空今日统计|重置日榜[换行]重置周榜|清空本周统计|重置周榜[换行]重置月榜|清空本月统计|重置月榜[换行]重置统计+QQ|清空指定QQ统计|重置统计123456`, tips: "" },
+			{ name: "管理设置", icon: "tools", content: `上管+QQ|设置指定QQ为管理员|上管123456[换行]下管+QQ|撤销指定QQ管理员|下管123456[换行]查超管列表|查看超级管理员|查超管列表[换行]添加超管+QQ|添加超级管理员|添加超管123456[换行]删除超管+QQ|删除超级管理员|删除超管123456`, tips: "指令无需输入加号。" },
+			{ name: "广告检测", icon: "ad", content: `查警告+QQ|查询广告警告次数|查警告123456[换行]添加警告+QQ|添加广告警告|添加警告123456[换行]清除警告+QQ|清除广告警告|清除警告123456[换行]清空本群警告|清空群警告|清空本群警告[换行]全局广告检测开/关|全局广告检测|全局广告检测开[换行]分群广告检测开/关|本群广告检测|分群广告检测开[换行]广告违规提示开/关|违规时提示|广告违规提示开[换行]广告违规转发开/关|违规转发管理员|广告违规转发开[换行]图文检测开/关|图片文字检测|图文检测开[换行]警告提示开/关|警告时提示|警告提示开[换行]警告踢出次数+次数|设置警告踢出阈值|警告踢出次数3[换行]警告禁言次数+次数 分钟|设置警告禁言阈值|警告禁言次数2 10[换行]广告禁言时间+分钟|设置广告禁言时长|广告禁言时间10[换行]查模糊违禁词|查看模糊违禁词|查模糊违禁词[换行]查精准违禁词|查看精准违禁词|查精准违禁词[换行]删模糊违禁词|删除模糊违禁词|删模糊违禁词[换行]删精准违禁词|删除精准违禁词|删精准违禁词[换行]清空违禁词|清空所有违禁词|清空违禁词[换行]删违禁词+违禁词|删除指定违禁词|删违禁词兼职[换行]添加模糊词+违禁词 类型|添加模糊违禁词|添加模糊词微信 禁言[换行]添加精准词+违禁词 类型|添加精准违禁词|添加精准词加v 踢出`, tips: "处罚类型：禁言、踢出、警告、撤回。" },
+			{ name: "黑白名单", icon: "list", content: `全局名单|切换全局名单视图|全局名单[换行]踢出加黑开/关|踢出时自动加黑|踢出加黑开[换行]退群加黑开/关|退群时自动加黑|退群加黑关[换行]查黑名单列表|查看黑名单|查黑名单列表[换行]查白名单列表|查看白名单|查白名单列表[换行]查名单+QQ|查询黑白名单状态|查名单123456[换行]加黑+QQ#备注|加入黑名单|加黑123456#广告号[换行]加白+QQ#备注|加入白名单|加白123456#管理[换行]删黑+QQ|移出黑名单|删黑123456[换行]删白+QQ|移出白名单|删白123456[换行]清理群黑名单|清理无效黑名单|清理群黑名单[换行]清空群黑名单|清空黑名单|清空群黑名单[换行]清空群白名单|清空白名单|清空群白名单[换行]清空群黑白名单|清空所有名单|清空群黑白名单`, tips: "批量操作用空格分隔QQ，备注可留空。" },
+			{ name: "全局名单", icon: "globe", content: `踢出全局黑开/关|踢出时加全局黑|踢出全局黑开[换行]退群全局黑开/关|退群时加全局黑|退群全局黑关[换行]查全局黑名单列表|查看全局黑名单|查全局黑名单列表[换行]查全局白名单列表|查看全局白名单|查全局白名单列表[换行]加全局黑+QQ#备注|加全局黑名单|加全局黑123456#惯犯[换行]加全局白+QQ#备注|加全局白名单|加全局白123456#总管理[换行]删全局黑+QQ|移出全局黑名单|删全局黑123456[换行]删全局白+QQ|移出全局白名单|删全局白123456[换行]清理全局黑名单|清理无效全局黑名单|清理全局黑名单[换行]清空全局黑名单|清空全局黑名单|清空全局黑名单[换行]清空全局白名单|清空全局白名单|清空全局白名单[换行]清空全局黑白名单|清空所有全局名单|清空全局黑白名单`, tips: "批量操作用空格分隔QQ，备注可留空。" },
+			{ name: "名片管理", icon: "id-card", content: `入群改名开/关|强制修改群名片|入群改名开[换行]改名提示开/关|提示未改名成员|改名提示开[换行]发言改名开/关|未改名禁止发言|发言改名开[换行]过滤字符开/关|过滤特殊字符|过滤字符开[换行]名片锁定开/关|锁定群名片|名片锁定开[换行]改名片+QQ 新名片|修改指定QQ名片|改名片123456 管理-小明[换行]清空名片记录|清空所有名片记录|清空名片记录[换行]删名片记录+QQ|删除指定QQ记录|删名片记录123456[换行]设置名片格式男+格式|设置男性名片格式|设置名片格式男 男-昵称[换行]设置名片格式女+格式|设置女性名片格式|设置名片格式女 女-昵称[换行]设置名片格式未知+格式|设置未知性别格式|设置名片格式未知 友-昵称[换行]违规名片检测开/关|检测违规名片|违规名片检测开[换行]踢出违规名片开/关|踢出违规名片|踢出违规名片关[换行]名片检测间隔+分钟|设置检测间隔|名片检测间隔60[换行]设置违规名片+内容|设置违规关键词|设置违规名片广告[换行]设置名片违禁词+违禁词|添加违禁词|设置名片违禁词微商`, tips: "指令无需输入加号。" },
+			{ name: "清人系统", icon: "user-minus", content: `查重+群号|查询重复成员|查重123456789[换行]踢重+群号|踢出重复成员|踢重123456789[换行]查等级小于+QQ等级|查询低等级成员|查等级小于10[换行]踢等级小于+QQ等级|踢出低等级成员|踢等级小于5[换行]查未发言大于+天数|查询长期未发言|查未发言大于30[换行]踢未发言大于+天数|踢出长期未发言|踢未发言大于90[换行]查入群小于+天数|查询新入群成员|查入群小于7[换行]踢入群小于+天数|踢出新入群成员|踢入群小于1[换行]查Q龄小于+Q龄|查询低Q龄成员|查Q龄小于1[换行]踢Q龄小于+Q龄|踢出低Q龄成员|踢Q龄小于1[换行]查性别男/女/未知|查询指定性别|查性别男[换行]踢性别男/女/未知|踢出指定性别|踢性别未知[换行]查昵称包含+内容|查询昵称含关键词|查昵称包含广告[换行]踢昵称包含+内容|踢出昵称含关键词|踢昵称包含微商[换行]查群名片包含+内容|查询名片含关键词|查群名片包含兼职[换行]踢群名片包含+内容|踢出名片等含关键词|踢群名片包含推广`, tips: "指令无需输入加号。" },
+			{ name: "积分系统", icon: "coins", content: `积分开关|开关积分系统|积分开关[换行]积分设置|进入积分设置|积分设置[换行]积分商城|打开积分商城|积分商城[换行]积分排行|查看积分排行|积分排行[换行]积分抽奖|参与积分抽奖|积分抽奖[换行]发言积分|查看发言积分规则|发言积分[换行]我的积分|查看我的积分|我的积分[换行]查积分+QQ|查询指定QQ积分|查积分123456[换行]删用户+QQ|删除积分账户|删用户123456[换行]积分转让+QQ 数量|转让积分|积分转让123456 100[换行]积分充值比例+数量|设置充值比例|积分充值比例100[换行]充值赠送比例+数量|设置赠送比例|充值赠送比例10[换行]充积分+数量|充值积分|充积分1000[换行]送积分+QQ 数量|赠送积分|送积分123456 200[换行]扣积分+QQ 数量|扣除积分|扣积分123456 50[换行]全员送积分+数量|全员送积分|全员送积分100[换行]全员扣积分+数量|全员扣积分|全员扣积分10`, tips: "指令不带+，参数用空格分隔。" },
+			{ name: "积分开关", icon: "power-off", content: `积分系统开/关|积分系统总开关|积分系统开[换行]全局积分开/关|全局积分开关|全局积分开[换行]积分签到开/关|签到功能开关|积分签到开[换行]积分兑换开/关|兑换功能开关|积分兑换开[换行]邀请积分开/关|邀请积分开关|邀请积分开[换行]积分充值开/关|充值功能开关|积分充值开[换行]积分转让开/关|转让功能开关|积分转让开[换行]兑换上限提示开/关|兑换上限提示|兑换上限提示开[换行]限领上限提示开/关|限领上限提示|限领上限提示开[换行]重签惩罚提示开/关|重签惩罚提示|重签惩罚提示开[换行]卡密邮箱发送开/关|卡密发邮箱|卡密邮箱发送关[换行]卡密私聊发送开/关|卡密发私聊|卡密私聊发送开[换行]退群清空积分开/关|退群清空积分|退群清空积分开`, tips: "" },
+			{ name: "积分设置", icon: "cog", content: `积分签到指令+内容|设置签到指令|积分签到指令签到[换行]积分签到数量+数量|设置签到积分|积分签到数量10[换行]积分兑换指令+内容|设置兑换指令|积分兑换指令兑换[换行]邀请积分数量+数量|设置邀请积分|邀请积分数量50[换行]重复签到扣积分+数量|设置重签扣分|重复签到扣积分5`, tips: "指令无需输入加号。" },
+			{ name: "积分排行", icon: "chart-line", content: `积分余额排行|查看积分余额排行|积分余额排行[换行]积分消费日榜|查看今日消费榜|积分消费日榜[换行]积分消费周榜|查看本周消费榜|积分消费周榜[换行]积分消费月榜|查看本月消费榜|积分消费月榜[换行]积分消费总榜|查看总消费榜|积分消费总榜`, tips: "" },
+			{ name: "积分抽奖", icon: "gift", content: `抽奖|参与抽奖|抽奖[换行]我的奖品|查看我的奖品|我的奖品[换行]中奖名单|查看中奖名单|中奖名单[换行]奖品列表|查看奖品列表|奖品列表[换行]随开随抽|开启随开随抽|随开随抽[换行]一开一抽|开启一开一抽|一开一抽[换行]开启/关闭抽奖|开关抽奖功能|开启抽奖[换行]设置抽奖次数+次数|设置每日抽奖次数|设置抽奖次数5[换行]设置抽奖积分+数量|设置单次抽奖积分|设置抽奖积分20`, tips: "" },
+			{ name: "发言积分", icon: "comment-dots", content: `发言积分开/关|开关发言积分|发言积分开[换行]发言积分提示开/关|发言积分提示|发言积分提示开[换行]发言次数限制+次数|设置每日发言上限|发言次数限制50[换行]日发言总积分+数量|设置每日积分上限|日发言总积分100[换行]发言积分数量+数量|设置单次发言积分|发言积分数量1[换行]发言触发概率+数字|设置触发概率|发言触发概率30`, tips: "指令无需输入加号。" },
+			{ name: "人机验证", icon: "shield-alt", content: `免验证+QQ|跳过验证|免验证123456[换行]入群验证码开/关|开关入群验证|入群验证码开[换行]设置数字验证码|设置数字验证码|设置数字验证码[换行]设置混合验证码|设置混合验证码|设置混合验证码[换行]设置算法验证码|设置算术验证码|设置算法验证码[换行]入群阅读公告开/关|开关阅读公告|入群阅读公告开[换行]设置公告禁言时间+分钟|设置未读禁言时长|设置公告禁言时间5[换行]公告超时时间+分钟|设置阅读超时|公告超时时间2[换行]人数控制开/关|开关人数控制|人数控制开[换行]设置人数阈值+数量|设置人数上限|设置人数阈值500[换行]入群付费开/关|开关入群付费|入群付费关[换行]设置付费金额+金额|设置付费金额|设置付费金额10[换行]设置付费禁言时间+分钟|设置未付费禁言|设置付费禁言时间10[换行]入群发言检测开/关|开关发言检测|入群发言检测开[换行]发言检测时间+分钟|设置检测时长|发言检测时间5[换行]入群禁言开/关|开关入群禁言|入群禁言开[换行]入群禁言时间+分钟|设置禁言时长|入群禁言时间1[换行]验证错误次数+次数|设置错误次数上限|验证错误次数3[换行]验证超时时间+分钟|设置验证超时|验证超时时间1[换行]验证成功提示开/关|开关成功提示|验证成功提示开[换行]验证超时提示开/关|开关超时提示|验证超时提示开`, tips: "指令无需输入加号。" },
+			{ name: "审核系统", icon: "check-circle", content: `入群询问开/关|开关入群询问|入群询问开[换行]入群审核开/关|开关入群审核|入群审核开[换行]设置Q龄+Q龄|设置最低Q龄|设置Q龄1[换行]设置QQ等级+等级|设置最低等级|设置QQ等级5[换行]会员检测开/关|开关会员检测|会员检测关[换行]昵称检测开/关|开关昵称检测|昵称检测开[换行]添加昵称违禁词+违禁词|添加昵称违禁词|添加昵称违禁词广告[换行]签名检测开/关|开关签名检测|签名检测开[换行]添加签名违禁词+违禁词|添加签名违禁词|添加签名违禁词兼职[换行]黑名单检测开/关|开关黑名单检测|黑名单检测开[换行]重复加群检测开/关|开关重复加群检测|重复加群检测开[换行]性别检测开/关|开关性别检测|性别检测关[换行]设置拒绝性别男开/关|拒绝男性入群|设置拒绝性别男关[换行]设置拒绝性别女开/关|拒绝女性入群|设置拒绝性别女关[换行]设置拒绝性别未知开/关|拒绝未知性别入群|设置拒绝性别未知关`, tips: "" },
+			{ name: "刷屏检测", icon: "ban", content: `刷屏检测开/关|开关刷屏检测|刷屏检测开[换行]刷屏撤回开/关|开关刷屏撤回|刷屏撤回开[换行]刷屏提示开/关|开关刷屏提示|刷屏提示开[换行]图片检测开/关|开关图片刷屏检测|图片检测开[换行]设置图片检测+秒数 张|设置图片刷屏阈值|设置图片检测5 3[换行]文本检测开/关|开关文本刷屏检测|文本检测开[换行]设置文本检测+秒数 条数|设置文本刷屏阈值|设置文本检测3 10[换行]设置字数禁言+字数|设置字数禁言阈值|设置字数禁言200[换行]设置字数撤回+字数|设置字数撤回阈值|设置字数撤回300[换行]设置行数禁言+字数|设置行数禁言阈值|设置行数禁言10[换行]设置行数撤回+字数|设置行数撤回阈值|设置行数撤回15[换行]刷屏禁言时间+分钟|设置刷屏禁言时长|刷屏禁言时间10[换行]累计刷屏踢出+次数|设置刷屏踢出阈值|累计刷屏踢出5[换行]累计刷屏禁言+次数 分钟|设置累计刷屏禁言|累计刷屏禁言3 30`, tips: "指令无需输入加号。" },
+			{ name: "顺序回复", icon: "reply-all", content: `顺序回复开/关|开关顺序回复|顺序回复开[换行]设置延迟回复+秒|设置回复延迟|设置延迟回复2[换行]重复回复次数+次数|设置重复次数|重复回复次数3[换行]添加回复+内容|添加回复内容|添加回复你好[换行]删除回复+内容ID|删除指定回复|删除回复1[换行]查顺序回复列表|查看回复列表|查顺序回复列表[换行]重置回复记录|清空回复记录|重置回复记录`, tips: "指令无需输入加号。" },
+			{ name: "提示系统", icon: "bell", content: `入群欢迎开关|开关入群欢迎|入群欢迎开关开[换行]邀请提示开关|开关邀请提示|邀请提示开关开[换行]入群私聊开关|开关入群私聊|入群私聊开关开[换行]退群提示开/关|开关退群提示|退群提示关[换行]踢出提示开/关|开关踢出提示|踢出提示开[换行]管理变动开/关|开关管理变动提示|管理变动开[换行]防撤回提示开/关|开关防撤回提示|防撤回提示开[换行]防撤回转发开/关|开关防撤回转发|防撤回转发开[换行]设置入群提示语+内容|设置入群提示|设置入群提示语欢迎加入[换行]设置邀请提示语+内容|设置邀请提示|设置邀请提示语邀请成功[换行]设置私聊提示语+内容|设置私聊提示|设置私聊提示语请遵守群规[换行]设置退群提示语+内容|设置退群提示|设置退群提示语成员已退群[换行]设置踢出提示语+内容|设置踢出提示|设置踢出提示语违规已踢出`, tips: "指令无需输入加号。" },
+			{ name: "头衔管理", icon: "crown", content: `自助申请头衔开/关|开关自助申请|自助申请头衔开[换行]申请头衔价格+价格|设置申请价格|申请头衔价格100[换行]设置申请方式永久|设置永久头衔|设置申请方式永久[换行]设置申请方式按月|设置按月头衔|设置申请方式按月[换行]查头衔到期|查看头衔到期|查头衔到期[换行]申请头衔 头衔|申请头衔|申请头衔管理员[换行]申请头衔 头衔 时长|申请带时长头衔|申请头衔贵宾30[换行]收回头衔+QQ|收回指定头衔|收回头衔123456[换行]授头衔+QQ 头衔|授予指定头衔|授头衔123456 管理[换行]查头衔违禁词|查看违禁词|查头衔违禁词[换行]清空头衔违禁词|清空违禁词|清空头衔违禁词[换行]删头衔违禁词+违禁词|删除违禁词|删头衔违禁词总裁[换行]加头衔违禁词+违禁词|添加违禁词|加头衔违禁词官方[换行]无头衔提示开/关|开关无头衔提示|无头衔提示开[换行]无头衔禁言开/关|开关无头衔禁言|无头衔禁言关[换行]无头衔撤回开/关|开关无头衔撤回|无头衔撤回关[换行]无头衔禁言时间+分钟|设置无头衔禁言时长|无头衔禁言时间1[换行]清空头衔申请记录|清空申请记录|清空头衔申请记录`, tips: "" },
+			{ name: "问答系统", icon: "question-circle", content: `全局问答|切换到全局问答|全局问答[换行]分群问答开/关|开关分群问答|分群问答开[换行]查模糊问题|查看模糊问题|查模糊问题[换行]查精准问题|查看精准问题|查精准问题[换行]清空问题|清空所有问题|清空问题[换行]清空模糊问题|清空模糊问题|清空模糊问题[换行]清空精准问题|清空精准问题|清空精准问题[换行]删问题+问题|删除指定问题|删问题在吗[换行]问题冷却时长+秒|设置冷却时间|问题冷却时长5[换行]添加模糊问题+问题#内容|添加模糊问答|添加模糊问题你好#你好呀[换行]添加精准问题+问题#内容|添加精准问答|添加精准问题签到#签到成功`, tips: "指令无需输入加号。" },
+			{ name: "全局问答", icon: "globe-americas", content: `全局问答开/关|开关全局问答|全局问答开[换行]查全局模糊问题|查看全局模糊问题|查全局模糊问题[换行]查全局精准问题|查看全局精准问题|查全局精准问题[换行]清空全局问题|清空全局问题|清空全局问题[换行]清空全局模糊问题|清空全局模糊问题|清空全局模糊问题[换行]清空全局精准问题|清空全局精准问题|清空全局精准问题[换行]删全局问题+问题|删除全局问题|删全局问题多少钱[换行]添加全局模糊问题+问题#内容|添加全局模糊问答|添加全局模糊问题群规#请遵守群规[换行]添加全局精准问题+问题#内容|添加全局精准问答|添加全局精准问题时间#当前时间`, tips: "指令无需输入加号。" },
+			{ name: "邀请统计", icon: "user-plus", content: `我的邀请|查看我的邀请数|我的邀请[换行]查邀请+QQ|查询指定QQ邀请数|查邀请123456[换行]查邀请人+QQ|查询被邀请人|查邀请人123456[换行]邀请排行|查看邀请排行|邀请排行[换行]今日排行|查看今日排行|今日排行[换行]清空邀请统计|清空邀请统计|清空邀请统计[换行]删邀请+QQ|删除邀请记录|删邀请123456[换行]入群推荐开/关|开关入群推荐|入群推荐开[换行]邀请推荐开/关|开关邀请推荐|邀请推荐开`, tips: "" },
+			{ name: "针对系统", icon: "crosshairs", content: `针对系统开/关|开关针对系统|针对系统开[换行]针对禁言时间+分钟|设置针对禁言时长|针对禁言时间10[换行]针对禁言+QQ|针对禁言指定QQ|针对禁言123456[换行]针对撤回+QQ|针对撤回指定QQ消息|针对撤回123456[换行]删除针对+QQ|解除针对|删除针对123456[换行]清空针对名单|清空针对名单|清空针对名单[换行]查针对名单|查看针对名单|查针对名单`, tips: "" },
+			{ name: "发卡系统", icon: "credit-card", content: `发卡系统开/关|开关发卡系统|发卡系统开[换行]商品分类|查看商品分类|商品分类[换行]商品列表|查看商品列表|商品列表`, tips: "" },
+			{ name: "卡密系统", icon: "key", content: `查未用卡密|查看未用卡密|查未用卡密[换行]删未用卡密|删除未用卡密|删未用卡密[换行]删已用卡密|删除已用卡密|删已用卡密[换行]删所有卡密|清空所有卡密|删所有卡密[换行]生成卡密+数量 天数|生成卡密|生成卡密100 30[换行]使用卡密+卡密内容|使用卡密|使用卡密XXXXXX`, tips: "" },
+			{ name: "群发系统", icon: "paper-plane", content: `停止群发|停止群发任务|停止群发[换行]定时群发开/关|开关定时群发|定时群发关[换行]设置群发间隔+秒|设置群发间隔|设置群发间隔10[换行]设置群发内容+内容|设置群发内容|设置群发内容群公告[换行]设置指定群号+群号|设置指定群号|设置指定群号123456789[换行]群发模式授权群|群发授权群|群发模式授权群[换行]群发模式所有群|群发所有群|群发模式所有群[换行]群发模式指定群|群发指定群|群发模式指定群[换行]群发授权群+内容|群发授权群内容|群发授权群通知[换行]群发所有群+内容|群发所有群内容|群发所有群公告[换行]群发指定群+内容|群发指定群内容|群发指定群提醒[换行]群发好友+内容|群发好友内容|群发好友通知[换行]群发私聊+内容|群发私聊内容|群发私聊您好`, tips: "" },
+			{ name: "其他指令", icon: "ellipsis-h", content: `测试报时|测试报时功能|测试报时[换行]更新菜单|更新功能菜单|更新菜单[换行]更新日志|查看更新日志|更新日志[换行]更新插件|更新机器人插件|更新插件[换行]重启框架|重启机器人框架|重启框架[换行]克隆配置+配置群号|克隆配置|克隆配置123456789[换行]克隆到授权群+配置群号|克隆到授权群|克隆到授权群123456789`, tips: "" },
+			{ name: "授权系统", icon: "certificate", content: `授权信息|查看授权信息|授权信息[换行]退群|机器人退群|退群[换行]退到期群|退到期群|退到期群[换行]清空群授权|清空群授权|清空群授权[换行]删本群授权|删除本群授权|删本群授权[换行]删到期群授权|删除到期群授权|删到期群授权[换行]续费群+月数|续费本群|续费群1[换行]更换群管+新群管QQ|更换群管|更换群管[换行]更换授权+新群号|更换授权|更换授权987654321[换行]授权群+群管QQ 天数|授权指定群|授权群123456 30[换行]一键续到期+天数|一键续到期|一键续到期30[换行]一键加时长±天数|一键加减时长|一键加时长7[换行]免授权体验+天数|免授权体验|免授权体验7`, tips: "需在群内发送生效。" },
+			{ name: "私聊指令", icon: "comment-dots", content: `查授权+群号|查询授权信息|查授权123456789[换行]退到期群|退到期群|退到期群[换行]退群+群号|退指定群|退群123456789[换行]清空群授权|清空群授权|清空群授权[换行]删授权+群号|删除授权|删授权123456789[换行]删到期群授权|删除到期授权|删到期群授权[换行]续费群+群号 月数|续费指定群|续费群123456789 1[换行]更换群管+群号 新群管QQ|更换指定群管|更换群管123456789 987654321[换行]更换授权+原群号 新群号|更换授权群号|更换授权123456789 987654321[换行]授权群+群号 群管QQ 天数|授权指定群|授权群123456789 123456 30[换行]一键续到期+天数|一键续到期|一键续到期30[换行]一键加时长±天数|一键加减时长|一键加时长7[换行]免授权体验+天数|免授权体验|免授权体验7`, tips: "需私聊机器人发送生效。" },
+			{ name: "召唤系统", icon: "bell-concierge", content: `停止召唤|停止召唤|停止召唤[换行]超级召唤|召唤所有在线成员|超级召唤[换行]超级召唤+内容|召唤并发送内容|超级召唤开会了[换行]召唤管理|召唤所有管理员|召唤管理[换行]召唤管理+内容|召唤管理员并发送内容|召唤管理有紧急事情`, tips: "用于快速通知群成员。" },
+			{ name: "查询配置", icon: "search", content: `查分群开关|查看分群开关|查分群开关[换行]查人机配置|查看人机配置|查人机配置[换行]查引流配置|查看引流配置|查引流配置[换行]查积分配置|查看积分配置|查积分配置[换行]查刷屏配置|查看刷屏配置|查刷屏配置[换行]查提示配置|查看提示配置|查提示配置`, tips: "" },
+			{ name: "全局变量", icon: "globe", content: `[QQ:At-A]|全局|艾特主动|指主动发消息或邀请人|[QQ:At-A] 你好[换行][QQ:At-B]|全局|艾特被动|指被邀请人|[QQ:At-B] 欢迎加入[换行][QQ:A-Q]|全局|主动QQ|指主动发消息或邀请人QQ|用户[QQ:A-Q] 已入群[换行][QQ:B-Q]|全局|被动QQ|指被邀请人QQ|用户[QQ:B-Q] 被邀请[换行][QQ:A-Nick]|全局|主动昵称|指主动发消息或邀请人昵称|昵称[QQ:A-Nick] 发言[换行][QQ:B-Nick]|全局|被动昵称|指被邀请人昵称|昵称[QQ:B-Nick] 加入[换行][QQ:A-tx]|全局|主动头像|指主动发消息或邀请人头像|头像[QQ:A-tx] 展示[换行][QQ:B-tx]|全局|被动头像|指被邀请人头像|头像[QQ:B-tx] 查看[换行][NumTime]|全局|当前时间|例:09:00|当前时间[NumTime][换行][Week]|全局|星期|星期一、二、三、四、五、六、日|今天是[Week][换行][TimePer]|全局|时段|凌晨、上午、中午、下午、傍晚、晚上|当前时段[TimePer][换行][Time]|全局|北京时间|例:2022-03-01 00:00:00|当前时间[Time][换行][Face]|全局|随机表情|随机小黄脸表情|表情[Face][换行][Num=1-10]|全局|随机数字|1-10之间随机数字|随机数[Num=1-10][换行][pic=路径]|全局|发送本地图片|[pic=D:/pic/1.jpg]|图片[pic=D:/pic/1.jpg][换行][NetPic=url]|全局|发送网络图片|[NetPic=http://xxx.cn/1.jpg]|网络图片[NetPic=http://xxx.cn/1.jpg][换行][群号]|全局|群号|当前群号|群[群号] 欢迎你[换行][群名称]|全局|群名称|当前群名称|群[群名称] 通知[换行][群人数]|全局|当前群人数|当前群人数|群人数[群人数][换行][邀请人数]|全局|邀请总人数|邀请总人数|邀请人数[邀请人数][换行][退踢人数]|全局|邀请进群后退/踢人数|邀请进群后退/踢人数|退踢人数[退踢人数][换行][有效人数]|全局|有效邀请人数|有效邀请人数|有效人数[有效人数][换行][当前积分]|全局|当前积分数量|当前积分数量|你的积分：[当前积分][换行][艾特全体]|全局|艾特全体|艾特全体|@全体成员[艾特全体] 开会[换行][会员级别]|全局|会员级别|返回SVIP1/VIP1/普通用户|会员[会员级别] 享特权`, tips: "全局变量可在任意回复中使用。" },
+			{ name: "局部变量", icon: "map-marker-alt", content: `[违禁词]|局部|违禁词内容|用于广告警告提示语|你发送了[违禁词]，请修改[换行][警告次数]|局部|当前警告次数|用于广告警告提示语|这是第[警告次数]次警告[换行][剩余禁言次数]|局部|距离禁言警告次数|用于广告警告提示语|剩余[剩余禁言次数]次禁言警告[换行][剩余踢出次数]|局部|距离踢出警告次数|用于广告警告提示语|剩余[剩余踢出次数]次踢出警告[换行][违规次数]|局部|累计刷屏次数|用于刷屏检测提示语|累计违规[违规次数]次[换行][剩余次数]|局部|距离禁言、踢出次数|用于刷屏检测提示语|剩余[剩余次数]次处罚机会[换行][禁言时间]|局部|刷屏禁言时间|用于刷屏检测提示语|你已被禁言[禁言时间]分钟[换行][昵称]|局部|QQ昵称|用于群名片格式|昵称[昵称] 已修改[换行][性别]|局部|QQ性别|用于群名片格式|性别[性别] 已设置[换行][年龄]|局部|QQ年龄|用于群名片格式|年龄[年龄] 已填写[换行][城市]|局部|资料城市|用于群名片格式|城市[城市] 已更新[换行][全体禁言]|局部|全体禁言|用于定时任务|执行[全体禁言] 操作[换行][全体解禁]|局部|解除全体禁言|用于定时任务|执行[全体解禁] 操作[换行][发言日榜]|局部|发言排行日榜|用于定时任务|查看[发言日榜] 数据[换行][发言周榜]|局部|发言排行周榜|用于定时任务|查看[发言周榜] 数据[换行][发言月榜]|局部|发言排行月榜|用于定时任务|查看[发言月榜] 数据[换行][累计邀请排行]|局部|累计邀请人数排行|用于定时任务|查看[累计邀请排行] 数据[换行][今日邀请排行]|局部|今日邀请人数排行|用于定时任务|查看[今日邀请排行] 数据[换行][积分等级]|局部|积分等级|用于签到成功|当前等级[积分等级][换行][距离升级]|局部|距离升级所需积分|用于签到成功|还需[距离升级]积分升级[换行][连续赠送]|局部|连续签到赠送积分|用于签到成功|连续赠送[连续赠送]积分[换行][连续天数]|局部|连续签到天数|用于签到成功|连续签到[连续天数]天[换行][签到天数]|局部|累计签到天数|用于签到成功|累计签到[签到天数]天[换行][签到名次]|局部|当日签到名次|用于签到成功|今日签到[签到名次]名[换行][积分排名]|局部|积分余额排名|用于签到/查积分|积分排名[积分排名]位[换行][禁言卡数]|局部|禁言卡数量|用于查积分|剩余[禁言卡数]张禁言卡[换行][免禁卡数]|局部|免禁卡数量|用于查积分|剩余[免禁卡数]张免禁卡[换行][头衔卡数]|局部|头衔卡数量|用于查积分|剩余[头衔卡数]张头衔卡[换行][补签卡数]|局部|补签卡数量|用于查积分|剩余[补签卡数]张补签卡`, tips: "局部变量仅限固定回复中使用，不可全局通用。" }
+		];
+
+		// 渲染网格
+		function renderGrid() {
+			const grid = document.getElementById('mainGrid');
+			grid.innerHTML = modules.map((mod, index) => `
+				<div class="func-card" data-index="${index}">
+					<i class="fas fa-${mod.icon} func-icon"></i>
+					<div class="func-name">${mod.name}</div>
+				</div>
+			`).join('');
+
+			document.querySelectorAll('.func-card').forEach(card => {
+				card.addEventListener('click', () => openModal(modules[parseInt(card.dataset.index)]));
+			});
+		}
+
+		// 打开模态框
+		function openModal(module) {
+			const overlay = document.getElementById('modalOverlay');
+			const title = document.getElementById('modalTitle');
+			const body = document.getElementById('modalBody');
+			
+			title.textContent = module.name;
+			
+			const lines = module.content.split('[换行]');
+			let cardsHTML = '';
+			
+			lines.forEach(line => {
+				const parts = line.split('|');
+				if (parts.length >= 3) {
+					cardsHTML += `
+						<div class="cmd-card">
+							<div class="cmd-name">${parts[0].trim()}</div>
+							<div class="cmd-desc">${parts[1].trim()}</div>
+							<div class="cmd-example">${parts[2].trim()}</div>
+						</div>
+					`;
+				}
+			});
+			
+			body.innerHTML = cardsHTML + (module.tips ? `<div class="tip-box"><div class="tip-text">💡 ${module.tips}</div></div>` : '');
+			
+			overlay.classList.add('active');
+			document.body.style.overflow = 'hidden';
+		}
+
+		// 关闭模态框
+		function closeModal() {
+			document.getElementById('modalOverlay').classList.remove('active');
+			document.body.style.overflow = '';
+		}
+
+		// 搜索功能
+		function setupSearch(inputId, resultsId) {
+			const input = document.getElementById(inputId);
+			const results = document.getElementById(resultsId);
+			
+			input.addEventListener('focus', () => input.value && results.classList.add('show'));
+			input.addEventListener('blur', () => setTimeout(() => results.classList.remove('show'), 200));
+			input.addEventListener('input', (e) => {
+				const q = e.target.value.toLowerCase();
+				if (!q) { results.classList.remove('show'); return; }
+				
+				const filtered = modules.filter(m => m.name.toLowerCase().includes(q)).slice(0, 5);
+				results.innerHTML = filtered.length ? filtered.map(m => `
+					<div class="search-item" onclick="openModalByName('${m.name}')">
+						<div class="search-module">功能模块</div>
+						<div class="search-cmd">${m.name}</div>
+						<div class="search-desc">点击查看详细指令说明</div>
+					</div>
+				`).join('') : '<div class="search-item">未找到匹配结果</div>';
+				results.classList.add('show');
+			});
+		}
+
+		function openModalByName(name) {
+			const module = modules.find(m => m.name === name);
+			if (module) openModal(module);
+		}
+
+		// 初始化
+		document.addEventListener('DOMContentLoaded', () => {
+			renderGrid();
+			setupSearch('searchInput', 'searchResults');
+			setupSearch('varSearchInput', 'varSearchResults');
+			document.getElementById('closeModal').addEventListener('click', closeModal);
+			document.getElementById('modalOverlay').addEventListener('click', (e) => {
+				if (e.target === e.currentTarget) closeModal();
+			});
+		});
+	</script>
+</body>
+</html>
