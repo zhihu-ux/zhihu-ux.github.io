@@ -3,454 +3,323 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Fox群管·说明书</title>
-	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<title>Fox群管机器人使用说明（优化版）</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<style>
-		:root {
-			--bg-base: #f0f2f5;
-			--glass-bg: rgba(255, 255, 255, 0.72);
-			--glass-border: rgba(255, 255, 255, 0.9);
-			--shadow-elevation: 0 8px 32px rgba(0, 0, 0, 0.06);
-			--text-primary: #1a1d21;
-			--text-secondary: #65676b;
-			--accent-1: #4f46e5;
-			--accent-2: #a855f7;
-			--accent-3: #ec4899;
-			--accent-4: #10b981;
-			--accent-5: #f59e0b;
+		/* 基础拟态风格（统一所有元素） */
+		* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+		body { background: #e0e5ec; color: #4a4a68; line-height: 1.6; padding-bottom: 50px; overflow-x: hidden; }
+		::-webkit-scrollbar { width: 6px; height: 6px; } 
+		::-webkit-scrollbar-thumb { background: #c4c9d2; border-radius: 3px; } 
+		::-webkit-scrollbar-track { background: transparent; }
+
+		/* 顶部标题栏（含双搜索栏） */
+		.header { 
+			background: #e0e5ec; 
+			padding: 15px 20px; 
+			display: flex; 
+			align-items: center; 
+			justify-content: space-between; 
+			box-shadow: 5px 5px 10px #c4c9d2, -5px -5px 10px #fff; 
+			position: sticky; 
+			top: 0; 
+			z-index: 100; 
+			gap: 20px; 
+			flex-wrap: wrap; 
 		}
-
-		* { margin: 0; padding: 0; box-sizing: border-box; }
-
-		body {
-			font-family: 'Outfit', sans-serif;
-			background-color: var(--bg-base);
-			background-image: 
-				radial-gradient(at 10% 20%, rgba(79, 70, 229, 0.06) 0px, transparent 50%),
-				radial-gradient(at 90% 80%, rgba(168, 85, 247, 0.06) 0px, transparent 50%),
-				radial-gradient(at 50% 50%, rgba(236, 72, 153, 0.04) 0px, transparent 50%);
-			min-height: 100vh;
-			color: var(--text-primary);
+		.logo-area { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+		.logo-icon { 
+			width: 36px; 
+			height: 36px; 
+			background: #e0e5ec; 
+			box-shadow: inset 3px 3px 6px #c4c9d2, inset -3px -3px 6px #fff; 
+			border-radius: 8px; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			color: #5b5bfd; 
+			font-size: 20px; 
 		}
-
-		/* Header（保留双搜索栏逻辑） */
-		.header {
-			position: sticky;
-			top: 0;
-			z-index: 100;
-			padding: 14px 24px;
-			margin: 16px;
-			border-radius: 20px;
-			background: var(--glass-bg);
-			backdrop-filter: blur(20px);
-			border: 1px solid var(--glass-border);
-			box-shadow: var(--shadow-elevation);
-			display: flex;
-			align-items: center;
-			gap: 20px;
+		.logo-text { font-size: 22px; font-weight: bold; white-space: nowrap; }
+		
+		/* 原搜索栏（搜索指令模块） */
+		.search-box { 
+			display: flex; 
+			align-items: center; 
+			background: #e0e5ec; 
+			box-shadow: inset 3px 3px 6px #c4c9d2, inset -3px -3px 6px #fff; 
+			border-radius: 20px; 
+			padding: 8px 15px; 
+			width: 300px; 
+			position: relative; 
+			flex: 1; 
+			max-width: 400px; 
 		}
-
-		.logo {
-			display: flex;
-			align-items: center;
-			gap: 12px;
-			flex-shrink: 0;
+		.search-box input { 
+			background: transparent; 
+			border: none; 
+			color: #4a4a68; 
+			width: 100%; 
+			outline: none; 
+			font-size: 14px; 
 		}
-
-		.logo-icon {
-			width: 48px;
-			height: 48px;
-			background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-			border-radius: 14px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 22px;
-			color: white;
-			box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+		.search-box input::placeholder { color: #8888a0; } 
+		.search-box i { color: #5b5bfd; margin-right: 8px; }
+		
+		/* 变量搜索栏（仅搜索变量列表） */
+		.var-search-box { 
+			display: flex; 
+			align-items: center; 
+			background: #e0e5ec; 
+			box-shadow: inset 3px 3px 6px #c4c9d2, inset -3px -3px 6px #fff; 
+			border-radius: 20px; 
+			padding: 8px 15px; 
+			width: 300px; 
+			position: relative; 
+			flex: 1; 
+			max-width: 400px; 
 		}
-
-		.logo-text {
-			font-size: 24px;
-			font-weight: 800;
-			letter-spacing: -0.5px;
-			background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
+		.var-search-box input { 
+			background: transparent; 
+			border: none; 
+			color: #4a4a68; 
+			width: 100%; 
+			outline: none; 
+			font-size: 14px; 
 		}
+		.var-search-box input::placeholder { color: #8888a0; } 
+		.var-search-box i { color: #28a745; margin-right: 8px; }
 
-		/* 双搜索栏 */
-		.search-container {
-			display: flex;
-			gap: 12px;
-			flex: 1;
-			min-width: 0;
+		/* 搜索结果浮层（统一风格） */
+		.search-result { 
+			position: absolute; 
+			top: 100%; 
+			left: 0; 
+			right: 0; 
+			background: #e0e5ec; 
+			border-radius: 0 0 12px 12px; 
+			box-shadow: 5px 5px 10px #c4c9d2, -5px -5px 10px #fff; 
+			max-height: 400px; 
+			overflow-y: auto; 
+			display: none; 
+			z-index: 101; 
 		}
-
-		.search-box {
-			flex: 1;
-			position: relative;
+		.search-result.active { display: block; } 
+		.search-result-item { 
+			padding: 12px 15px; 
+			border-bottom: 1px solid #d1d7e0; 
+			cursor: pointer; 
+			transition: all 0.2s; 
 		}
+		.search-result-item:hover { background: #d1d7e0; } 
+		.instr-module { font-size: 12px; color: #666; margin-bottom: 4px; } 
+		.instr-name { font-weight: 500; color: #4a4a68; margin-bottom: 4px; } 
+		.instr-desc { font-size: 12px; color: #666; margin-bottom: 4px; } 
+		.instr-example { font-size: 12px; color: #5b5bfd; background: #d1d7e0; padding: 2px 6px; border-radius: 4px; display: inline-block; } 
+		.no-result { padding: 12px 15px; color: #666; text-align: center; }
 
-		.search-input {
-			width: 100%;
-			padding: 12px 16px 12px 44px;
-			background: rgba(255,255,255,0.85);
-			border: 1px solid rgba(0,0,0,0.08);
-			border-radius: 12px;
-			font-family: 'Outfit';
-			font-size: 14px;
-			font-weight: 500;
-			transition: all 0.3s ease;
+		/* 功能按钮网格 */
+		.function-grid { 
+			padding: 20px; 
+			display: grid; 
+			grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+			gap: 20px; 
+			max-width: 1200px; 
+			margin: 0 auto; 
 		}
-
-		.search-input:focus {
-			outline: none;
-			border-color: var(--accent-1);
-			box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-			background: white;
+		.func-btn { 
+			background: #e0e5ec; 
+			border-radius: 15px; 
+			padding: 20px 15px; 
+			text-align: center; 
+			box-shadow: 5px 5px 10px #c4c9d2, -5px -5px 10px #fff; 
+			transition: all 0.3s ease; 
+			cursor: pointer; 
+			border: none; 
 		}
+		.func-btn:hover { transform: translateY(-2px); box-shadow: 7px 7px 14px #c4c9d2, -7px -7px 14px #fff; } 
+		.func-icon { font-size: 24px; color: #5b5bfd; margin-bottom: 10px; } 
+		.func-name { font-size: 16px; color: #4a4a68; font-weight: 500; }
 
-		.search-icon {
-			position: absolute;
-			left: 16px;
-			top: 50%;
-			transform: translateY(-50%);
-			color: var(--text-secondary);
+		/* 弹窗样式（拟态，固定标题栏） */
+		.modal { 
+			display: none; 
+			position: fixed; 
+			top: 0; 
+			left: 0; 
+			width: 100%; 
+			height: 100%; 
+			background: rgba(0,0,0,0.2); 
+			z-index: 200; 
+			align-items: center; 
+			justify-content: center; 
 		}
-
-		/* 功能网格（4列，保留原40个模块） */
-		.main-grid {
-			padding: 8px 16px 32px;
-			display: grid;
-			grid-template-columns: repeat(4, 1fr);
-			gap: 12px;
-			max-width: 1200px;
-			margin: 0 auto;
+		.modal.active { display: flex; } 
+		.modal-content { 
+			background: #e0e5ec; 
+			border-radius: 20px; 
+			width: 90%; 
+			max-width: 800px; 
+			max-height: 85vh; 
+			overflow: hidden; 
+			box-shadow: 10px 10px 20px #c4c9d2, -10px -10px 20px #fff; 
+			animation: slideUp 0.3s ease; 
+			display: flex; 
+			flex-direction: column; 
 		}
-
-		/* 功能卡片（玻璃态+悬停动画） */
-		.func-card {
-			background: var(--glass-bg);
-			backdrop-filter: blur(10px);
-			border: 1px solid rgba(255, 255, 255, 0.8);
-			border-radius: 18px;
-			padding: 22px 12px;
-			text-align: center;
-			cursor: pointer;
-			transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-			position: relative;
-			overflow: hidden;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+		@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+		.modal-header { 
+			background: #e0e5ec; 
+			padding: 15px 20px; 
+			border-bottom: 1px solid #d1d7e0; 
+			font-size: 18px; 
+			color: #5b5bfd; 
+			font-weight: 500; 
+			display: flex; 
+			align-items: center; 
+			justify-content: space-between; 
+			position: sticky; 
+			top: 0; 
+			z-index: 10; 
+			border-radius: 15px 15px 0 0; 
+			flex-shrink: 0; 
 		}
-
-		.func-card:hover {
-			transform: translateY(-6px) scale(1.03);
-			box-shadow: 
-				0 20px 40px rgba(0, 0, 0, 0.08),
-				0 0 0 1px rgba(79, 70, 229, 0.2),
-				inset 0 0 20px rgba(255, 255, 255, 0.5);
-			border-color: rgba(79, 70, 229, 0.3);
+		.close-btn { 
+			background: #e0e5ec; 
+			box-shadow: 3px 3px 6px #c4c9d2, -3px -3px 6px #fff; 
+			border: none; 
+			font-size: 20px; 
+			color: #8888a0; 
+			cursor: pointer; 
+			padding: 0; 
+			width: 30px; 
+			height: 30px; 
+			display: flex; 
+			align-items: center; 
+			justify-content: center; 
+			border-radius: 50%; 
+			transition: all 0.2s; 
 		}
+		.close-btn:hover { box-shadow: inset 3px 3px 6px #c4c9d2, inset -3px -3px 6px #fff; } 
+		.instruction-container { overflow-y: auto; flex: 1; padding: 0; } 
+		.instruction-list { padding: 20px; }
 
-		.func-card::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			height: 3px;
-			background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-			opacity: 0;
-			transition: opacity 0.3s ease;
+		/* 指令/变量卡片（拟态，五类目/三要素） */
+		.instr-card { 
+			background: #e0e5ec; 
+			box-shadow: inset 3px 3px 6px #c4c9d2, inset -3px -3px 6px #fff; 
+			border-radius: 12px; 
+			padding: 15px; 
+			margin-bottom: 15px; 
+			border-left: 4px solid #5b5bfd; 
+			transition: all 0.2s; 
 		}
-
-		.func-card:hover::before {
-			opacity: 1;
+		.instr-card.highlight { 
+			animation: highlight 1.5s ease; 
+			border-left: 4px solid #ff6b6b; 
 		}
-
-		.func-icon {
-			font-size: 30px;
-			margin-bottom: 12px;
-			display: block;
-			transition: transform 0.3s ease;
+		@keyframes highlight { 
+			0% { background: #e0e5ec; } 
+			50% { background: #fff3cd; } 
+			100% { background: #e0e5ec; } 
 		}
-
-		.func-card:hover .func-icon {
-			transform: scale(1.15);
+		.instr-name { font-weight: 500; color: #4a4a68; margin-bottom: 8px; font-size: 16px; } 
+		.instr-desc { color: #666; font-size: 14px; margin-bottom: 8px; } 
+		.instr-example { 
+			color: #5b5bfd; 
+			font-size: 14px; 
+			background: #d1d7e0; 
+			padding: 5px 10px; 
+			border-radius: 6px; 
+			display: inline-block; 
+			font-family: monospace; 
 		}
-
-		.func-name {
-			font-size: 13px;
-			font-weight: 600;
-			line-height: 1.3;
-			color: var(--text-primary);
+		.var-type-global { color: #28a745; font-weight: 500; } 
+		.var-type-local { color: #fd7e14; font-weight: 500; } 
+		.module-tips { 
+			background: #fff9db; 
+			border-left: 4px solid #ffd43b; 
+			padding: 12px 15px; 
+			margin: 15px 20px; 
+			font-size: 14px; 
+			color: #666; 
+			border-radius: 0 6px 6px 0; 
 		}
+		.module-tips strong { color: #e67700; }
 
-		/* 卡片颜色循环（保留原模块分类逻辑） */
-		.func-card:nth-child(5n+1) .func-icon { color: var(--accent-1); }
-		.func-card:nth-child(5n+2) .func-icon { color: var(--accent-2); }
-		.func-card:nth-child(5n+3) .func-icon { color: var(--accent-3); }
-		.func-card:nth-child(5n+4) .func-icon { color: var(--accent-4); }
-		.func-card:nth-child(5n+5) .func-icon { color: var(--accent-5); }
-
-		/* 模态框（玻璃态遮罩+动画） */
-		.modal-overlay {
-			position: fixed;
-			inset: 0;
-			background: rgba(0, 0, 0, 0.4);
-			backdrop-filter: blur(8px);
-			z-index: 1000;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 20px;
-			opacity: 0;
-			visibility: hidden;
-			transition: all 0.3s ease;
+		/* 响应式调整 */
+		@media (max-width: 992px) { 
+			.header { flex-direction: column; align-items: stretch; } 
+			.search-box, .var-search-box { width: 100%; max-width: 100%; order: 3; } 
 		}
-
-		.modal-overlay.active {
-			opacity: 1;
-			visibility: visible;
-		}
-
-		.modal-content {
-			background: white;
-			border-radius: 24px;
-			width: 100%;
-			max-width: 720px;
-			max-height: 85vh;
-			overflow: hidden;
-			transform: translateY(20px) scale(0.98);
-			transition: transform 0.3s ease;
-			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
-			border: 1px solid rgba(255,255,255,0.5);
-		}
-
-		.modal-overlay.active .modal-content {
-			transform: translateY(0) scale(1);
-		}
-
-		.modal-header {
-			padding: 24px 28px;
-			border-bottom: 1px solid rgba(0,0,0,0.08);
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-		}
-
-		.modal-title {
-			font-size: 20px;
-			font-weight: 700;
-			background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-		}
-
-		.close-btn {
-			width: 40px;
-			height: 40px;
-			border-radius: 12px;
-			background: rgba(0,0,0,0.05);
-			border: none;
-			color: var(--text-secondary);
-			font-size: 18px;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: all 0.2s ease;
-		}
-
-		.close-btn:hover {
-			background: rgba(239, 68, 68, 0.1);
-			color: #ef4444;
-		}
-
-		.modal-body {
-			padding: 28px;
-			overflow-y: auto;
-			max-height: calc(85vh - 90px);
-		}
-
-		/* 指令/变量卡片（保留原3/5类目逻辑） */
-		.cmd-card {
-			background: rgba(0,0,0,0.02);
-			border: 1px solid rgba(0,0,0,0.06);
-			border-radius: 14px;
-			padding: 18px;
-			margin-bottom: 14px;
-			transition: all 0.2s ease;
-		}
-
-		.cmd-card:hover {
-			background: rgba(79, 70, 229, 0.03);
-			border-color: rgba(79, 70, 229, 0.15);
-		}
-
-		.cmd-name {
-			font-size: 15px;
-			font-weight: 700;
-			color: var(--accent-1);
-			margin-bottom: 8px;
-			font-family: 'SF Mono', monospace;
-		}
-
-		.cmd-desc {
-			font-size: 14px;
-			color: var(--text-secondary);
-			line-height: 1.6;
-			margin-bottom: 10px;
-		}
-
-		.cmd-example {
-			font-size: 13px;
-			color: var(--accent-4);
-			background: rgba(16, 185, 129, 0.1);
-			padding: 8px 12px;
-			border-radius: 8px;
-			font-family: 'SF Mono', monospace;
-			border: 1px solid rgba(16, 185, 129, 0.2);
-		}
-
-		.tip-box {
-			background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
-			border: 1px solid rgba(245, 158, 11, 0.2);
-			border-radius: 12px;
-			padding: 16px 20px;
-			margin-top: 24px;
-		}
-
-		.tip-text {
-			font-size: 14px;
-			color: #d97706;
-			font-weight: 500;
-		}
-
-		/* 搜索结果下拉框（玻璃态） */
-		.search-results {
-			position: absolute;
-			top: calc(100% + 8px);
-			left: 0;
-			right: 0;
-			background: white;
-			border: 1px solid rgba(0,0,0,0.08);
-			border-radius: 16px;
-			overflow: hidden;
-			max-height: 350px;
-			overflow-y: auto;
-			opacity: 0;
-			visibility: hidden;
-			transform: translateY(-10px);
-			transition: all 0.2s ease;
-			z-index: 10;
-			box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-		}
-
-		.search-results.show {
-			opacity: 1;
-			visibility: visible;
-			transform: translateY(0);
-		}
-
-		.search-item {
-			padding: 14px 18px;
-			border-bottom: 1px solid rgba(0,0,0,0.05);
-			cursor: pointer;
-			transition: all 0.2s ease;
-		}
-
-		.search-item:hover {
-			background: rgba(79, 70, 229, 0.05);
-		}
-
-		.search-module {
-			font-size: 11px;
-			color: var(--accent-2);
-			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 0.5px;
-			margin-bottom: 4px;
-		}
-
-		.search-cmd {
-			font-size: 14px;
-			font-weight: 600;
-			color: var(--text-primary);
-			margin-bottom: 4px;
-		}
-
-		.search-desc {
-			font-size: 12px;
-			color: var(--text-secondary);
-		}
-
-		mark {
-			background: rgba(245, 158, 11, 0.2);
-			color: #d97706;
-			padding: 0 2px;
-			border-radius: 3px;
-		}
-
-		/* 响应式（保留原移动端适配） */
-		@media (max-width: 768px) {
-			.header { flex-direction: column; margin: 12px; padding: 16px; }
-			.search-container { width: 100%; flex-direction: column; }
-			.main-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 10px; }
-			.func-card { padding: 18px 8px; border-radius: 16px; }
-			.func-icon { font-size: 26px; margin-bottom: 10px; }
-			.func-name { font-size: 12px; }
-		}
-
-		@media (max-width: 380px) {
-			.main-grid { gap: 8px; }
-			.func-card { padding: 14px 6px; }
-			.func-icon { font-size: 22px; }
-			.func-name { font-size: 11px; }
+		@media (max-width: 768px) { 
+			.logo-text { font-size: 18px; } 
+			/* 核心修改：4×10排列（每行4个，共10行） */
+			.function-grid { 
+				grid-template-columns: repeat(4, 1fr); 
+				padding: 10px; 
+				gap: 10px; 
+			}
+			/* 优化模块尺寸适配4列 */
+			.func-btn {
+				padding: 15px 5px; 
+			}
+			.func-icon {
+				font-size: 20px; 
+				margin-bottom: 5px; 
+			}
+			.func-name {
+				font-size: 14px; 
+			}
+			.modal-content { width: 95%; max-height: 90vh; } 
+			.modal-header { padding: 12px 15px; font-size: 16px; } 
+			.instruction-list { padding: 15px; } 
 		}
 	</style>
 </head>
 <body>
+	<!-- 顶部标题栏（含双搜索栏） -->
 	<header class="header">
-		<div class="logo">
+		<div class="logo-area">
 			<div class="logo-icon"><i class="fas fa-robot"></i></div>
-			<div class="logo-text">Fox群管·说明书</div>
+			<div class="logo-text">Fox群管机器人使用说明（优化版）</div>
 		</div>
-		<div class="search-container">
-			<!-- 原搜索栏（指令搜索） -->
-			<div class="search-box">
-				<i class="fas fa-search search-icon"></i>
-				<input type="text" class="search-input" placeholder="搜索指令（名称/说明/示例）..." id="searchInput">
-				<div class="search-results" id="searchResults"></div>
-			</div>
-			<!-- 变量搜索栏 -->
-			<div class="search-box">
-				<i class="fas fa-filter search-icon"></i>
-				<input type="text" class="search-input" placeholder="搜索变量（名称/说明/用途）..." id="varSearchInput">
-				<div class="search-results" id="varSearchResults"></div>
-			</div>
+
+		<!-- 原搜索栏（搜索指令模块） -->
+		<div class="search-box">
+			<i class="fas fa-search"></i>
+			<input type="text" placeholder="搜索指令（名称/说明/示例）..." id="searchInput">
+			<div class="search-result" id="searchResult"></div>
+		</div>
+
+		<!-- 变量搜索栏（仅搜索变量列表） -->
+		<div class="var-search-box">
+			<i class="fas fa-filter"></i>
+			<input type="text" placeholder="搜索变量（名称/说明/用途）..." id="varSearchInput">
+			<div class="search-result" id="varSearchResult"></div>
 		</div>
 	</header>
 
-	<div class="main-grid" id="mainGrid"></div>
+	<!-- 功能按钮网格（含所有40个模块：38指令+2变量） -->
+	<div class="function-grid" id="functionGrid"></div>
 
-	<div class="modal-overlay" id="modalOverlay">
+	<!-- 弹窗（指令/变量说明） -->
+	<div class="modal" id="instructionModal">
 		<div class="modal-content">
 			<div class="modal-header">
-				<div class="modal-title" id="modalTitle">模块详情</div>
-				<button class="close-btn" id="closeModal"><i class="fas fa-times"></i></button>
+				<span id="modalTitle">模块名称 - 说明</span>
+				<button class="close-btn" id="closeModal">&times;</button>
 			</div>
-			<div class="modal-body" id="modalBody"></div>
+			<div class="instruction-container" id="instructionContainer">
+				<div class="instruction-list" id="instructionList"></div>
+				<div class="module-tips" id="moduleTips"></div>
+			</div>
 		</div>
 	</div>
 
 	<script>
 		// ------------------------------
-		// 保留原40个模块完整数据（38指令+2变量）
+		// 完整模块数据（38指令模块+2变量模块，去除变量ID24-28）
 		// ------------------------------
 		const modules = [
 			// 1. 群管功能
@@ -719,14 +588,14 @@
 				content: `查分群开关|查看当前群所有功能开关的状态|查分群开关[换行]查人机配置|查看人机验证模块的所有配置|查人机配置[换行]查引流配置|查看引流检测模块的所有配置|查引流配置[换行]查积分配置|查看积分系统的所有配置|查积分配置[换行]查刷屏配置|查看刷屏检测模块的所有配置|查刷屏配置[换行]查提示配置|查看提示系统的所有配置|查提示配置`,
 				tips: ""
 			},
-			// 39. 【全局】变量列表
+			// 39. 【全局】变量列表（去除ID24-28变量）
 			{
 				name: "【全局】变量列表",
 				icon: "globe",
 				content: `[QQ:At-A]|全局|艾特主动|一般指主动发消息或邀请人|[QQ:At-A] 你好[换行][QQ:At-B]|全局|艾特被动|一般指被邀请人|[QQ:At-B] 欢迎加入[换行][QQ:A-Q]|全局|主动QQ|一般指主动发消息或邀请人QQ|用户[QQ:A-Q] 已入群[换行][QQ:B-Q]|全局|被动QQ|一般指被邀请人QQ|用户[QQ:B-Q] 被邀请[换行][QQ:A-Nick]|全局|主动昵称|一般指主动发消息或邀请人昵称|昵称[QQ:A-Nick] 发言[换行][QQ:B-Nick]|全局|被动昵称|一般指被邀请人昵称|昵称[QQ:B-Nick] 加入[换行][QQ:A-tx]|全局|主动头像|一般指主动发消息或邀请人头像|头像[QQ:A-tx] 展示[换行][QQ:B-tx]|全局|被动头像|一般指被邀请人头像|头像[QQ:B-tx] 查看[换行][NumTime]|全局|当前时间|例:09:00|当前时间[NumTime][换行][Week]|全局|星期|星期一、二、三、四、五、六、日|今天是[Week][换行][TimePer]|全局|时段|凌晨、上午、中午、下午、傍晚、晚上|当前时段[TimePer][换行][Time]|全局|北京时间|例:2022-03-01 00:00:00|当前时间[Time][换行][Face]|全局|随机表情|随机小黄脸表情|表情[Face][换行][Num=1-10]|全局|随机数字|1-10之间随机数字，数字区间可调整|随机数[Num=1-10][换行][pic=路径]|全局|发送本地图片|[pic=D:/pic/1.jpg]|图片[pic=D:/pic/1.jpg][换行][NetPic=url]|全局|发送网络图片|[NetPic=http://xxx.cn/1.jpg]|网络图片[NetPic=http://xxx.cn/1.jpg][换行][群号]|全局|群号|当前群号|群[群号] 欢迎你[换行][群名称]|全局|群名称|当前群名称|群[群名称] 通知[换行][群人数]|全局|当前群人数|当前群人数|群人数[群人数][换行][邀请人数]|全局|邀请总人数|邀请总人数|邀请人数[邀请人数][换行][退踢人数]|全局|邀请进群后退/踢人数|邀请进群后退/踢人数|退踢人数[退踢人数][换行][有效人数]|全局|有效邀请人数|有效邀请人数|有效人数[有效人数][换行][当前积分]|全局|当前积分数量|当前积分数量|你的积分：[当前积分][换行][艾特全体]|全局|艾特全体成|艾特全体|@全体成员[艾特全体] 开会[换行][会员级别]|全局|成功返回SVIP1/VIP1/普通用户|(仅限My、小栗子)用于群名片格式等，失败返回普通用户|会员[会员级别] 享特权`,
 				tips: "这个变量列表里面的变量为**全局变量**，可在任意回复中添加使用。"
 			},
-			// 40. 【局部】变量列表
+			// 40. 【局部】变量列表（去除ID24-28变量）
 			{
 				name: "【局部】变量列表",
 				icon: "map-marker-alt",
@@ -738,12 +607,13 @@
 		// ------------------------------
 		// 预解析数据（分离指令与变量）
 		// ------------------------------
-		const nonVarInstructions = [];
-		const varInstructions = [];
+		const nonVarInstructions = []; // 非变量模块（38指令）
+		const varInstructions = [];     // 变量模块（2变量模块）
 
 		modules.forEach(module => {
 			const lines = module.content.split('[换行]');
 			if (module.name.includes("变量列表")) {
+				// 变量模块：5类目（变量名|类型|说明|用途|示例）
 				lines.forEach(line => {
 					const parts = line.split('|');
 					if (parts.length >= 5) {
@@ -759,6 +629,7 @@
 					}
 				});
 			} else {
+				// 非变量模块：3类目（指令|说明|示例）
 				lines.forEach(line => {
 					const parts = line.split('|');
 					if (parts.length >= 3) {
@@ -778,46 +649,51 @@
 		// 初始化页面
 		// ------------------------------
 		document.addEventListener('DOMContentLoaded', () => {
-			renderGrid();
+			renderFunctionGrid();
 			bindEvents();
 		});
 
-		// 渲染功能网格
-		function renderGrid() {
-			const grid = document.getElementById('mainGrid');
-			grid.innerHTML = modules.map((mod, index) => `
-				<div class="func-card" data-index="${index}">
-					<i class="fas fa-${mod.icon} func-icon"></i>
-					<div class="func-name">${mod.name}</div>
-				</div>
-			`).join('');
+		// 渲染功能按钮网格
+		function renderFunctionGrid() {
+			const grid = document.getElementById('functionGrid');
+			grid.innerHTML = '';
+			modules.forEach((module, index) => {
+				const btn = document.createElement('div');
+				btn.className = 'func-btn';
+				btn.dataset.index = index;
+				btn.innerHTML = `
+					<div class="func-icon"><i class="fas fa-${module.icon}"></i></div>
+					<div class="func-name">${module.name}</div>
+				`;
+				grid.appendChild(btn);
+			});
 		}
 
 		// ------------------------------
-		// 绑定事件（保留原双搜索+模态框逻辑）
+		// 绑定事件（双搜索栏+弹窗+优化方案）
 		// ------------------------------
 		function bindEvents() {
-			// 功能卡片点击
-			document.querySelectorAll('.func-card').forEach(card => {
-				card.addEventListener('click', () => {
-					const index = card.dataset.index;
-					showModal(modules[index]);
+			// 1. 功能按钮点击：打开弹窗
+			document.querySelectorAll('.func-btn').forEach(btn => {
+				btn.addEventListener('click', () => {
+					const index = btn.dataset.index;
+					showInstructionModal(modules[index]);
 				});
 			});
-
-			// 关闭模态框
+			
+			// 2. 关闭弹窗
 			document.getElementById('closeModal').addEventListener('click', closeModal);
-			document.getElementById('modalOverlay').addEventListener('click', (e) => {
+			document.getElementById('instructionModal').addEventListener('click', (e) => {
 				if (e.target === e.currentTarget) closeModal();
 			});
 
-			// 指令搜索
+			// 3. 原搜索栏（搜索指令模块）
 			const searchInput = document.getElementById('searchInput');
-			const searchResults = document.getElementById('searchResults');
+			const searchResult = document.getElementById('searchResult');
 			searchInput.addEventListener('input', (e) => {
 				const keyword = e.target.value.trim().toLowerCase();
-				searchResults.innerHTML = '';
-				searchResults.classList.remove('show');
+				searchResult.innerHTML = '';
+				searchResult.classList.remove('active');
 				if (!keyword) return;
 
 				const matched = nonVarInstructions.filter(item => 
@@ -825,37 +701,38 @@
 					item.instrDesc.toLowerCase().includes(keyword) ||
 					item.instrExample.toLowerCase().includes(keyword)
 				);
-
+				
 				if (matched.length > 0) {
 					matched.forEach(item => {
 						const div = document.createElement('div');
-						div.className = 'search-item';
+						div.className = 'search-result-item';
 						div.innerHTML = `
-							<div class="search-module">【${item.moduleName}】</div>
-							<div class="search-cmd">指令：${highlightKeyword(item.instrName, keyword)}</div>
-							<div class="search-desc">说明：${highlightKeyword(item.instrDesc, keyword)}</div>
+							<div class="instr-module">【${item.moduleName}】</div>
+							<div class="instr-name">指令：${highlightKeyword(item.instrName, keyword)}</div>
+							<div class="instr-desc">说明：${highlightKeyword(item.instrDesc, keyword)}</div>
+							<div class="instr-example">示例：${highlightKeyword(item.instrExample, keyword)}</div>
 						`;
 						div.addEventListener('click', () => {
-							showModal(modules.find(m => m.name === item.moduleName), item.instrName);
-							searchResults.classList.remove('show');
+							showInstructionModal(modules.find(m => m.name === item.moduleName), item.instrName);
+							searchResult.classList.remove('active');
 							searchInput.value = '';
 						});
-						searchResults.appendChild(div);
+						searchResult.appendChild(div);
 					});
-					searchResults.classList.add('show');
+					searchResult.classList.add('active');
 				} else {
-					searchResults.innerHTML = '<div class="search-item">未找到匹配的指令</div>';
-					searchResults.classList.add('show');
+					searchResult.innerHTML = '<div class="no-result">未找到匹配的指令</div>';
+					searchResult.classList.add('active');
 				}
 			});
 
-			// 变量搜索
+			// 4. 变量搜索栏（仅搜索变量列表）
 			const varSearchInput = document.getElementById('varSearchInput');
-			const varSearchResults = document.getElementById('varSearchResults');
+			const varSearchResult = document.getElementById('varSearchResult');
 			varSearchInput.addEventListener('input', (e) => {
 				const keyword = e.target.value.trim().toLowerCase();
-				varSearchResults.innerHTML = '';
-				varSearchResults.classList.remove('show');
+				varSearchResult.innerHTML = '';
+				varSearchResult.classList.remove('active');
 				if (!keyword) return;
 
 				const matched = varInstructions.filter(item => 
@@ -864,118 +741,139 @@
 					item.use.toLowerCase().includes(keyword) ||
 					item.instrExample.toLowerCase().includes(keyword)
 				);
-
+				
 				if (matched.length > 0) {
 					matched.forEach(item => {
 						const div = document.createElement('div');
-						div.className = 'search-item';
+						div.className = 'search-result-item';
 						div.innerHTML = `
-							<div class="search-module">【${item.moduleName}】</div>
-							<div class="search-cmd">变量：${highlightKeyword(item.instrName, keyword)}</div>
-							<div class="search-desc">说明：${highlightKeyword(item.instrDesc, keyword)}</div>
+							<div class="instr-module">【${item.moduleName}】</div>
+							<div class="instr-name">变量：${highlightKeyword(item.instrName, keyword)}</div>
+							<div class="instr-desc">说明：${highlightKeyword(item.instrDesc, keyword)}</div>
+							<div class="instr-example">用途：${highlightKeyword(item.use, keyword)}</div>
 						`;
 						div.addEventListener('click', () => {
-							showModal(modules.find(m => m.name === item.moduleName), item.instrName);
-							varSearchResults.classList.remove('show');
+							showInstructionModal(modules.find(m => m.name === item.moduleName), item.instrName);
+							varSearchResult.classList.remove('active');
 							varSearchInput.value = '';
 						});
-						varSearchResults.appendChild(div);
+						varSearchResult.appendChild(div);
 					});
-					varSearchResults.classList.add('show');
+					varSearchResult.classList.add('active');
 				} else {
-					varSearchResults.innerHTML = '<div class="search-item">未找到匹配的变量</div>';
-					varSearchResults.classList.add('show');
+					varSearchResult.innerHTML = '<div class="no-result">未找到匹配的变量</div>';
+					varSearchResult.classList.add('active');
 				}
 			});
-
-			// 点击外部关闭搜索结果
+			
+			// 5. 点击外部关闭搜索结果
 			document.addEventListener('click', (e) => {
-				if (!e.target.closest('.search-box')) searchResults.classList.remove('show');
-				if (!e.target.closest('.search-box')) varSearchResults.classList.remove('show');
+				if (!e.target.closest('.search-box')) searchResult.classList.remove('active');
+				if (!e.target.closest('.var-search-box')) varSearchResult.classList.remove('active');
 			});
-		}
 
+			// 6. 优化方案1：弹窗激活时禁止页面滚动（已在showInstructionModal/closeModal中实现）
+			// 7. 优化方案2：拦截弹窗内部滚动的边界事件
+			const scrollContainer = document.getElementById('instructionContainer');
+			scrollContainer.addEventListener('touchmove', (e) => {
+				const atTop = scrollContainer.scrollTop === 0;
+				const atBottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 1;
+				// 若滚动到顶部且继续向上滑，或滚动到底部且继续向下滑，则阻止默认事件
+				if ((atTop && e.touches[0].clientY > e.touches[0].clientY) || (atBottom && e.touches[0].clientY < e.touches[0].clientY)) {
+					e.preventDefault();
+				}
+			}, { passive: false });
+		}
+		
 		// ------------------------------
-		// 工具函数（高亮+模态框）
+		// 工具函数（高亮、弹窗、关闭）
 		// ------------------------------
+		// 高亮关键词
 		function highlightKeyword(text, keyword) {
 			if (!keyword) return text;
 			const regex = new RegExp(`(${keyword})`, 'gi');
-			return text.replace(regex, '<mark>$1</mark>');
+			return text.replace(regex, '<mark style="background:#ffeeba;padding:2px;border-radius:2px;">$1</mark>');
 		}
-
-		function showModal(module, targetName = null) {
-			const overlay = document.getElementById('modalOverlay');
-			const title = document.getElementById('modalTitle');
-			const body = document.getElementById('modalBody');
+		
+		// 显示弹窗（支持定位+优化方案1：禁止页面滚动）
+		function showInstructionModal(module, targetName = null) {
+			const modal = document.getElementById('instructionModal');
+			const modalTitle = document.getElementById('modalTitle');
+			const instructionList = document.getElementById('instructionList');
+			const moduleTips = document.getElementById('moduleTips');
+			const scrollContainer = document.getElementById('instructionContainer');
 			
-			title.textContent = `${module.name} - ${module.name.includes('变量') ? '变量说明' : '指令说明'}`;
-			body.innerHTML = '';
-
+			// 优化方案1：弹窗激活时禁止页面滚动
+			document.body.style.overflow = 'hidden';
+			
+			// 设置标题
+			modalTitle.textContent = `${module.name} - ${module.name.includes('变量') ? '变量说明' : '指令说明'}`;
+			instructionList.innerHTML = '';
+			
+			// 生成内容卡片（区分指令/变量）
 			const lines = module.content.split('[换行]');
 			let targetCard = null;
-
 			lines.forEach(line => {
 				const parts = line.split('|');
 				if (parts.length >= 3) {
 					const card = document.createElement('div');
-					card.className = 'cmd-card';
+					card.className = 'instr-card';
 					card.dataset.name = parts[0].trim();
-
+					
 					if (module.name.includes('变量列表')) {
+						// 变量卡片（5类目）
 						if (parts.length >= 5) {
 							const [varName, type, desc, use, example] = parts.map(p => p.trim());
 							card.innerHTML = `
-								<div class="cmd-name">变量名：${varName}</div>
-								<div class="cmd-desc">类型：<span style="color:${type === '全局' ? '#10b981' : '#f59e0b'};font-weight:500">${type}</span></div>
-								<div class="cmd-desc">说明：${desc}</div>
-								<div class="cmd-desc">用途：${use}</div>
-								<div class="cmd-example">示例：${example}</div>
+								<div class="instr-name">变量名：${varName}</div>
+								<div class="instr-desc">类型：<span class="${type === '全局' ? 'var-type-global' : 'var-type-local'}">${type}</span></div>
+								<div class="instr-desc">说明：${desc}</div>
+								<div class="instr-desc">用途：${use}</div>
+								<div class="instr-example">示例：${example}</div>
 							`;
 						}
 					} else {
+						// 指令卡片（3类目）
 						card.innerHTML = `
-							<div class="cmd-name">指令：${parts[0].trim()}</div>
-							<div class="cmd-desc">说明：${parts[1].trim()}</div>
-							<div class="cmd-example">示例：${parts[2].trim()}</div>
+							<div class="instr-name">指令：${parts[0].trim()}</div>
+							<div class="instr-desc">说明：${parts[1].trim()}</div>
+							<div class="instr-example">示例：${parts[2].trim()}</div>
 						`;
 					}
-
-					body.appendChild(card);
+					
+					instructionList.appendChild(card);
+					
+					// 记录目标卡片（用于定位）
 					if (targetName && card.dataset.name === targetName) targetCard = card;
 				}
 			});
-
-			// 添加提示框
-			if (module.tips) {
-				const tipBox = document.createElement('div');
-				tipBox.className = 'tip-box';
-				tipBox.innerHTML = `<div class="tip-text">💡 ${module.tips}</div>`;
-				body.appendChild(tipBox);
-			}
-
-			overlay.classList.add('active');
-			document.body.style.overflow = 'hidden';
-
-			// 滚动到目标卡片并高亮
-			if (targetCard) {
-				const container = document.getElementById('modalBody');
-				requestAnimationFrame(() => {
-					const containerH = container.clientHeight;
-					const cardH = targetCard.offsetHeight;
-					container.scrollTop = targetCard.offsetTop - (containerH - cardH) / 2;
-					targetCard.style.backgroundColor = '#fff9db';
-					targetCard.style.transition = 'background-color 0.3s';
-					setTimeout(() => {
-						targetCard.style.backgroundColor = '';
-					}, 1500);
-				});
-			}
+			
+			// 设置提示语
+			moduleTips.innerHTML = module.tips ? `<strong>Tips：</strong>${module.tips}` : '';
+			modal.classList.add('active');
+			
+			// 滚动到目标位置（居中）
+			requestAnimationFrame(() => {
+				if (scrollContainer) {
+					if (targetCard) {
+						const containerH = scrollContainer.clientHeight;
+						const cardH = targetCard.offsetHeight;
+						scrollContainer.scrollTop = targetCard.offsetTop - (containerH - cardH) / 2;
+						targetCard.classList.add('highlight');
+						setTimeout(() => targetCard.classList.remove('highlight'), 1500);
+					} else {
+						scrollContainer.scrollTop = 0;
+					}
+				}
+			});
 		}
 
+		// 关闭弹窗（优化方案1：恢复页面滚动）
 		function closeModal() {
-			document.getElementById('modalOverlay').classList.remove('active');
-			document.body.style.overflow = '';
+			const modal = document.getElementById('instructionModal');
+			modal.classList.remove('active');
+			// 优化方案1：恢复页面滚动
+			document.body.style.overflow = 'auto';
 		}
 	</script>
 </body>
