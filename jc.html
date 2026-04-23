@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fox群管·说明书</title>
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		:root {
+			--bg-base: #f0f2f5;
+			--glass-bg: rgba(255, 255, 255, 0.72);
+			--glass-border: rgba(255, 255, 255, 0.9);
+			--shadow-elevation: 0 8px 32px rgba(0, 0, 0, 0.06);
+			--text-primary: #1a1d21;
+			--text-secondary: #65676b;
+			--accent-1: #4f46e5;
+			--accent-2: #a855f7;
+			--accent-3: #ec4899;
+			--accent-4: #10b981;
+			--accent-5: #f59e0b;
+		}
+
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+
+		body {
+			font-family: 'Outfit', sans-serif;
+			background-color: var(--bg-base);
+			background-image: 
+				radial-gradient(at 10% 20%, rgba(79, 70, 229, 0.06) 0px, transparent 50%),
+				radial-gradient(at 90% 80%, rgba(168, 85, 247, 0.06) 0px, transparent 50%),
+				radial-gradient(at 50% 50%, rgba(236, 72, 153, 0.04) 0px, transparent 50%);
+			min-height: 100vh;
+			color: var(--text-primary);
+		}
+
+		.header {
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			padding: 14px 24px;
+			margin: 16px;
+			border-radius: 20px;
+			background: var(--glass-bg);
+			backdrop-filter: blur(20px);
+			border: 1px solid var(--glass-border);
+			box-shadow: var(--shadow-elevation);
+			display: flex;
+			align-items: center;
+			gap: 20px;
+		}
+
+		.logo {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			flex-shrink: 0;
+		}
+
+		.logo-icon {
+			width: 48px;
+			height: 48px;
+			background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+			border-radius: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 22px;
+			color: white;
+			box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+		}
+
+		.logo-text {
+			font-size: 24px;
+			font-weight: 800;
+			letter-spacing: -0.5px;
+			background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.search-container {
+			display: flex;
+			gap: 12px;
+			flex: 1;
+			min-width: 0;
+		}
+
+		.search-box {
+			flex: 1;
+			position: relative;
+		}
+
+		.search-input {
+			width: 100%;
+			padding: 12px 16px 12px 44px;
+			background: rgba(255,255,255,0.85);
+			border: 1px solid rgba(0,0,0,0.08);
+			border-radius: 12px;
+			font-family: 'Outfit';
+			font-size: 14px;
+			font-weight: 500;
+			transition: all 0.3s ease;
+		}
+
+		.search-input:focus {
+			outline: none;
+			border-color: var(--accent-1);
+			box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+			background: white;
+		}
+
+		.search-icon {
+			position: absolute;
+			left: 16px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: var(--text-secondary);
+		}
+
+		.main-grid {
+			padding: 8px 16px 32px;
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 12px;
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		.func-card {
+			background: var(--glass-bg);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.8);
+			border-radius: 18px;
+			padding: 22px 12px;
+			text-align: center;
+			cursor: pointer;
+			transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+			position: relative;
+			overflow: hidden;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+		}
+
+		.func-card:hover {
+			transform: translateY(-6px) scale(1.03);
+			box-shadow: 
+				0 20px 40px rgba(0, 0, 0, 0.08),
+				0 0 0 1px rgba(79, 70, 229, 0.2),
+				inset 0 0 20px rgba(255, 255, 255, 0.5);
+			border-color: rgba(79, 70, 229, 0.3);
+		}
+
+		.func-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 3px;
+			background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.func-card:hover::before {
+			opacity: 1;
+		}
+
+		.func-icon {
+			font-size: 30px;
+			margin-bottom: 12px;
+			display: block;
+			transition: transform 0.3s ease;
+		}
+
+		.func-card:hover .func-icon {
+			transform: scale(1.15);
+		}
+
+		.func-name {
+			font-size: 13px;
+			font-weight: 600;
+			line-height: 1.3;
+			color: var(--text-primary);
+		}
+
+		.func-card:nth-child(5n+1) .func-icon { color: var(--accent-1); }
+		.func-card:nth-child(5n+2) .func-icon { color: var(--accent-2); }
+		.func-card:nth-child(5n+3) .func-icon { color: var(--accent-3); }
+		.func-card:nth-child(5n+4) .func-icon { color: var(--accent-4); }
+		.func-card:nth-child(5n+5) .func-icon { color: var(--accent-5); }
+
+		.modal-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(8px);
+			z-index: 1000;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s ease;
+		}
+
+		.modal-overlay.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.modal-content {
+			background: white;
+			border-radius: 24px;
+			width: 100%;
+			max-width: 720px;
+			max-height: 85vh;
+			overflow: hidden;
+			transform: translateY(20px) scale(0.98);
+			transition: transform 0.3s ease;
+			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+			border: 1px solid rgba(255,255,255,0.5);
+		}
+
+		.modal-overlay.active .modal-content {
+			transform: translateY(0) scale(1);
+		}
+
+		.modal-header {
+			padding: 24px 28px;
+			border-bottom: 1px solid rgba(0,0,0,0.08);
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.modal-title {
+			font-size: 20px;
+			font-weight: 700;
+			background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.close-btn {
+			width: 40px;
+			height: 40px;
+			border-radius: 12px;
+			background: rgba(0,0,0,0.05);
+			border: none;
+			color: var(--text-secondary);
+			font-size: 18px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.2s ease;
+		}
+
+		.close-btn:hover {
+			background: rgba(239, 68, 68, 0.1);
+			color: #ef4444;
+		}
+
+		.modal-body {
+			padding: 28px;
+			overflow-y: auto;
+			max-height: calc(85vh - 90px);
+		}
+
+		.cmd-card {
+			background: rgba(0,0,0,0.02);
+			border: 1px solid rgba(0,0,0,0.06);
+			border-radius: 14px;
+			padding: 18px;
+			margin-bottom: 14px;
+			transition: all 0.2s ease;
+		}
+
+		.cmd-card:hover {
+			background: rgba(79, 70, 229, 0.03);
+			border-color: rgba(79, 70, 229, 0.15);
+		}
+
+		.cmd-name {
+			font-size: 15px;
+			font-weight: 700;
+			color: var(--accent-1);
+			margin-bottom: 8px;
+			font-family: 'SF Mono', monospace;
+		}
+
+		.cmd-desc {
+			font-size: 14px;
+			color: var(--text-secondary);
+			line-height: 1.6;
+			margin-bottom: 10px;
+		}
+
+		.cmd-example {
+			font-size: 13px;
+			color: var(--accent-4);
+			background: rgba(16, 185, 129, 0.1);
+			padding: 8px 12px;
+			border-radius: 8px;
+			font-family: 'SF Mono', monospace;
+			border: 1px solid rgba(16, 185, 129, 0.2);
+		}
+
+		.tip-box {
+			background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
+			border: 1px solid rgba(245, 158, 11, 0.2);
+			border-radius: 12px;
+			padding: 16px 20px;
+			margin-top: 24px;
+		}
+
+		.tip-text {
+			font-size: 14px;
+			color: #d97706;
+			font-weight: 500;
+		}
+
+		.search-results {
+			position: absolute;
+			top: calc(100% + 8px);
+			left: 0;
+			right: 0;
+			background: white;
+			border: 1px solid rgba(0,0,0,0.08);
+			border-radius: 16px;
+			overflow: hidden;
+			max-height: 350px;
+			overflow-y: auto;
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(-10px);
+			transition: all 0.2s ease;
+			z-index: 10;
+			box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+		}
+
+		.search-results.show {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
+		.search-item {
+			padding: 14px 18px;
+			border-bottom: 1px solid rgba(0,0,0,0.05);
+			cursor: pointer;
+			transition: all 0.2s ease;
+		}
+
+		.search-item:hover {
+			background: rgba(79, 70, 229, 0.05);
+		}
+
+		.search-module {
+			font-size: 11px;
+			color: var(--accent-2);
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			margin-bottom: 4px;
+		}
+
+		.search-cmd {
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--text-primary);
+			margin-bottom: 4px;
+		}
+
+		.search-desc {
+			font-size: 12px;
+			color: var(--text-secondary);
+		}
+
+		mark {
+			background: rgba(245, 158, 11, 0.2);
+			color: #d97706;
+			padding: 0 2px;
+			border-radius: 3px;
+		}
+
+		@media (max-width: 768px) {
+			.header { flex-direction: column; margin: 12px; padding: 16px; }
+			.search-container { width: 100%; flex-direction: column; }
+			.main-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 10px; }
+			.func-card { padding: 18px 8px; border-radius: 16px; }
+			.func-icon { font-size: 26px; margin-bottom: 10px; }
+			.func-name { font-size: 12px; }
+		}
+
+		@media (max-width: 380px) {
+			.main-grid { gap: 8px; }
+			.func-card { padding: 14px 6px; }
+			.func-icon { font-size: 22px; }
+			.func-name { font-size: 11px; }
+		}
+	</style>
+</head>
+<body>
+	<header class="header">
+		<div class="logo">
+			<div class="logo-icon"><i class="fas fa-robot"></i></div>
+			<div class="logo-text">Fox群管·说明书</div>
+		</div>
+		<div class="search-container">
+			<div class="search-box">
+				<i class="fas fa-search search-icon"></i>
+				<input type="text" class="search-input" placeholder="搜索指令（名称/说明/示例）..." id="searchInput">
+				<div class="search-results" id="searchResults"></div>
+			</div>
+			<div class="search-box">
+				<i class="fas fa-filter search-icon"></i>
+				<input type="text" class="search-input" placeholder="搜索变量（名称/说明/用途）..." id="varSearchInput">
+				<div class="search-results" id="varSearchResults"></div>
+			</div>
+		</div>
+	</header>
+
+	<div class="main-grid" id="mainGrid"></div>
+
+	<div class="modal-overlay" id="modalOverlay">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="modal-title" id="modalTitle">模块详情</div>
+				<button class="close-btn" id="closeModal"><i class="fas fa-times"></i></button>
+			</div>
+			<div class="modal-body" id="modalBody"></div>
+		</div>
+	</div>
+
+	<script>
+		/* ========= 所有40个模块（完整保留原始数据） ========= */
+		const modules = [
+			{
+				name: "群管功能",
+				icon: "users-cog",
+				content: `清屏|快速清空当前群内机器人可清理的聊天记录,净化群聊界面|清屏[换行]踢@某人|将群内被@的指定成员移出当前群组|踢@小明[换行]踢黑@某人|踢出被@成员并将其加入本群黑名单,禁止其再次申请入群|踢黑@广告号[换行]多群同踢+QQ|在机器人管理的所有授权群内,同步踢出该QQ号码对应的成员|多群同踢12345678[换行]解禁@某人|解除对被@群成员的禁言状态,恢复其发言权限|解禁@小李[换行]禁言@某人 分钟|对被@成员执行禁言,禁言时长为空格后填写的分钟数|禁言@张三 10[换行]一键解禁|一次性解除当前群内所有被禁言成员的禁言限制|一键解禁[换行]全体禁言|开启当前群全员禁言模式,仅管理员与机器人可发言|全体禁言[换行]全体解禁|关闭当前群全员禁言模式,恢复普通成员发言权限|全体解禁[换行]艾特全体+内容|@全体成员并发送指令后跟的提示或通知内容|艾特全体今晚8点开会[换行]撤+QQ 条数|撤回指定QQ号在群内发送的对应条数的聊天消息|撤123456 5[换行]撤以上+条数|撤回当前聊天位置上方指定数量的群内消息|撤以上10[换行]延迟撤回+秒|群成员发送消息后,延迟指定秒数自动撤回该消息|延迟撤回3[换行]自身撤回+秒|机器人自己发送的消息,按设定秒数延迟自动撤回|自身撤回5[换行]发公告+内容|机器人在群内发送设定好的群公告内容|发公告禁止广告刷屏`,
+				tips: "本模块所有指令在实际输入使用时，不需要输入加号，直接把指令文字和数字连在一起写即可生效。"
+			},
+			{
+				name: "功能开关",
+				icon: "toggle-on",
+				content: `管理权限开/关|控制机器人在本群是否拥有踢人、禁言、撤回等基础管理权限|管理权限开[换行]菜单权限开/关|控制普通群成员是否可以调用机器人功能菜单指令|菜单权限关[换行]图片模式开/关|控制机器人是否以图片形式展示功能菜单,而非纯文字|图片模式开[换行]引用模式开/关|控制机器人回复消息时,是否引用用户原消息内容|引用模式关[换行]静默模式开/关|开启后机器人减少多余提示输出,只执行核心操作不啰嗦|静默模式开[换行]退群撤回开/关|控制成员退群时,机器人是否自动撤回其在群内的历史消息|退群撤回关[换行]撤回转发开/关|控制撤回违规消息后,是否将记录转发给群管理员留存|撤回转发开[换行]表情回应开/关|控制机器人是否对群消息自动发送表情进行互动回应|表情回应关[换行]整点报时开/关|控制机器人是否在每个整点自动发送报时消息|整点报时开`,
+				tips: ""
+			},
+			{
+				name: "权限管理",
+				icon: "user-shield",
+				content: `所有权限开/关|一键全开或全关机器人在本群的全部超管权限|所有权限开[换行]问答权限开/关|控制机器人关键词问答、自动回复功能的超管权限开关|问答权限关[换行]名单权限开/关|控制黑白名单添加、查询、删除等管理功能的超管权限开关|名单权限开[换行]名片权限开/关|控制群名片规范、强制改名等名片管理功能的超管权限开关|名片权限关[换行]审核权限开/关|控制新成员入群条件审核、过滤功能的超管权限开关|审核权限开[换行]验证权限开/关|控制入群人机验证、答题验证功能的超管权限开关|验证权限关[换行]提示权限开/关|控制入群欢迎、退群提醒、违规提示等功能的超管权限开关|提示权限开[换行]广告权限开/关|控制广告检测、违禁词识别屏蔽功能的超管权限开关|广告权限关[换行]定时权限开/关|控制定时消息、定时任务是否正常执行的超管权限开关|定时权限开[换行]循环权限开/关|控制循环播报、重复任务功能是否生效的超管权限开关|循环权限关[换行]引流权限开/关|控制外部引流、微信导流等行为检测的超管权限开关|引流权限开[换行]积分权限开/关|控制积分签到、发言积分、商城等功能的超管权限开关|积分权限关[换行]撤禁权限开/关|控制自动撤回、自动禁言处罚功能的超管权限开关|撤禁权限开[换行]刷屏权限开/关|控制刷屏检测、刷屏惩罚功能的超管权限开关|刷屏权限关[换行]发言权限开/关|控制发言统计、排行榜数据记录的超管权限开关|发言权限开[换行]针对权限开/关|控制是否可对指定用户单独执行撤回、禁言的超管权限开关|针对权限关[换行]头衔权限开/关|控制群头衔自助申请、管理功能的超管权限开关|头衔权限开[换行]清人权限开/关|控制按条件清理僵尸号、低质量成员功能的超管权限开关|清人权限关`,
+				tips: "本模块所有开关均为超管专属权限，用于精细化分配机器人功能权限，普通管理员无修改权限。"
+			},
+			{
+				name: "撤回系统",
+				icon: "undo",
+				content: `设置禁言时间+分钟|设置成员发送违规内容后,系统自动禁言的默认时长|设置禁言时间5[换行]设置号码位数+数量|设置识别手机号、QQ号等违规数字串的判定位数标准|设置号码位数11[换行]撤禁违规提示开/关|执行撤回或禁言操作时,是否在群内公开提示违规行为|撤禁违规提示开[换行]红包撤回开/关|是否自动撤回群内成员发送的红包消息|红包撤回关[换行]图片撤回开/关|是否自动撤回群内发送的图片类消息|图片撤回开[换行]表情撤回开/关|是否自动撤回群内发送的大表情、表情包、动图消息|表情撤回关[换行]语音撤回开/关|是否自动撤回群内发送的语音条消息|语音撤回开[换行]卡片撤回开/关|是否自动撤回群内小程序、分享卡片、商品卡片消息|卡片撤回关[换行]链接撤回开/关|是否自动撤回群内外部网址、推广链接消息|链接撤回开[换行]号码撤回开/关|是否自动撤回群内手机号、QQ号、微信号等数字串消息|号码撤回关[换行]视频撤回开/关|是否自动撤回群内发送的短视频、视频文件消息|视频撤回开[换行]合并撤回开/关|是否自动撤回群内合并转发的聊天记录消息|合并撤回关[换行]鉴黄撤回开/关|是否识别涉黄图片并自动撤回|鉴黄撤回开[换行]二维码撤回开/关|是否自动撤回群内二维码图片类消息|二维码撤回关`,
+				tips: ""
+			},
+			{
+				name: "禁言系统",
+				icon: "microphone-slash",
+				content: `设置禁言时间+分钟|设置成员发送对应违规内容后自动禁言的时长|设置禁言时间5[换行]设置号码位数+数量|设置识别手机号、QQ号等违规号码的位数标准|设置号码位数11[换行]撤禁违规提示开/关|对违规成员执行禁言时,是否在群内进行提示|撤禁违规提示开[换行]红包禁言开/关|成员发送红包消息时,是否自动执行禁言|红包禁言关[换行]图片禁言开/关|成员发送图片消息时,是否自动执行禁言|图片禁言开[换行]表情禁言开/关|成员发送表情、动图消息时,是否自动执行禁言|表情禁言关[换行]语音禁言开/关|成员发送语音消息时,是否自动执行禁言|语音禁言开[换行]卡片禁言开/关|成员发送小程序、卡片消息时,是否自动执行禁言|卡片禁言关[换行]链接禁言开/关|成员发送外部链接时,是否自动执行禁言|链接禁言开[换行]号码禁言开/关|成员发送手机号、QQ号时,是否自动执行禁言|号码禁言关[换行]视频禁言开/关|成员发送视频消息时,是否自动执行禁言|视频禁言开[换行]合并禁言开/关|成员发送合并记录消息时,是否自动执行禁言|合并禁言关[换行]鉴黄禁言开/关|成员发送涉黄内容时,是否自动执行禁言|鉴黄禁言开[换行]二维码禁言开/关|成员发送二维码消息时,是否自动执行禁言|二维码禁言关`,
+				tips: ""
+			},
+			{
+				name: "踢出系统",
+				icon: "user-times",
+				content: `设置禁言时间+分钟|设置违规后默认禁言时长,部分踢出操作会联动生效|设置禁言时间5[换行]设置号码位数+数量|设置识别手机号、QQ号等违规号码的位数标准|设置号码位数11[换行]撤禁违规提示开/关|执行踢出操作时,是否在群内提示违规行为|撤禁违规提示开[换行]红包踢出开/关|成员发送红包消息时,是否直接踢出群组|红包踢出关[换行]图片踢出开/关|成员发送图片消息时,是否直接踢出群组|图片踢出关[换行]表情踢出开/关|成员发送表情、动图消息时,是否直接踢出群组|表情踢出关[换行]语音踢出开/关|成员发送语音消息时,是否直接踢出群组|语音踢出关[换行]卡片踢出开/关|成员发送小程序、卡片消息时,是否直接踢出群组|卡片踢出关[换行]链接踢出开/关|成员发送外部链接时,是否直接踢出群组|链接踢出关[换行]号码踢出开/关|成员发送手机号、QQ号时,是否直接踢出群组|号码踢出关[换行]视频踢出开/关|成员发送视频消息时,是否直接踢出群组|视频踢出关[换行]合并踢出开/关|成员发送合并记录消息时,是否直接踢出群组|合并踢出关[换行]鉴黄踢出开/关|成员发送涉黄内容时,是否直接踢出群组|鉴黄踢出开[换行]二维码踢出开/关|成员发送二维码消息时,是否直接踢出群组|二维码踢出关`,
+				tips: ""
+			},
+			{
+				name: "定时任务",
+				icon: "clock",
+				content: `定时任务开/关|控制定时发送消息任务是否启用|定时任务开[换行]循环任务开/关|控制循环播报、重复执行任务功能是否启用|循环任务开[换行]查定时任务列表|查看当前群所有定时任务的详细列表|查定时任务列表[换行]查循环任务列表|查看当前群所有循环任务的详细列表|查循环任务列表[换行]查定时任务+序号|查询指定序号的定时任务详细信息|查定时任务1[换行]查循环任务+序号|查询指定序号的循环任务详细信息|查循环任务2[换行]删定时任务+序号|删除指定序号的定时任务|删定时任务1[换行]删循环任务+序号|删除指定序号的循环任务|删循环任务2[换行]添加循环任务 间隔 内容|添加循环任务,间隔单位为秒,后跟需要播报的内容|添加循环任务 60 整点报时[换行]添加定时任务 小时 分钟 内容|添加定点执行任务,指定执行的小时、分钟与内容|添加定时任务 20 0 晚上8点开会`,
+				tips: "定时禁言：添加定时任务 23 59 [全体禁言]；定时解禁：添加定时任务 06 59 [全体解禁] "
+			},
+			{
+				name: "发言统计",
+				icon: "chart-bar",
+				content: `查发言|查看自己在当前群内的累计发言条数|查发言[换行]查发言+QQ|查询指定QQ号在群内的发言统计数据|查发言123456[换行]昨日排行|查看群内昨日发言量排行榜|昨日排行[换行]发言日榜|查看群内今日发言量排行榜|发言日榜[换行]发言周榜|查看群内本周发言量排行榜|发言周榜[换行]发言月榜|查看群内本月发言量排行榜|发言月榜[换行]重置日榜|清空今日发言统计数据|重置日榜[换行]重置周榜|清空本周发言统计数据|重置周榜[换行]重置月榜|清空本月发言统计数据|重置月榜[换行]重置统计+QQ|清空指定QQ号的全部发言记录|重置统计123456`,
+				tips: ""
+			},
+			{
+				name: "管理设置",
+				icon: "tools",
+				content: `上管+QQ|将指定QQ号设为当前群的管理员|上管123456[换行]下管+QQ|撤销指定QQ号的当前群管理员身份|下管123456[换行]查超管列表|查看机器人所有超级管理员名单|查超管列表[换行]添加超管+QQ|将指定QQ号添加为机器人超级管理员|添加超管123456[换行]删除超管+QQ|将指定QQ号从机器人超级管理员列表中移除|删除超管123456`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "广告检测",
+				icon: "ad",
+				content: `查警告+QQ|查询指定QQ号的广告违规警告次数|查警告123456[换行]添加警告+QQ|给指定QQ号手动添加一次广告警告|添加警告123456[换行]清除警告+QQ|清除指定QQ号的所有广告警告记录|清除警告123456[换行]清空本群警告|清空当前群所有成员的广告警告记录|清空本群警告[换行]全局广告检测开/关|开启/关闭机器人全群服范围的广告检测功能|全局广告检测开[换行]分群广告检测开/关|开启/关闭当前群的广告检测功能|分群广告检测开[换行]广告违规提示开/关|发现广告违规时,是否在群内发送提示|广告违规提示开[换行]广告违规转发开/关|发现广告违规时,是否将消息转发给管理员|广告违规转发开[换行]图文检测开/关|是否对图片中的文字进行广告识别检测|图文检测开[换行]警告提示开/关|给成员发送警告时,是否发送提示语|警告提示开[换行]警告踢出次数+次数|设置累计警告多少次后自动踢出成员|警告踢出次数3[换行]警告禁言次数+次数 分钟|设置累计警告多少次后禁言指定分钟数|警告禁言次数210[换行]广告禁言时间+分钟|设置发送广告直接禁言的时长(分钟)|广告禁言时间10[换行]查模糊违禁词|查看当前群模糊匹配的违禁词列表|查模糊违禁词[换行]查精准违禁词|查看当前群精准匹配的违禁词列表|查精准违禁词[换行]删模糊违禁词|删除当前群所有模糊匹配违禁词|删模糊违禁词[换行]删精准违禁词|删除当前群所有精准匹配违禁词|删精准违禁词[换行]清空违禁词|清空当前群所有广告违禁词数据|清空违禁词[换行]删违禁词+违禁词|删除指定的单个违禁词|删违禁词兼职[换行]添加模糊词+违禁词 类型|添加模糊匹配违禁词并指定处罚类型|添加模糊词微信禁言[换行]添加精准词+违禁词 类型|添加精准匹配违禁词并指定处罚类型|添加精准词加v踢出`,
+				tips: "操作类型包括禁言、踢出、警告、撤回等,可根据管理需求选择。"
+			},
+			{
+				name: "黑白名单",
+				icon: "list",
+				content: `全局名单|切换查看机器人全局黑白名单|全局名单[换行]踢出加黑开/关|踢出成员时是否自动将其加入本群黑名单|踢出加黑开[换行]退群加黑开/关|成员主动退群时是否自动将其加入本群黑名单|退群加黑关[换行]查黑名单列表|查看当前群黑名单全部成员|查黑名单列表[换行]查白名单列表|查看当前群白名单全部成员|查白名单列表[换行]查名单+QQ|查询指定QQ号在本群的黑白名单状态|查名单123456[换行]加黑+QQ#备注|将指定QQ号加入本群黑名单,可添加备注说明|加黑123456#广告号[换行]加白+QQ#备注|将指定QQ号加入本群白名单,豁免所有检测|加白123456#管理[换行]删黑+QQ|将指定QQ号移出本群黑名单|删黑123456[换行]删白+QQ|将指定QQ号移出本群白名单|删白123456[换行]清理群黑名单|清理本群无效、过期的黑名单用户|清理群黑名单[换行]清空群黑名单|清空本群所有黑名单数据|清空群黑名单[换行]清空群白名单|清空本群所有白名单数据|清空群白名单[换行]清空群黑白名单|一键清空本群黑白名单所有记录|清空群黑白名单`,
+				tips: "批量添加/删除多个QQ用空格分隔;备注内容可以留空不写。"
+			},
+			{
+				name: "全局名单",
+				icon: "globe",
+				content: `踢出全局黑开/关|踢出成员时是否自动将其加入机器人全局黑名单|踢出全局黑开[换行]退群全局黑开/关|成员主动退群时是否自动将其加入机器人全局黑名单|退群全局黑关[换行]查全局黑名单列表|查看机器人全服范围的黑名单|查全局黑名单列表[换行]查全局白名单列表|查看机器人全服范围的白名单|查全局白名单列表[换行]加全局黑+QQ#备注|将指定QQ号加入机器人全局黑名单|加全局黑123456#惯犯[换行]加全局白+QQ#备注|将指定QQ号加入机器人全局白名单|加全局白123456#总管理[换行]删全局黑+QQ|将指定QQ号移出机器人全局黑名单|删全局黑123456[换行]删全局白+QQ|将指定QQ号移出机器人全局白名单|删全局白123456[换行]清理全局黑名单|清理机器人全局无效、过期的黑名单记录|清理全局黑名单[换行]清空全局黑名单|清空机器人所有全局黑名单数据|清空全局黑名单[换行]清空全局白名单|清空机器人所有全局白名单数据|清空全局白名单[换行]清空全局黑白名单|一键清空机器人全服所有黑白名单记录|清空全局黑白名单`,
+				tips: "批量添加/删除多个QQ用空格分隔;备注内容可以留空不写。"
+			},
+			{
+				name: "名片管理",
+				icon: "id-card",
+				content: `入群改名开/关|新成员入群时是否强制要求修改群名片|入群改名开[换行]改名提示开/关|是否提示未按格式修改群名片的成员|改名提示开[换行]发言改名开/关|未按要求改名的成员是否无法发言|发言改名开[换行]过滤字符开/关|是否自动过滤群名片中的特殊字符|过滤字符开[换行]名片锁定开/关|是否锁定群名片,不允许成员随意修改|名片锁定开[换行]改名片+QQ 新名片|修改指定QQ号的群名片为新内容|改名片123456 管理-小明[换行]清空名片记录|清空群内所有名片修改记录|清空名片记录[换行]删名片记录+QQ|删除指定QQ号的名片修改记录|删名片记录123456[换行]设置名片格式男+格式|设置男性成员的默认群名片格式|设置名片格式男男-昵称[换行]设置名片格式女+格式|设置女性成员的默认群名片格式|设置名片格式女女-昵称[换行]设置名片格式未知+格式|设置性别未知成员的默认群名片格式|设置名片格式未知友-昵称[换行]违规名片检测开/关|是否开启违规群名片自动检测功能|违规名片检测开[换行]踢出违规名片开/关|是否直接踢出使用违规名片的成员|踢出违规名片关[换行]名片检测间隔+分钟|设置定期检测群名片的间隔时间(分钟)|名片检测间隔60[换行]设置违规名片+内容|设置判定为违规的名片关键词|设置违规名片广告[换行]设置名片违禁词+违禁词|添加群名片不允许使用的违禁词|设置名片违禁词微商`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "清人系统",
+				icon: "user-minus",
+				content: `查重+群号|查询当前群与指定群重复的成员|查重123456789[换行]踢重+群号|踢出当前群与指定群重复的成员|踢重123456789[换行]查等级小于+QQ等级|查询QQ等级低于指定值的群成员|查等级小于10[换行]踢等级小于+QQ等级|踢出QQ等级低于指定值的群成员|踢等级小于5[换行]查未发言大于+天数|查询超过指定天数未发言的群成员|查未发言大于30[换行]踢未发言大于+天数|踢出超过指定天数未发言的群成员|踢未发言大于90[换行]查入群小于+天数|查询入群时间短于指定天数的群成员|查入群小于7[换行]踢入群小于+天数|踢出入群时间短于指定天数的群成员|踢入群小于1[换行]查Q龄小于+Q龄|查询Q龄小于指定年数的群成员|查Q龄小于1[换行]踢Q龄小于+Q龄|踢出Q龄小于指定年数的群成员|踢Q龄小于1[换行]查性别男/女/未知|查询指定性别的群成员|查性别男[换行]踢性别男/女/未知|踢出指定性别的群成员|踢性别未知[换行]查昵称包含+内容|查询昵称包含指定文字的群成员|查昵称包含广告[换行]踢昵称包含+内容|踢出昵称包含指定文字的群成员|踢昵称包含微商[换行]查群名片包含+内容|查询群名片包含指定文字的群成员|查群名片包含兼职[换行]踢群名片包含+内容|踢出群名片包含指定文字的群成员|踢群名片包含推广`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "积分系统",
+				icon: "coins",
+				content: `积分开关|快速打开或关闭积分系统总开关|积分开关[换行]积分设置|进入积分参数设置子菜单|积分设置[换行]积分商城|打开积分兑换商城界面|积分商城[换行]积分排行|查看群内积分余额排行榜|积分排行[换行]积分抽奖|使用积分参与抽奖活动|积分抽奖[换行]发言积分|查看发言获取积分的相关规则|发言积分[换行]我的积分|查询自己当前的积分余额|我的积分[换行]查积分+QQ|查询指定QQ号的积分余额|查积分123456[换行]删用户+QQ|删除指定用户的积分账户数据|删用户123456[换行]积分转让+QQ 数量|将自己的积分转让给指定QQ号,数量为转出值|积分转让123456 100[换行]积分充值比例+数量|设置1元人民币对应多少积分|积分充值比例100[换行]充值赠送比例+数量|设置充值时额外赠送积分的比例|充值赠送比例10[换行]充积分+数量|给自己充值指定数量的积分|充积分1000[换行]送积分+QQ 数量|给指定成员赠送指定数量的积分|送积分123456 200[换行]扣积分+QQ 数量|扣除指定成员指定数量的积分|扣积分123456 50[换行]全员送积分+数量|给群内所有成员发放指定数量的积分|全员送积分100[换行]全员扣积分+数量|扣除群内所有成员指定数量的积分|全员扣积分10`,
+				tips: "指令不带+;参数之间使用空格分隔。"
+			},
+			{
+				name: "积分开关",
+				icon: "power-off",
+				content: `积分系统开/关|积分系统总开关,控制所有积分相关功能是否启用|积分系统开[换行]全局积分开/关|机器人全群服范围积分功能开关|全局积分开[换行]积分签到开/关|是否开启每日签到获取积分功能|积分签到开[换行]积分兑换开/关|是否开放积分兑换物品功能|积分兑换开[换行]邀请积分开/关|邀请新成员入群是否奖励积分|邀请积分开[换行]积分充值开/关|是否开放积分充值功能|积分充值开[换行]积分转让开/关|是否允许成员之间互相转让积分|积分转让开[换行]兑换上限提示开/关|达到兑换上限时是否发送提示|兑换上限提示开[换行]限领上限提示开/关|领取达到上限时是否发送提示|限领上限提示开[换行]重签惩罚提示开/关|重复签到扣分时是否发送提示|重签惩罚提示开[换行]卡密邮箱发送开/关|兑换卡密时是否发送至用户邮箱|卡密邮箱发送关[换行]卡密私聊发送开/关|兑换卡密时是否私聊发送给用户|卡密私聊发送开[换行]退群清空积分开/关|成员退群时是否清空其所有积分|退群清空积分开`,
+				tips: ""
+			},
+			{
+				name: "积分设置",
+				icon: "cog",
+				content: `积分签到指令+内容|自定义触发积分签到的关键词|积分签到指令签到[换行]积分签到数量+数量|设置每次签到获得的积分数量|积分签到数量10[换行]积分兑换指令+内容|自定义触发积分兑换的关键词|积分兑换指令兑换[换行]邀请积分数量+数量|设置邀请一人入群获得的积分数量|邀请积分数量50[换行]重复签到扣积分+数量|设置重复签到扣除的积分数量|重复签到扣积分5`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "积分排行",
+				icon: "chart-line",
+				content: `积分余额排行|查看当前群积分余额最多的成员排行|积分余额排行[换行]积分消费日榜|查看今日群内积分消费排行榜|积分消费日榜[换行]积分消费周榜|查看本周群内积分消费排行榜|积分消费周榜[换行]积分消费月榜|查看本月群内积分消费排行榜|积分消费月榜[换行]积分消费总榜|查看历史总积分消费排行榜|积分消费总榜`,
+				tips: ""
+			},
+			{
+				name: "积分抽奖",
+				icon: "gift",
+				content: `抽奖|使用积分参与一次抽奖活动|抽奖[换行]我的奖品|查看自己获得的所有抽奖奖品|我的奖品[换行]中奖名单|查看近期全部中奖记录|中奖名单[换行]奖品列表|查看当前奖池内的所有奖品|奖品列表[换行]随开随抽|开启随触发随抽奖模式|随开随抽[换行]一开一抽|开启每触发一次仅抽一次的模式|一开一抽[换行]开启/关闭抽奖|全局开启或关闭积分抽奖功能|开启抽奖[换行]设置抽奖次数+次数|设置每人每日可参与抽奖的次数|设置抽奖次数5[换行]设置抽奖积分+数量|设置单次抽奖消耗的积分数量|设置抽奖积分20`,
+				tips: ""
+			},
+			{
+				name: "发言积分",
+				icon: "comment-dots",
+				content: `发言积分开/关|是否开启发言奖励积分功能|发言积分开[换行]发言积分提示开/关|获得发言积分时是否发送提示|发言积分提示开[换行]发言次数限制+次数|设置每日最多通过发言获得积分的次数|发言次数限制50[换行]日发言总积分+数量|设置每日通过发言可获得积分的上限|日发言总积分100[换行]发言积分数量+数量|设置每次发言随机获得的积分数值|发言积分数量1[换行]发言触发概率+数字|设置发言获得积分的概率(百分比)|发言触发概率30`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "人机验证",
+				icon: "shield-alt",
+				content: `免验证+QQ|设置指定QQ号跳过所有入群验证|免验证123456[换行]入群验证码开/关|新成员入群是否需要输入验证码|入群验证码开[换行]设置数字验证码|设置验证码仅使用0-9数字组合|设置数字验证码[换行]设置混合验证码|设置验证码使用数字+字母组合|设置混合验证码[换行]设置算法验证码|设置使用计算类算术验证码|设置算法验证码[换行]入群阅读公告开/关|新成员入群是否需要先阅读群公告|入群阅读公告开[换行]设置公告禁言时间+分钟|设置未读公告成员的禁言时长|设置公告禁言时间5[换行]公告超时时间+分钟|设置阅读公告的限时,超时自动踢出|公告超时时间2[换行]人数控制开/关|群人数达到阈值时是否开启严格控制|人数控制开[换行]设置人数阈值+数量|设置触发严格控制模式的群人数上限|设置人数阈值500[换行]入群付费开/关|是否开启入群付费验证功能|入群付费关[换行]设置付费金额+金额|设置入群需要支付的金额|设置付费金额10[换行]设置付费禁言时间+分钟|设置未付费用户的禁言时长|设置付费禁言时间10[换行]入群发言检测开/关|新成员入群后是否检测其发言行为|入群发言检测开[换行]发言检测时间+分钟|设置新成员发言观察时长|发言检测时间5[换行]入群禁言开/关|新成员入群是否默认禁言|入群禁言开[换行]入群禁言时间+分钟|设置新成员入群默认禁言时长|入群禁言时间1[换行]验证错误次数+次数|设置允许输错验证码的最大次数|验证错误次数3[换行]验证超时时间+分钟|设置验证超时未操作自动踢出的时间|验证超时时间1[换行]验证成功提示开/关|验证通过时是否发送欢迎提示|验证成功提示开[换行]验证超时提示开/关|验证超时时是否发送提示|验证超时提示开`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "审核系统",
+				icon: "check-circle",
+				content: `入群询问开/关|新成员入群时是否弹出验证问题|入群询问开[换行]入群审核开/关|入群审核总开关,是否启用入群条件审核|入群审核开[换行]设置Q龄+Q龄|设置允许入群的最低Q龄(年)|设置Q龄1[换行]设置QQ等级+等级|设置允许入群的最低QQ等级|设置QQ等级5[换行]会员检测开/关|是否拒绝非QQ会员用户入群|会员检测关[换行]昵称检测开/关|是否开启昵称违禁词检测|[换行]添加昵称违禁词+违禁词|添加不允许出现在昵称中的关键词|添加昵称违禁词广告[换行]签名检测开/关|是否开启个人签名违禁词检测|签名检测开[换行]添加签名违禁词+违禁词|添加不允许出现在签名中的关键词|添加签名违禁词兼职[换行]黑名单检测开/关|是否拒绝黑名单用户入群|[换行]重复加群检测开/关|是否拒绝多次退群又加群的用户|重复加群检测开[换行]性别检测开/关|是否按性别筛选入群成员|性别检测关[换行]设置拒绝性别男开/关|是否拒绝男性用户加入本群|设置拒绝性别男关[换行]设置拒绝性别女开/关|是否拒绝女性用户加入本群|设置拒绝性别女关[换行]设置拒绝性别未知开/关|是否拒绝性别保密用户加入本群|设置拒绝性别未知关`,
+				tips: ""
+			},
+			{
+				name: "刷屏检测",
+				icon: "ban",
+				content: `刷屏检测开/关|刷屏检测总开关,是否开启刷屏行为检测|刷屏检测开[换行]刷屏撤回开/关|检测到刷屏后是否自动撤回消息|刷屏撤回开[换行]刷屏提示开/关|检测到刷屏后是否发送警告提示|刷屏提示开[换行]图片检测开/关|是否检测连续发送图片的刷屏行为|图片检测开[换行]设置图片检测+秒数 张|设置几秒内发送几张图片判定为刷屏|设置图片检测5 3[换行]文本检测开/关|是否检测连续发送文字的刷屏行为|文本检测开[换行]设置文本检测+秒数 条数|设置几秒内发送几条消息判定为刷屏|设置文本检测3 10[换行]设置字数禁言+字数|设置单条消息超过多少字自动禁言|设置字数禁言200[换行]设置字数撤回+字数|设置单条消息超过多少字自动撤回|设置字数撤回300[换行]设置行数禁言+字数|设置单条消息超过多少行自动禁言|设置行数禁言10[换行]设置行数撤回+字数|设置单条消息超过多少行自动撤回|设置行数撤回15[换行]刷屏禁言时间+分钟|设置刷屏违规后的禁言时长|刷屏禁言时间10[换行]累计刷屏踢出+次数|设置累计刷屏多少次后自动踢出|累计刷屏踢出5[换行]累计刷屏禁言+次数 分钟|设置累计几次刷屏后禁言指定分钟数|累计刷屏禁言3 30`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "顺序回复",
+				icon: "reply-all",
+				content: `顺序回复开/关|开启按顺序自动回复模式|顺序回复开[换行]设置延迟回复+秒|设置每条回复之间的间隔秒数|设置延迟回复2[换行]重复回复次数+次数|设置触发后循环回复的次数|重复回复次数3[换行]添加回复+内容|向顺序回复库添加一条内容|添加回复你好[换行]删除回复+内容ID|根据ID删除指定的回复内容|删除回复1[换行]查顺序回复列表|查看所有顺序回复内容列表|查顺序回复列表[换行]重置回复记录|清空回复顺序与发送记录|重置回复记录`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "提示系统",
+				icon: "bell",
+				content: `入群欢迎开关|新成员入群是否发送欢迎语|入群欢迎开关开[换行]邀请提示开关|有人邀请成员入群是否发送提示|邀请提示开关开[换行]入群私聊开关|新成员入群是否私聊发送提示|入群私聊开关开[换行]退群提示开/关|成员退群时是否在公屏发送提示|退群提示关[换行]踢出提示开/关|成员被踢出时是否发送提示及原因|踢出提示开[换行]管理变动开/关|管理员上下任时是否发送提示|管理变动开[换行]防撤回提示开/关|有人撤回消息时是否发送提示|防撤回提示开[换行]防撤回转发开/关|有人撤回消息时是否转发给管理员|防撤回转发开[换行]设置入群提示语+内容|自定义新成员入群欢迎语|设置入群提示语欢迎加入本群[换行]设置邀请提示语+内容|自定义邀请成员成功的提示语|设置邀请提示语邀请成功[换行]设置私聊提示语+内容|自定义入群私聊提示内容|设置私聊提示语请遵守群规[换行]设置退群提示语+内容|自定义成员退群提示语|设置退群提示语成员已退群[换行]设置踢出提示语+内容|自定义踢出成员的公示语|设置踢出提示语违规已踢出`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "头衔管理",
+				icon: "crown",
+				content: `自助申请头衔开/关|是否允许成员自助申请群头衔|自助申请头衔开[换行]申请头衔价格+价格|设置申请头衔所需的积分数量|申请头衔价格100[换行]设置申请方式永久|设置头衔申请后永久有效|设置申请方式永久[换行]设置申请方式按月|设置头衔按月订阅,到期自动失效|设置申请方式按月[换行]查头衔到期|查看自己头衔的到期时间|查头衔到期[换行]申请头衔 头衔|申请指定名称的群头衔|申请头衔管理员[换行]申请头衔 头衔 时长|申请指定名称和使用时长的群头衔|申请头衔贵宾30[换行]收回头衔+QQ|收回指定成员的群头衔|收回头衔123456[换行]授头衔+QQ 头衔|直接授予指定成员指定的群头衔|授头衔123456 管理[换行]查头衔违禁词|查看不允许使用的头衔违禁词列表|查头衔违禁词[换行]清空头衔违禁词|清空所有头衔违禁词|清空头衔违禁词[换行]删头衔违禁词+违禁词|删除指定的头衔违禁词|删头衔违禁词总裁[换行]加头衔违禁词+违禁词|添加不允许使用的头衔违禁词|加头衔违禁词官方[换行]无头衔提示开/关|无头衔成员发言时是否发送提示|无头衔提示开[换行]无头衔禁言开/关|是否对无头衔成员执行禁言|无头衔禁言关[换行]无头衔撤回开/关|是否自动撤回无头衔成员的发言|无头衔撤回关[换行]无头衔禁言时间+分钟|设置无头衔成员的禁言时长|无头衔禁言时间1[换行]清空头衔申请记录|清空所有头衔申请历史记录|清空头衔申请记录`,
+				tips: ""
+			},
+			{
+				name: "问答系统",
+				icon: "question-circle",
+				content: `全局问答|切换到全局问答设置模式|全局问答[换行]分群问答开/关|当前群是否启用独立的分群问答|分群问答开[换行]查模糊问题|查看当前群模糊匹配的问答列表|查模糊问题[换行]查精准问题|查看当前群精准匹配的问答列表|查精准问题[换行]清空问题|清空当前群所有问答规则|清空问题[换行]清空模糊问题|清空当前群所有模糊匹配问答|清空模糊问题[换行]清空精准问题|清空当前群所有精准匹配问答|清空精准问题[换行]删问题+问题|删除指定问题对应的回复|删问题在吗[换行]问题冷却时长+秒|设置同一问题触发的间隔冷却时间|问题冷却时长5[换行]添加模糊问题+问题#内容|添加模糊关键词匹配的问答|添加模糊问题你好#你好呀[换行]添加精准问题+问题#内容|添加完全匹配的问答|添加精准问题签到#签到成功`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "全局问答",
+				icon: "globe-americas",
+				content: `全局问答开/关|机器人全群服范围问答总开关|全局问答开[换行]查全局模糊问题|查看全服模糊匹配的问答列表|查全局模糊问题[换行]查全局精准问题|查看全服精准匹配的问答列表|查全局精准问题[换行]清空全局问题|清空全服所有问答规则|清空全局问题[换行]清空全局模糊问题|清空全服所有模糊匹配问答|清空全局模糊问题[换行]清空全局精准问题|清空全服所有精准匹配问答|清空全局精准问题[换行]删全局问题+问题|删除全服指定问题对应的回复|删全局问题多少钱[换行]添加全局模糊问题+问题#内容|添加全服模糊关键词匹配的问答|添加全局模糊问题群规#请遵守群规[换行]添加全局精准问题+问题#内容|添加全服完全匹配的问答|添加全局精准问题时间#当前时间`,
+				tips: "本模块指令实际使用时不需要输入加号。"
+			},
+			{
+				name: "邀请统计",
+				icon: "user-plus",
+				content: `我的邀请|查看自己邀请入群的人数|我的邀请[换行]查邀请+QQ|查询指定QQ号邀请入群的人数|查邀请123456[换行]查邀请人+QQ|查询某成员是被谁邀请入群的|查邀请人123456[换行]邀请排行|查看群内邀请数量排行榜|邀请排行[换行]今日排行|查看今日邀请人数排行榜|今日排行[换行]清空邀请统计|清空本群所有邀请统计数据|清空邀请统计[换行]删邀请+QQ|删除指定QQ号的邀请记录|删邀请123456[换行]入群推荐开/关|新成员入群时是否显示邀请人|入群推荐开[换行]邀请推荐开/关|邀请成功后是否发送提示|邀请推荐开`,
+				tips: ""
+			},
+			{
+				name: "针对系统",
+				icon: "crosshairs",
+				content: `针对系统开/关|开启对指定成员的专项限制功能|针对系统开[换行]针对禁言时间+分钟|设置针对模式下的默认禁言时长|针对禁言时间10[换行]针对禁言+QQ|对指定QQ号开启针对性禁言|针对禁言123456[换行]针对撤回+QQ|对指定QQ号发送的所有消息自动撤回|针对撤回123456[换行]删除针对+QQ|解除对指定QQ号的所有针对限制|删除针对123456[换行]清空针对名单|解除所有成员的针对状态|清空针对名单[换行]查针对名单|查看所有被针对的成员列表|查针对名单`,
+				tips: ""
+			},
+			{
+				name: "发卡系统",
+				icon: "credit-card",
+				content: `发卡系统开/关|发卡系统总开关,控制发卡功能是否启用|发卡系统开[换行]商品分类|查看卡密商品的分类列表|商品分类[换行]商品列表|查看可兑换的全部卡密商品|商品列表`,
+				tips: ""
+			},
+			{
+				name: "卡密系统",
+				icon: "key",
+				content: `查未用卡密|查看所有未使用的卡密记录|查未用卡密[换行]删未用卡密|删除所有未使用的卡密|删未用卡密[换行]删已用卡密|删除已经使用过的卡密记录|删已用卡密[换行]删所有卡密|清空系统内全部卡密数据|删所有卡密[换行]生成卡密+数量 天数|批量生成指定数量、指定有效期的卡密|生成卡密100 30[换行]使用卡密+卡密内容|输入卡密兑换对应的权限或服务|使用卡密XXXXXX`,
+				tips: ""
+			},
+			{
+				name: "群发系统",
+				icon: "paper-plane",
+				content: `停止群发|立即中断当前所有正在执行的群发任务|停止群发[换行]定时群发开/关|是否开启定时自动群发功能|定时群发关[换行]设置群发间隔+秒|设置群发消息之间的间隔秒数|设置群发间隔10[换行]设置群发内容+内容|设置群发使用的默认消息内容|设置群发内容群公告[换行]设置指定群号+群号|设置指定群发模式下的目标群号|设置指定群号123456789[换行]群发模式授权群|设置群发范围为所有授权群|群发模式授权群[换行]群发模式所有群|设置群发范围为机器人管理的所有群|群发模式所有群[换行]群发模式指定群|设置群发范围为设定的指定群|群发模式指定群[换行]群发授权群+内容|向所有授权群发送指定内容|群发授权群通知[换行]群发所有群+内容|向机器人管理的所有群发送指定内容|群发所有群公告[换行]群发指定群+内容|向设定的指定群发送指定内容|群发指定群提醒[换行]群发好友+内容|向机器人的所有好友发送消息|群发好友通知[换行]群发私聊+内容|向用户私聊批量发送消息|群发私聊您好`,
+				tips: ""
+			},
+			{
+				name: "其他指令",
+				icon: "ellipsis-h",
+				content: `测试报时|测试机器人整点报时功能是否正常|测试报时[换行]更新菜单|重新加载机器人功能菜单|更新菜单[换行]更新日志|查看机器人最近的更新内容|更新日志[换行]更新插件|在线升级机器人插件|更新插件[换行]重启框架|重启机器人核心运行环境|重启框架[换行]克隆配置+配置群号|从指定群复制所有功能配置到当前群|克隆配置123456789[换行]克隆到授权群+配置群号|将指定群的配置同步到所有授权群|克隆到授权群123456789`,
+				tips: ""
+			},
+			{
+				name: "授权系统",
+				icon: "certificate",
+				content: `授权信息|查看当前群的授权到期时间|授权信息[换行]退群|机器人主动退出当前群|退群[换行]退到期群|机器人自动退出所有已过期的群|退到期群[换行]清空群授权|清空所有群的授权记录|清空群授权[换行]删本群授权|删除当前群的授权记录|删本群授权[换行]删到期群授权|删除所有已过期群的授权记录|删到期群授权[换行]续费群+月数|为当前群续费指定月数|续费群1[换行]更换群管+新群管QQ|更换当前群的群管QQ|更换群管750708031[换行]更换授权+新群号|将当前群的授权转移到新群号|更换授权987654321[换行]授权群+群管QQ 天数|为指定群授权指定天数|授权群123456 30[换行]一键续到期+天数|为所有即将到期的群统一续期|一键续到期30[换行]一键加时长±天数|为所有授权群统一增加或减少时长|一键加时长7[换行]免授权体验+天数|开启免授权体验模式指定天数|免授权体验7`,
+				tips: "本模块所有指令需在群内发送才能生效。"
+			},
+			{
+				name: "私聊指令",
+				icon: "comment-dots",
+				content: `查授权+群号|查询指定群的授权信息|查授权123456789[换行]退到期群|机器人自动退出所有已过期的群|退到期群[换行]退群+群号|让机器人退出指定群号的群|退群123456789[换行]清空群授权|清空所有群的授权记录|清空群授权[换行]删授权+群号|删除指定群的授权记录|删授权123456789[换行]删到期群授权|删除所有已过期群的授权记录|删到期群授权[换行]续费群+群号 月数|为指定群续费指定月数|续费群123456789 1[换行]更换群管+群号 新群管QQ|更换指定群的群管QQ|更换群管123456789 987654321[换行]更换授权+原群号 新群号|将原群的授权转移到新群号|更换授权123456789 987654321[换行]授权群+群号 群管QQ 天数|为指定群授权指定天数|授权群123456789 123456 30[换行]一键续到期+天数|为所有即将到期的群统一续期|一键续到期30[换行]一键加时长±天数|为所有授权群统一增加或减少时长|一键加时长7[换行]免授权体验+天数|开启免授权体验模式指定天数|免授权体验7`,
+				tips: "本模块所有指令需私聊机器人才能生效。"
+			},
+			{
+				name: "召唤系统",
+				icon: "bell-concierge",
+				content: `停止召唤|立即停止所有召唤操作|停止召唤[换行]超级召唤|召唤群内所有在线成员|超级召唤[换行]超级召唤+内容|召唤群内所有在线成员并发送指定内容|超级召唤开会了[换行]召唤管理|召唤群内所有管理员|召唤管理[换行]召唤管理+内容|召唤群内所有管理员并发送指定内容|召唤管理有紧急事情`,
+				tips: "召唤功能用于快速通知群内成员，建议亲切问候每一个成员。"
+			},
+			{
+				name: "查询配置",
+				icon: "search",
+				content: `查分群开关|查看当前群所有功能开关的状态|查分群开关[换行]查人机配置|查看人机验证模块的所有配置|查人机配置[换行]查引流配置|查看引流检测模块的所有配置|查引流配置[换行]查积分配置|查看积分系统的所有配置|查积分配置[换行]查刷屏配置|查看刷屏检测模块的所有配置|查刷屏配置[换行]查提示配置|查看提示系统的所有配置|查提示配置`,
+				tips: ""
+			},
+			{
+				name: "【全局】变量列表",
+				icon: "globe",
+				content: `[QQ:At-A]|全局|艾特主动|一般指主动发消息或邀请人|[QQ:At-A] 你好[换行][QQ:At-B]|全局|艾特被动|一般指被邀请人|[QQ:At-B] 欢迎加入[换行][QQ:A-Q]|全局|主动QQ|一般指主动发消息或邀请人QQ|用户[QQ:A-Q] 已入群[换行][QQ:B-Q]|全局|被动QQ|一般指被邀请人QQ|用户[QQ:B-Q] 被邀请[换行][QQ:A-Nick]|全局|主动昵称|一般指主动发消息或邀请人昵称|昵称[QQ:A-Nick] 发言[换行][QQ:B-Nick]|全局|被动昵称|一般指被邀请人昵称|昵称[QQ:B-Nick] 加入[换行][QQ:A-tx]|全局|主动头像|一般指主动发消息或邀请人头像|头像[QQ:A-tx] 展示[换行][QQ:B-tx]|全局|被动头像|一般指被邀请人头像|头像[QQ:B-tx] 查看[换行][NumTime]|全局|当前时间|例:09:00|当前时间[NumTime][换行][Week]|全局|星期|星期一、二、三、四、五、六、日|今天是[Week][换行][TimePer]|全局|时段|凌晨、上午、中午、下午、傍晚、晚上|当前时段[TimePer][换行][Time]|全局|北京时间|例:2022-03-01 00:00:00|当前时间[Time][换行][Face]|全局|随机表情|随机小黄脸表情|表情[Face][换行][Num=1-10]|全局|随机数字|1-10之间随机数字，数字区间可调整|随机数[Num=1-10][换行][pic=路径]|全局|发送本地图片|[pic=D:/pic/1.jpg]|图片[pic=D:/pic/1.jpg][换行][NetPic=url]|全局|发送网络图片|[NetPic=http://xxx.cn/1.jpg]|网络图片[NetPic=http://xxx.cn/1.jpg][换行][群号]|全局|群号|当前群号|群[群号] 欢迎你[换行][群名称]|全局|群名称|当前群名称|群[群名称] 通知[换行][群人数]|全局|当前群人数|当前群人数|群人数[群人数][换行][邀请人数]|全局|邀请总人数|邀请总人数|邀请人数[邀请人数][换行][退踢人数]|全局|邀请进群后退/踢人数|邀请进群后退/踢人数|退踢人数[退踢人数][换行][有效人数]|全局|有效邀请人数|有效邀请人数|有效人数[有效人数][换行][当前积分]|全局|当前积分数量|当前积分数量|你的积分：[当前积分][换行][艾特全体]|全局|艾特全体成|艾特全体|@全体成员[艾特全体] 开会[换行][会员级别]|全局|成功返回SVIP1/VIP1/普通用户|(仅限My、小栗子)用于群名片格式等，失败返回普通用户|会员[会员级别] 享特权`,
+				tips: "这个变量列表里面的变量为**全局变量**，可在任意回复中添加使用。"
+			},
+			{
+				name: "【局部】变量列表",
+				icon: "map-marker-alt",
+				content: `[违禁词]|局部|违禁词内容|用于广告警告提示语|你发送了[违禁词]，请修改[换行][警告次数]|局部|当前警告次数|用于广告警告提示语|这是第[警告次数]次警告[换行][剩余禁言次数]|局部|距离禁言警告次数|用于广告警告提示语|剩余[剩余禁言次数]次禁言警告[换行][剩余踢出次数]|局部|距离踢出警告次数|用于广告警告提示语|剩余[剩余踢出次数]次踢出警告[换行][违规次数]|局部|累计刷屏次数|用于刷屏检测提示语|累计违规[违规次数]次[换行][剩余次数]|局部|距离禁言、踢出次数|用于刷屏检测提示语|剩余[剩余次数]次处罚机会[换行][禁言时间]|局部|刷屏禁言时间|用于刷屏检测提示语|你已被禁言[禁言时间]分钟[换行][昵称]|局部|QQ昵称|用于群名片格式|昵称[昵称] 已修改[换行][性别]|局部|QQ性别|用于群名片格式，失败返回未知|性别[性别] 已设置[换行][年龄]|局部|QQ年龄|用于群名片格式，失败返回-1|年龄[年龄] 已填写[换行][城市]|局部|资料城市|用于群名片格式，失败返回空|城市[城市] 已更新[换行][全体禁言]|局部|全体禁言|用于定时任务，例：设置定时禁言|执行[全体禁言] 操作[换行][全体解禁]|局部|解除全体禁言|用于定时任务，例：设置定时解禁|执行[全体解禁] 操作[换行][发言日榜]|局部|发言排行日榜|用于定时任务|查看[发言日榜] 数据[换行][发言周榜]|局部|发言排行周榜|用于定时任务|查看[发言周榜] 数据[换行][发言月榜]|局部|发言排行月榜|用于定时任务|查看[发言月榜] 数据[换行][累计邀请排行]|局部|累计邀请人数排行|用于定时任务|查看[累计邀请排行] 数据[换行][今日邀请排行]|局部|今日邀请人数排行|用于定时任务|查看[今日邀请排行] 数据[换行][积分等级]|局部|返回积分数量对应等级名称|仅限于积分签到成功有效|当前等级[积分等级][换行][距离升级]|局部|返回距离升下一级还需要多少积分|仅限于积分签到成功有效|还需[距离升级]积分升级[换行][连续赠送]|局部|返回连续签到额外赠送积分数量|仅限于积分签到成功有效|连续赠送[连续赠送]积分[换行][连续天数]|局部|返回连续签到天数|仅限于积分签到成功有效|连续签到[连续天数]天[换行][签到天数]|局部|返回累计签到天数|仅限于积分签到成功有效|累计签到[签到天数]天[换行][签到名次]|局部|返回当日签到名次|仅限于积分签到成功有效|今日签到[签到名次]名[换行][积分排名]|局部|返回积分余额排名|仅限于积分签到成功、查询积分有效|积分排名[积分排名]位[换行][禁言卡数]|局部|返回禁言卡数量|仅限于查积分有效|剩余[禁言卡数]张禁言卡[换行][免禁卡数]|局部|返回免禁卡数量|仅限于查积分有效|剩余[免禁卡数]张免禁卡[换行][头衔卡数]|局部|返回头衔卡数量|仅限于查积分有效|剩余[头衔卡数]张头衔卡[换行][补签卡数]|局部|返回补签卡数|仅限于查积分有效|剩余[补签卡数]张补签卡`,
+				tips: "这个变量列表里面的都是**局部变量**，只能在固定回复中添加使用，不能全局通用。"
+			}
+		];
+
+		/* ========= 修复屏闪：计算滚动条宽度 ========= */
+		function getScrollbarWidth() {
+			const div = document.createElement('div');
+			div.style.cssText = 'width:100px;height:100px;overflow:scroll;position:absolute;top:-9999px;';
+			document.body.appendChild(div);
+			const width = div.offsetWidth - div.clientWidth;
+			document.body.removeChild(div);
+			return width;
+		}
+
+		const scrollbarWidth = getScrollbarWidth();
+
+		/* ========= 初始化 ========= */
+		document.addEventListener('DOMContentLoaded', () => {
+			renderGrid();
+			bindEvents();
+		});
+
+		function renderGrid() {
+			const grid = document.getElementById('mainGrid');
+			grid.innerHTML = modules.map((mod, index) => `
+				<div class="func-card" data-index="${index}">
+					<i class="fas fa-${mod.icon} func-icon"></i>
+					<div class="func-name">${mod.name}</div>
+				</div>
+			`).join('');
+		}
+
+		/* ========= 事件绑定 ========= */
+		function bindEvents() {
+			document.querySelectorAll('.func-card').forEach(card => {
+				card.addEventListener('click', () => {
+					showModal(modules[card.dataset.index]);
+				});
+			});
+
+			document.getElementById('closeModal').addEventListener('click', closeModal);
+			document.getElementById('modalOverlay').addEventListener('click', (e) => {
+				if (e.target === e.currentTarget) closeModal();
+			});
+
+			// 指令搜索
+			const searchInput = document.getElementById('searchInput');
+			const searchResults = document.getElementById('searchResults');
+			searchInput.addEventListener('input', (e) => {
+				const keyword = e.target.value.trim().toLowerCase();
+				searchResults.innerHTML = '';
+				searchResults.classList.remove('show');
+				if (!keyword) return;
+
+				const matched = [];
+				modules.forEach(mod => {
+					if (!mod.name.includes('变量列表')) {
+						mod.content.split('[换行]').forEach(line => {
+							const parts = line.split('|');
+							if (parts.length >= 3 && (
+								parts[0].toLowerCase().includes(keyword) ||
+								parts[1].toLowerCase().includes(keyword) ||
+								parts[2].toLowerCase().includes(keyword)
+							)) {
+								matched.push({ mod, line });
+							}
+							});
+					}
+				});
+
+				if (matched.length > 0) {
+					matched.forEach(item => {
+						const parts = item.line.split('|');
+						const div = document.createElement('div');
+						div.className = 'search-item';
+						div.innerHTML = `
+							<div class="search-module">【${item.mod.name}】</div>
+							<div class="search-cmd">指令：${highlightKeyword(parts[0], keyword)}</div>
+							<div class="search-desc">说明：${highlightKeyword(parts[1], keyword)}</div>
+						`;
+						div.addEventListener('click', () => {
+							showModal(item.mod, parts[0]);
+							searchResults.classList.remove('show');
+							searchInput.value = '';
+						});
+						searchResults.appendChild(div);
+					});
+					searchResults.classList.add('show');
+				} else {
+					searchResults.innerHTML = '<div class="search-item">未找到匹配的指令</div>';
+					searchResults.classList.add('show');
+				}
+			});
+			
+			// 变量搜索
+			const varSearchInput = document.getElementById('varSearchInput');
+			const varSearchResults = document.getElementById('varSearchResults');
+			varSearchInput.addEventListener('input', (e) => {
+				const keyword = e.target.value.trim().toLowerCase();
+				varSearchResults.innerHTML = '';
+				varSearchResults.classList.remove('show');
+				if (!keyword) return;
+
+				const matched = [];
+				modules.forEach(mod => {
+					if (mod.name.includes('变量列表')) {
+						mod.content.split('[换行]').forEach(line => {
+							const parts = line.split('|');
+							if (parts.length >= 5 && (
+								parts[0].toLowerCase().includes(keyword) ||
+								parts[2].toLowerCase().includes(keyword) ||
+								parts[3].toLowerCase().includes(keyword) ||
+								parts[4].toLowerCase().includes(keyword)
+							)) {
+								matched.push({ mod, line });
+							}
+						});
+					}
+				});
+				
+				if (matched.length > 0) {
+					matched.forEach(item => {
+						const parts = item.line.split('|');
+						const div = document.createElement('div');
+						div.className = 'search-item';
+						div.innerHTML = `
+							<div class="search-module">【${item.mod.name}】</div>
+							<div class="search-cmd">变量：${highlightKeyword(parts[0], keyword)}</div>
+							<div class="search-desc">说明：${highlightKeyword(parts[2], keyword)}</div>
+						`;
+						div.addEventListener('click', () => {
+							showModal(item.mod, parts[0]);
+							varSearchResults.classList.remove('show');
+							varSearchInput.value = '';
+						});
+						varSearchResults.appendChild(div);
+					});
+					varSearchResults.classList.add('show');
+				} else {
+					varSearchResults.innerHTML = '<div class="search-item">未找到匹配的变量</div>';
+					varSearchResults.classList.add('show');
+				}
+			});
+
+			document.addEventListener('click', (e) => {
+				if (!e.target.closest('.search-box')) searchResults.classList.remove('show');
+				if (!e.target.closest('.search-box')) varSearchResults.classList.remove('show');
+			});
+		}
+
+		/* ========= 工具函数 ========= */
+		function highlightKeyword(text, keyword) {
+			if (!keyword) return text;
+			const regex = new RegExp(`(${keyword})`, 'gi');
+			return text.replace(regex, '<mark>$1</mark>');
+		}
+
+		function showModal(module, targetName = null) {
+			const overlay = document.getElementById('modalOverlay');
+			const title = document.getElementById('modalTitle');
+			const body = document.getElementById('modalBody');
+			
+			body.scrollTop = 0;
+			title.textContent = `${module.name} - ${module.name.includes('变量') ? '变量说明' : '指令说明'}`;
+			body.innerHTML = '';
+
+			const lines = module.content.split('[换行]');
+			let targetCard = null;
+
+			lines.forEach(line => {
+				const parts = line.split('|');
+				if (parts.length >= 3) {
+					const card = document.createElement('div');
+					card.className = 'cmd-card';
+					card.dataset.name = parts[0].trim();
+
+					if (module.name.includes('变量列表')) {
+						if (parts.length >= 5) {
+							const [varName, type, desc, use, example] = parts.map(p => p.trim());
+							card.innerHTML = `
+								<div class="cmd-name">变量名：${varName}</div>
+								<div class="cmd-desc">类型：<span style="color:${type === '全局' ? '#10b981' : '#f59e0b'};font-weight:500">${type}</span></div>
+								<div class="cmd-desc">说明：${desc}</div>
+								<div class="cmd-desc">用途：${use}</div>
+								<div class="cmd-example">示例：${example}</div>
+							`;
+						}
+					} else {
+						card.innerHTML = `
+							<div class="cmd-name">指令：${parts[0].trim()}</div>
+							<div class="cmd-desc">说明：${parts[1].trim()}</div>
+							<div class="cmd-example">示例：${parts[2].trim()}</div>
+						`;
+					}
+
+					body.appendChild(card);
+					if (targetName && card.dataset.name === targetName) targetCard = card;
+				}
+			});
+
+			if (module.tips) {
+				const tipBox = document.createElement('div');
+				tipBox.className = 'tip-box';
+				tipBox.innerHTML = `<div class="tip-text">💡 ${module.tips}</div>`;
+				body.appendChild(tipBox);
+			}
+
+			/* ✅ 修复屏闪：补 padding-right */
+			document.body.style.overflow = 'hidden';
+			document.body.style.paddingRight = scrollbarWidth + 'px';
+
+			overlay.classList.add('active');
+			document.body.style.overflow = 'hidden';
+
+			if (targetCard) {
+				const container = document.getElementById('modalBody');
+				const header = document.querySelector('.modal-header');
+				const headerHeight = header.offsetHeight;
+
+				requestAnimationFrame(() => {
+					const containerH = container.clientHeight;
+					const cardH = targetCard.offsetHeight;
+					const scrollTo = targetCard.offsetTop - (containerH - cardH) / 2 - headerHeight;
+					container.scrollTop = Math.max(0, scrollTo);
+					
+					targetCard.style.backgroundColor = '#fff9db';
+					targetCard.style.transition = 'background-color 0.3s';
+					setTimeout(() => {
+						targetCard.style.backgroundColor = '';
+					}, 1500);
+				});
+			}
+		}
+
+		function closeModal() {
+			document.getElementById('modalOverlay').classList.remove('active');
+			document.body.style.overflow = '';
+			document.body.style.paddingRight = '';
+		}
+	</script>
+</body>
+</html>
