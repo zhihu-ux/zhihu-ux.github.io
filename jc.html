@@ -20,9 +20,7 @@
 			--accent-4: #10b981;
 			--accent-5: #f59e0b;
 		}
-
 		* { margin: 0; padding: 0; box-sizing: border-box; }
-
 		body {
 			font-family: 'Outfit', sans-serif;
 			background-color: var(--bg-base);
@@ -33,15 +31,12 @@
 			min-height: 100vh;
 			color: var(--text-primary);
 		}
-
-		/* 修复移动端弹窗屏闪：固定body */
 		body.modal-open {
 			position: fixed;
 			width: 100%;
 			overflow: hidden;
 			padding-right: 0 !important;
 		}
-
 		.header {
 			position: sticky;
 			top: 0;
@@ -57,14 +52,12 @@
 			align-items: center;
 			gap: 20px;
 		}
-
 		.logo {
 			display: flex;
 			align-items: center;
 			gap: 12px;
 			flex-shrink: 0;
 		}
-
 		.logo-icon {
 			width: 48px;
 			height: 48px;
@@ -77,7 +70,6 @@
 			color: white;
 			box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
 		}
-
 		.logo-text {
 			font-size: 24px;
 			font-weight: 800;
@@ -87,19 +79,16 @@
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
 		}
-
 		.search-container {
 			display: flex;
 			gap: 12px;
 			flex: 1;
 			min-width: 0;
 		}
-
 		.search-box {
 			flex: 1;
 			position: relative;
 		}
-
 		.search-input {
 			width: 100%;
 			padding: 12px 16px 12px 44px;
@@ -111,14 +100,12 @@
 			font-weight: 500;
 			transition: all 0.3s ease;
 		}
-
 		.search-input:focus {
 			outline: none;
 			border-color: var(--accent-1);
 			box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 			background: white;
 		}
-
 		.search-icon {
 			position: absolute;
 			left: 16px;
@@ -126,8 +113,6 @@
 			transform: translateY(-50%);
 			color: var(--text-secondary);
 		}
-
-		/* 返回首页按钮样式 */
 		.home-button {
 			display: flex;
 			align-items: center;
@@ -144,16 +129,13 @@
 			flex-shrink: 0;
 			white-space: nowrap;
 		}
-
 		.home-button:hover {
 			transform: translateY(-2px);
 			box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 		}
-
 		.home-button i {
 			margin-right: 6px;
 		}
-
 		.main-grid {
 			padding: 8px 16px 32px;
 			display: grid;
@@ -162,7 +144,6 @@
 			max-width: 1200px;
 			margin: 0 auto;
 		}
-
 		.func-card {
 			background: var(--glass-bg);
 			backdrop-filter: blur(10px);
@@ -176,7 +157,6 @@
 			overflow: hidden;
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 		}
-
 		.func-card:hover {
 			transform: translateY(-6px) scale(1.03);
 			box-shadow: 
@@ -185,7 +165,6 @@
 				inset 0 0 20px rgba(255, 255, 255, 0.5);
 			border-color: rgba(79, 70, 229, 0.3);
 		}
-
 		.func-card::before {
 			content: '';
 			position: absolute;
@@ -197,35 +176,29 @@
 			opacity: 0;
 			transition: opacity 0.3s ease;
 		}
-
 		.func-card:hover::before {
 			opacity: 1;
 		}
-
 		.func-icon {
 			font-size: 30px;
 			margin-bottom: 12px;
 			display: block;
 			transition: transform 0.3s ease;
 		}
-
 		.func-card:hover .func-icon {
 			transform: scale(1.15);
 		}
-
 		.func-name {
 			font-size: 13px;
 			font-weight: 600;
 			line-height: 1.3;
 			color: var(--text-primary);
 		}
-
 		.func-card:nth-child(5n+1) .func-icon { color: var(--accent-1); }
 		.func-card:nth-child(5n+2) .func-icon { color: var(--accent-2); }
 		.func-card:nth-child(5n+3) .func-icon { color: var(--accent-3); }
 		.func-card:nth-child(5n+4) .func-icon { color: var(--accent-4); }
 		.func-card:nth-child(5n+5) .func-icon { color: var(--accent-5); }
-
 		.modal-overlay {
 			position: fixed;
 			inset: 0;
@@ -240,12 +213,10 @@
 			visibility: hidden;
 			transition: all 0.3s ease;
 		}
-
 		.modal-overlay.active {
 			opacity: 1;
 			visibility: visible;
 		}
-
 		.modal-content {
 			background: white;
 			border-radius: 24px;
@@ -258,11 +229,9 @@
 			box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
 			border: 1px solid rgba(255,255,255,0.5);
 		}
-
 		.modal-overlay.active .modal-content {
 			transform: translateY(0) scale(1);
 		}
-
 		.modal-header {
 			padding: 24px 28px;
 			border-bottom: 1px solid rgba(0,0,0,0.08);
@@ -270,7 +239,6 @@
 			align-items: center;
 			justify-content: space-between;
 		}
-
 		.modal-title {
 			font-size: 20px;
 			font-weight: 700;
@@ -279,7 +247,6 @@
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
 		}
-
 		.close-btn {
 			width: 40px;
 			height: 40px;
@@ -294,19 +261,16 @@
 			justify-content: center;
 			transition: all 0.2s ease;
 		}
-
 		.close-btn:hover {
 			background: rgba(239, 68, 68, 0.1);
 			color: #ef4444;
 		}
-
 		.modal-body {
 			padding: 28px;
 			overflow-y: auto;
 			max-height: calc(85vh - 90px);
-			-webkit-overflow-scrolling: touch; /* iOS滚动流畅度优化 */
+			-webkit-overflow-scrolling: touch;
 		}
-
 		.cmd-card {
 			background: rgba(0,0,0,0.02);
 			border: 1px solid rgba(0,0,0,0.06);
@@ -315,12 +279,10 @@
 			margin-bottom: 14px;
 			transition: all 0.2s ease;
 		}
-
 		.cmd-card:hover {
 			background: rgba(79, 70, 229, 0.03);
 			border-color: rgba(79, 70, 229, 0.15);
 		}
-
 		.cmd-name {
 			font-size: 15px;
 			font-weight: 700;
@@ -328,14 +290,12 @@
 			margin-bottom: 8px;
 			font-family: 'SF Mono', monospace;
 		}
-
 		.cmd-desc {
 			font-size: 14px;
 			color: var(--text-secondary);
 			line-height: 1.6;
 			margin-bottom: 10px;
 		}
-
 		.cmd-example {
 			font-size: 13px;
 			color: var(--accent-4);
@@ -345,7 +305,6 @@
 			font-family: 'SF Mono', monospace;
 			border: 1px solid rgba(16, 185, 129, 0.2);
 		}
-
 		.tip-box {
 			background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
 			border: 1px solid rgba(245, 158, 11, 0.2);
@@ -353,13 +312,11 @@
 			padding: 16px 20px;
 			margin-top: 24px;
 		}
-
 		.tip-text {
 			font-size: 14px;
 			color: #d97706;
 			font-weight: 500;
 		}
-
 		.search-results {
 			position: absolute;
 			top: calc(100% + 8px);
@@ -378,24 +335,20 @@
 			z-index: 10;
 			box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
 		}
-
 		.search-results.show {
 			opacity: 1;
 			visibility: visible;
 			transform: translateY(0);
 		}
-
 		.search-item {
 			padding: 14px 18px;
 			border-bottom: 1px solid rgba(0,0,0,0.05);
 			cursor: pointer;
 			transition: all 0.2s ease;
 		}
-
 		.search-item:hover {
 			background: rgba(79, 70, 229, 0.05);
 		}
-
 		.search-module {
 			font-size: 11px;
 			color: var(--accent-2);
@@ -404,19 +357,16 @@
 			letter-spacing: 0.5px;
 			margin-bottom: 4px;
 		}
-
 		.search-cmd {
 			font-size: 14px;
 			font-weight: 600;
 			color: var(--text-primary);
 			margin-bottom: 4px;
 		}
-
 		.search-desc {
 			font-size: 12px;
 			color: var(--text-secondary);
 		}
-
 		mark {
 			background: rgba(245, 158, 11, 0.2);
 			color: #d97706;
@@ -424,57 +374,48 @@
 			border-radius: 3px;
 		}
 
+		/* ========== 移动端终极优化：解决QQ浏览器挤压 ========== */
 		@media (max-width: 768px) {
 			.header { 
-				flex-wrap: wrap;
-				justify-content: space-between;
-				align-items: center;
+				flex-direction: column;
+				align-items: stretch;
+				justify-content: flex-start;
+				gap: 12px;
 				margin: 12px;
 				padding: 16px;
-				gap: 12px;
 			}
-			
 			.logo {
-				flex-shrink: 0;
+				justify-content: center;
+				margin-bottom: 4px;
 			}
-			
+			.home-button {
+				width: 100%;
+				margin-left: 0;
+				padding: 12px 16px;
+				justify-content: center;
+			}
 			.search-container { 
 				width: 100%;
-				order: 3;
 			}
-			
-			.home-button {
-				flex-shrink: 0;
-				width: auto;
-				margin-left: 0;
-				padding: 10px 16px;
-			}
-			
 			.main-grid { 
 				grid-template-columns: repeat(4, 1fr); 
 				gap: 10px; 
 				padding: 10px; 
 			}
-			
 			.func-card { 
 				padding: 18px 8px; 
 				border-radius: 16px; 
 			}
-			
 			.func-icon { 
 				font-size: 26px; 
 				margin-bottom: 10px; 
 			}
-			
 			.func-name { 
 				font-size: 12px; 
 			}
-			
-			/* 移动端弹窗优化 */
 			.modal-overlay {
 				padding: 10px;
 			}
-			
 			.modal-content {
 				max-height: 90vh;
 				border-radius: 16px;
@@ -486,24 +427,19 @@
 				gap: 8px;
 				padding: 12px;
 			}
-			
 			.home-button {
-				padding: 8px 12px;
+				padding: 10px 12px;
 				font-size: 12px;
 			}
-			
 			.main-grid { 
 				gap: 8px; 
 			}
-			
 			.func-card { 
 				padding: 14px 6px; 
 			}
-			
 			.func-icon { 
 				font-size: 22px; 
 			}
-			
 			.func-name { 
 				font-size: 11px; 
 			}
@@ -516,7 +452,9 @@
 			<div class="logo-icon"><i class="fas fa-robot"></i></div>
 			<div class="logo-text">Fox群管·说明书</div>
 		</div>
-		<!-- ✅ 仅保留1个通用搜索栏 -->
+		<a href="https://zhihu99.cn" class="home-button" target="_blank">
+			<i class="fas fa-home"></i>返回首页
+		</a>
 		<div class="search-container">
 			<div class="search-box">
 				<i class="fas fa-search search-icon"></i>
@@ -524,14 +462,8 @@
 				<div class="search-results" id="searchResults"></div>
 			</div>
 		</div>
-		<!-- 返回首页按钮 -->
-		<a href="https://zhihu99.cn" class="home-button" target="_blank">
-			<i class="fas fa-home"></i>返回首页
-		</a>
 	</header>
-
 	<div class="main-grid" id="mainGrid"></div>
-
 	<div class="modal-overlay" id="modalOverlay">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -541,9 +473,8 @@
 			<div class="modal-body" id="modalBody"></div>
 		</div>
 	</div>
-
 	<script>
-		/* ========= 所有40个模块（完整保留原始数据） ========= */
+		/* ========== 40个模块完整齐全 ========== */
 		const modules = [
 			{
 				name: "群管功能",
@@ -796,9 +727,7 @@
 			document.body.removeChild(div);
 			return width;
 		}
-
 		const scrollbarWidth = getScrollbarWidth();
-
 		/* ========= 初始化 ========= */
 		document.addEventListener('DOMContentLoaded', () => {
 			renderGrid();
@@ -814,7 +743,6 @@
 				</div>
 			`).join('');
 		}
-
 		/* ========= 事件绑定 ========= */
 		function bindEvents() {
 			document.querySelectorAll('.func-card').forEach(card => {
@@ -822,12 +750,10 @@
 					showModal(modules[card.dataset.index]);
 				});
 			});
-
 			document.getElementById('closeModal').addEventListener('click', closeModal);
 			document.getElementById('modalOverlay').addEventListener('click', (e) => {
 				if (e.target === e.currentTarget) closeModal();
 			});
-
 			// ✅ 通用搜索：同时支持指令+变量搜索
 			const searchInput = document.getElementById('searchInput');
 			const searchResults = document.getElementById('searchResults');
@@ -837,7 +763,6 @@
 				searchResults.innerHTML = '';
 				searchResults.classList.remove('show');
 				if (!keyword) return;
-
 				const matched = [];
 				
 				modules.forEach(mod => {
@@ -855,7 +780,6 @@
 						}
 					});
 				});
-
 				if (matched.length > 0) {
 					matched.forEach(item => {
 						const parts = item.line.split('|');
@@ -890,19 +814,16 @@
 					searchResults.classList.add('show');
 				}
 			});
-
 			document.addEventListener('click', (e) => {
 				if (!e.target.closest('.search-box')) searchResults.classList.remove('show');
 			});
 		}
-
 		/* ========= 工具函数 ========= */
 		function highlightKeyword(text, keyword) {
 			if (!keyword) return text;
 			const regex = new RegExp(`(${keyword})`, 'gi');
 			return text.replace(regex, '<mark>$1</mark>');
 		}
-
 		function showModal(module, targetName = null) {
 			const overlay = document.getElementById('modalOverlay');
 			const title = document.getElementById('modalTitle');
@@ -911,17 +832,14 @@
 			body.scrollTop = 0;
 			title.textContent = `${module.name} - ${module.name.includes('变量') ? '变量说明' : '指令说明'}`;
 			body.innerHTML = '';
-
 			const lines = module.content.split('[换行]');
 			let targetCard = null;
-
 			lines.forEach(line => {
 				const parts = line.split('|');
 				if (parts.length >= 3) {
 					const card = document.createElement('div');
 					card.className = 'cmd-card';
 					card.dataset.name = parts[0].trim();
-
 					if (module.name.includes('变量列表')) {
 						if (parts.length >= 5) {
 							const [varName, type, desc, use, example] = parts.map(p => p.trim());
@@ -940,19 +858,16 @@
 							<div class="cmd-example">示例：${parts[2].trim()}</div>
 						`;
 					}
-
 					body.appendChild(card);
 					if (targetName && card.dataset.name === targetName) targetCard = card;
 				}
 			});
-
 			if (module.tips) {
 				const tipBox = document.createElement('div');
 				tipBox.className = 'tip-box';
 				tipBox.innerHTML = `<div class="tip-text">💡 ${module.tips}</div>`;
 				body.appendChild(tipBox);
 			}
-
 			/* ✅ 修复屏闪：用class替代直接设置padding */
 			document.body.classList.add('modal-open');
 			
@@ -960,15 +875,12 @@
 			if (window.innerWidth > 768) {
 				document.body.style.paddingRight = scrollbarWidth + 'px';
 			}
-
 			overlay.classList.add('active');
 			document.body.style.overflow = 'hidden';
-
 			if (targetCard) {
 				const container = document.getElementById('modalBody');
 				const header = document.querySelector('.modal-header');
 				const headerHeight = header.offsetHeight;
-
 				requestAnimationFrame(() => {
 					const containerH = container.clientHeight;
 					const cardH = targetCard.offsetHeight;
@@ -983,7 +895,6 @@
 				});
 			}
 		}
-
 		function closeModal() {
 			document.getElementById('modalOverlay').classList.remove('active');
 			document.body.classList.remove('modal-open');
