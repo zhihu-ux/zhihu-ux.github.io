@@ -1,0 +1,383 @@
+<!-- ==================== AI 小狐狸助手 ==================== -->
+<style>
+/* AI助手样式 */
+.ai-fox-assistant {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  z-index: 10000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.ai-fox-toggle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF5722, #FF9800);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(255, 87, 34, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  transition: all 0.3s ease;
+  animation: fox-bounce 2s infinite;
+}
+.ai-fox-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(255, 87, 34, 0.6);
+}
+@keyframes fox-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.ai-chat-window {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 320px;
+  height: 420px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+.ai-chat-window.active {
+  display: flex;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ai-chat-header {
+  background: linear-gradient(135deg, #FF5722, #FF9800);
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-chat-header h3 {
+  margin: 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ai-close-chat {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ai-chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+.ai-message {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+.ai-message.user {
+  flex-direction: row-reverse;
+}
+.ai-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.ai-avatar.fox {
+  background: linear-gradient(135deg, #FF5722, #FF9800);
+  color: white;
+}
+.ai-avatar.user {
+  background: #607D8B;
+  color: white;
+}
+.ai-bubble {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.ai-message.fox .ai-bubble {
+  background: white;
+  border: 1px solid #eee;
+  border-top-left-radius: 4px;
+}
+.ai-message.user .ai-bubble {
+  background: #FF5722;
+  color: white;
+  border-top-right-radius: 4px;
+}
+.ai-chat-input {
+  padding: 12px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 8px;
+}
+.ai-chat-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+}
+.ai-chat-input button {
+  background: #FF5722;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+.ai-chat-input button:hover {
+  background: #F4511E;
+}
+.ai-quick-questions {
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+.ai-quick-questions p {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  color: #666;
+}
+.ai-quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ai-tag {
+  padding: 4px 10px;
+  background: #FFF3E0;
+  border: 1px solid #FFE0B2;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #FF5722;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ai-tag:hover {
+  background: #FFE0B2;
+}
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .ai-fox-assistant {
+	bottom: 80px;
+	right: 15px;
+  }
+  .ai-chat-window {
+	width: 300px;
+	height: 400px;
+	right: 0;
+  }
+}
+</style>
+<div class="ai-fox-assistant">
+  <button class="ai-fox-toggle" id="aiFoxToggle">🦊</button>
+  <div class="ai-chat-window" id="aiChatWindow">
+	<div class="ai-chat-header">
+	  <h3>🦊 Fox小助手</h3>
+	  <button class="ai-close-chat" id="aiCloseChat">×</button>
+	</div>
+	<div class="ai-chat-messages" id="aiChatMessages">
+	  <div class="ai-message fox">
+		<div class="ai-avatar fox">🦊</div>
+		<div class="ai-bubble">
+		  嗨～我是Fox小助手！👋<br>
+		  我可以帮您解答关于群管机器人的问题哦～<br>
+		  试试点击下方的问题吧！
+		</div>
+	  </div>
+	</div>
+	<div class="ai-quick-questions">
+	  <p>💡 常见问题：</p>
+	  <div class="ai-quick-tags">
+		<span class="ai-tag" data-q="价格">价格多少？</span>
+		<span class="ai-tag" data-q="功能">有什么功能？</span>
+		<span class="ai-tag" data-q="代理">怎么代理？</span>
+		<span class="ai-tag" data-q="教程">怎么使用？</span>
+		<span class="ai-tag" data-q="退款">能退款吗？</span>
+	  </div>
+	</div>
+	<div class="ai-chat-input">
+	  <input type="text" id="aiUserInput" placeholder="输入您的问题..." autocomplete="off">
+	  <button id="aiSendBtn">➤</button>
+	</div>
+  </div>
+</div>
+<script>
+// AI 知识库（已提取 jc.html 内容 + 模糊问答）
+const aiKnowledge = {
+  "价格": "Fox群管授权方案：\n• 出租版：30元/月（无后台）35元/月（带后台）\n• 插件授权：20元/月｜99元永久\n• 设备授权：50元/月｜499元永久",
+  "功能": "核心功能：反广告/反刷屏｜智能禁言踢人｜积分签到｜入群审核｜定时任务｜Web后台管理",
+  "代理": "代理等级：代理商138｜授权商198｜总销商398｜超管商888，等级越高拿货越便宜",
+  "退款": "开通24小时内无法使用可全额退款，超过24小时不支持退款",
+  "客服": "QQ客服：750708031｜售后群：910077718｜在线9:00-22:00",
+  "群数": "出租版限1群，插件/设备授权不限群数",
+  "更换": "支持免费换QQ/换群/换设备，联系客服即可",
+  "安装": "安装步骤：1.下载框架 2.登录机器人QQ 3.导入插件 4.配置授权码 5.启动运行",
+  "部署": "部署方式：出租版官方托管，插件/设备版需自己挂框架，24小时在线不掉线",
+  "使用": "使用流程：添加机器人入群→发送开启指令→完成配置→自动运行",
+  "指令": "常用指令：/开启  /关闭  /禁言  /解禁  /签到  /积分  /排行榜",
+  "登录": "登录方法：打开框架→输入QQ号密码→获取令牌→登录成功",
+  "授权": "授权激活：购买后获取授权码，在框架内填写激活，绑定即生效",
+  "框架": "框架下载：官方提供稳定框架，支持Windows/云主机24小时挂机器人",
+  "报错": "常见报错：1.授权失效 2.QQ被限制 3.框架版本过低，联系客服排查"
+};
+
+// 默认回复
+const defaultReply = "抱歉，我暂时没理解～\n你可以问：价格/功能/安装/教程/指令/代理/客服\n人工客服：750708031";
+
+// 获取元素
+const aiFoxToggle = document.getElementById('aiFoxToggle');
+const aiChatWindow = document.getElementById('aiChatWindow');
+const aiCloseChat = document.getElementById('aiCloseChat');
+const aiChatMessages = document.getElementById('aiChatMessages');
+const aiUserInput = document.getElementById('aiUserInput');
+const aiSendBtn = document.getElementById('aiSendBtn');
+const aiTags = document.querySelectorAll('.ai-tag');
+
+// 切换聊天窗口
+aiFoxToggle.addEventListener('click', () => {
+  aiChatWindow.classList.toggle('active');
+});
+aiCloseChat.addEventListener('click', () => {
+  aiChatWindow.classList.remove('active');
+});
+
+// 发送消息
+function sendMessage() {
+  const question = aiUserInput.value.trim();
+  if (!question) return;
+  addMessage(question, 'user');
+  aiUserInput.value = '';
+
+  setTimeout(() => {
+    const reply = getAIReply(question);
+    addMessage(reply, 'fox');
+  }, 500);
+}
+
+// 模糊匹配核心
+function getAIReply(question) {
+  const q = question.toLowerCase();
+
+  if (q.includes('价格')||q.includes('多少钱')||q.includes('怎么卖')||q.includes('费用')||q.includes('收费')) {
+    return aiKnowledge['价格'];
+  }
+  if (q.includes('功能')||q.includes('能干嘛')||q.includes('有啥用')||q.includes('特点')) {
+    return aiKnowledge['功能'];
+  }
+  if (q.includes('代理')||q.includes('加盟')||q.includes('合作')||q.includes('分销')||q.includes('下级')) {
+    return aiKnowledge['代理'];
+  }
+  if (q.includes('退款')||q.includes('退钱')||q.includes('退货')||q.includes('不给用')) {
+    return aiKnowledge['退款'];
+  }
+  if (q.includes('客服')||q.includes('联系')||q.includes('人工')||q.includes('帮助')||q.includes('售后')) {
+    return aiKnowledge['客服'];
+  }
+  if (q.includes('安装')||q.includes('怎么装')||q.includes('下载')||q.includes('搭建')) {
+    return aiKnowledge['安装'];
+  }
+  if (q.includes('部署')||q.includes('怎么部署')||q.includes('挂机')) {
+    return aiKnowledge['部署'];
+  }
+  if (q.includes('教程')||q.includes('怎么用')||q.includes('使用')||q.includes('教学')) {
+    return aiKnowledge['使用'];
+  }
+  if (q.includes('指令')||q.includes('命令')||q.includes('发什么')||q.includes('口令')) {
+    return aiKnowledge['指令'];
+  }
+  if (q.includes('登录')||q.includes('怎么登')||q.includes('登陆')) {
+    return aiKnowledge['登录'];
+  }
+  if (q.includes('授权')||q.includes('激活')||q.includes('码')||q.includes('授权码')) {
+    return aiKnowledge['授权'];
+  }
+  if (q.includes('框架')||q.includes('软件')||q.includes('工具')) {
+    return aiKnowledge['框架'];
+  }
+  if (q.includes('报错')||q.includes('不行')||q.includes('用不了')||q.includes('失败')) {
+    return aiKnowledge['报错'];
+  }
+  if (q.includes('群数')||q.includes('几个群')||q.includes('多少群')) {
+    return aiKnowledge['群数'];
+  }
+  if (q.includes('更换')||q.includes('换群')||q.includes('换qq')||q.includes('转移')) {
+    return aiKnowledge['更换'];
+  }
+
+  return defaultReply;
+}
+
+// 添加消息到聊天窗口
+function addMessage(text, sender) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `ai-message ${sender}`;
+  
+  const avatar = document.createElement('div');
+  avatar.className = `ai-avatar ${sender}`;
+  avatar.textContent = sender === 'fox' ? '🦊' : '👤';
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'ai-bubble';
+  bubble.innerHTML = text.replace(/\n/g, '<br>');
+  
+  messageDiv.appendChild(avatar);
+  messageDiv.appendChild(bubble);
+  aiChatMessages.appendChild(messageDiv);
+  
+  aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+}
+
+// 事件监听
+aiSendBtn.addEventListener('click', sendMessage);
+aiUserInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') sendMessage();
+});
+
+aiTags.forEach(tag => {
+  tag.addEventListener('click', () => {
+    aiUserInput.value = tag.textContent;
+    sendMessage();
+  });
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.ai-fox-assistant')) {
+    aiChatWindow.classList.remove('active');
+  }
+});
+</script>
