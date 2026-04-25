@@ -100,13 +100,66 @@
 	  color: #666;
 	  font-size: 0.9rem;
 	}
+	
+	/* 数据统计区域 */
+	.stats-section {
+	  padding: 3rem 2rem;
+	  background-color: #fff;
+	}
+	.stats-container {
+	  display: grid;
+	  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	  gap: 1.5rem;
+	  max-width: 1000px;
+	  margin: 0 auto;
+	}
+	.stat-card {
+	  background: white;
+	  border-radius: 12px;
+	  padding: 1.5rem;
+	  text-align: center;
+	  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+	  border: 1px solid #eee;
+	  animation: float 3s ease-in-out infinite;
+	}
+	.stat-card:nth-child(2) {
+	  animation-delay: 0.5s;
+	}
+	.stat-card:nth-child(3) {
+	  animation-delay: 1s;
+	}
+	.stat-card:nth-child(4) {
+	  animation-delay: 1.5s;
+	}
+	.stat-number {
+	  font-size: 2rem;
+	  font-weight: bold;
+	  color: #FF5722;
+	  margin-bottom: 0.5rem;
+	}
+	.stat-label {
+	  font-size: 0.9rem;
+	  color: #666;
+	}
+	@keyframes float {
+	  0% {
+		transform: translateY(0px);
+	  }
+	  50% {
+		transform: translateY(-10px);
+	  }
+	  100% {
+		transform: translateY(0px);
+	  }
+	}
+	
 	/* 通用内容区块样式 */
 	.content-section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
 	.section-title { text-align: center; font-size: 2rem; margin-bottom: 3rem; color: #333; position: relative; }
 	.section-title::after { content: ''; display: block; width: 60px; height: 3px; background: #FF5722; margin: 0.5rem auto; }
 	/* 价格表 */
 	.pricing-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
-	.price-card { background: white; border-radius: 10px; padding: 2rem; text-align: center; border: 2px solid #eee; transition: border-color 0.3s, transform 0.2s; }
+	.price-card { background: white; border-radius: 10px; padding: 2rem; text-align: center; border: 2px solid #eee; transition: border-color 0.3, transform 0.2s; }
 	.price-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); }
 	.price-card.popular { border-color: #FF5722; position: relative; }
 	.price-card.popular::before { content: '🔥 热门推荐'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #FF5722; color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; }
@@ -178,7 +231,24 @@
 	.copyright { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #34495e; color: #95a5a5; font-size: 0.9rem; }
 	/* 悬浮按钮 */
 	.floating-buttons { position: fixed; right: 1rem; bottom: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999; }
-	.float-btn { padding: 0.8rem 1.2rem; border: none; border-radius: 25px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2); color: #fff; text-decoration: none; text-align: center; }
+	.float-btn { padding: 0.8rem 1.2rem; border: none; border-radius: 25px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2); color: #fff; text-decoration: none; text-align: center; animation: floatBtn 2s ease-in-out infinite; }
+	.float-btn:nth-child(2) {
+	  animation-delay: 0.3s;
+	}
+	.float-btn:nth-child(3) {
+	  animation-delay: 0.6s;
+	}
+	@keyframes floatBtn {
+	  0% {
+		transform: translateY(0px);
+	  }
+	  50% {
+		transform: translateY(-5px);
+	  }
+	  100% {
+		transform: translateY(0px);
+	  }
+	}
 	.contact { background-color: #FF5722; }
 	.qq-contact { background-color: #12B7F5; }
 	.join { background-color: #4CAF50; }
@@ -244,6 +314,12 @@
 	  .agent-notice {
 		font-size: 0.9rem;
 		padding: 0.8rem 1rem;
+	  }
+	  .stat-number {
+		font-size: 1.5rem;
+	  }
+	  .stats-container {
+		grid-template-columns: repeat(2, 1fr);
 	  }
 	}
 	
@@ -316,6 +392,29 @@
 	
 	<p class="caption">Fox机器人核心功能演示 | 反广告·积分·后台·刷屏检测·撤禁系统</p>
   </main>
+  
+  <!-- 数据统计区域 -->
+  <section class="stats-section">
+	<div class="stats-container">
+	  <div class="stat-card">
+		<div class="stat-number">45,235</div>
+		<div class="stat-label">下载次数</div>
+	  </div>
+	  <div class="stat-card">
+		<div class="stat-number">361</div>
+		<div class="stat-label">更新次数</div>
+	  </div>
+	  <div class="stat-card">
+		<div class="stat-number">35,626</div>
+		<div class="stat-label">用户数量</div>
+	  </div>
+	  <div class="stat-card">
+		<div class="stat-number">2,765</div>
+		<div class="stat-label">代理数量</div>
+	  </div>
+	</div>
+  </section>
+  
   <!-- 价格方案（调整顺序+明确群数限制+新手推荐） -->
   <section class="content-section" id="pricing">
 	<h2 class="section-title">授权价格方案</h2>
@@ -569,7 +668,6 @@
 	  </div>
 	</div>
   </div>
-
   <!-- 视频教程提示弹窗 -->
   <div id="videoTipModal" class="modal-overlay">
 	<div class="modal-content">
@@ -580,7 +678,6 @@
 	  </div>
 	</div>
   </div>
-
   <script>
 	let loginTimer;
 	const targetUrl = "https://v3.iqapi.cn/user/";
@@ -669,7 +766,6 @@
 	  window.open(targetUrl, '_blank', 'noopener noreferrer');
 	  hideLoginModal();
 	}
-
 	// 视频教程提示
 	function showVideoTip() {
 	  document.getElementById('videoTipModal').style.display = 'flex';
@@ -689,7 +785,6 @@
 	  document.getElementById('videoTipModal').onclick = function(e){
 		if(e.target === this) hideVideoTip();
 	  }
-
 	  // ESC关闭
 	  document.addEventListener('keydown', e => {
 		if (e.key === 'Escape') {
