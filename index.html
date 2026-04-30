@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Fox群管机器人，专业QQ社群管理解决方案，基于C++/Go开发，毫秒级响应。内置反广告、积分系统、可视化后台，一次付费永久使用。">
   <meta name="keywords" content="QQ群管机器人,Fox群管,QQ机器人,社群管理,反广告机器人,QQ群管理">
+  <!-- SEO分享优化OG标签（已替换为你的域名） -->
+  <meta property="og:title" content="Fox群管机器人 - 专业QQ社群管理解决方案">
+  <meta property="og:description" content="基于C++/Go开发的高性能QQ机器人，毫秒级响应。内置反广告、积分系统、可视化后台，一次付费永久使用。">
+  <meta property="og:image" content="https://s3.bmp.ovh/2026/04/22/KCZYHwhQ.png">
+  <meta property="og:url" content="https://zhihu99.cn">
+  <meta property="og:type" content="website">
   <title>Fox 群管机器人 - 专业QQ社群管理解决方案</title>
   <style>
 	/* 通用样式重置 */
@@ -15,6 +21,8 @@
 	.header-left .back-btn, .header-right a { text-decoration: none; color: #333; font-size: 1.5rem; }
 	.header-title { font-size: 1.2rem; font-weight: bold; color: #FF5722; }
 	.header-right { display: flex; gap: 1rem; }
+	/* 移动端汉堡菜单 */
+	.hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
 	/* 官方提醒横幅 */
 	.banner { background-color: #FF5722; color: #fff; text-align: center; padding: 1rem; }
 	.banner p { font-size: 1rem; }
@@ -31,6 +39,8 @@
 	.hero-section p { font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.8; color: #666; max-width: 600px; margin-left: auto; margin-right: auto; }
 	.btn { padding: 0.8rem 1.5rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; margin: 0 0.5rem; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; display: inline-block; }
 	.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+	/* 按钮点击反馈 */
+	.btn:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 	.primary { background: linear-gradient(45deg, #FF5722, #FF9800); color: #fff; }
 	.secondary { background-color: #607D8B; color: #fff; }
 	
@@ -136,6 +146,8 @@
 	  font-weight: bold;
 	  color: #FF5722;
 	  margin-bottom: 0.5rem;
+	  /* 数字滚动对齐优化 */
+	  font-variant-numeric: tabular-nums;
 	}
 	.stat-label {
 	  font-size: 0.9rem;
@@ -171,6 +183,8 @@
 	.price-features { list-style: none; margin: 1.5rem 0; text-align: left; color: #666; }
 	.price-features li { padding: 0.5rem 0; border-bottom: 1px dashed #eee; }
 	.price-features li:last-child { border-bottom: none; }
+	/* 价格卡片退款提示 */
+	.refund-tip { font-size: 0.8rem; color: #999; margin-top: 1rem; text-align: center; }
 	/* 代理价格表 */
 	.agent-notice {
 	  background-color: #e8f5e9;
@@ -220,15 +234,32 @@
 	.faq-question:hover { background-color: #fff3e0; }
 	.faq-answer { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
 	.faq-answer.show { padding: 1rem 1.5rem; max-height: 500px; }
-	/* 页脚 */
+	/* 页脚 - 两列布局 */
 	.footer { background: #2c3e50; color: #ecf0f1; padding: 3rem 2rem; }
-	.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+	.footer-grid { 
+	  display: grid; 
+	  grid-template-columns: 1fr 1fr; 
+	  gap: 3rem; 
+	  max-width: 1000px; 
+	  margin: 0 auto; 
+	}
 	.footer-column h3 { color: #FF9800; margin-bottom: 1.5rem; font-size: 1.2rem; }
 	.footer-column ul { list-style: none; }
 	.footer-column li { margin-bottom: 0.8rem; }
 	.footer-column a { color: #bdc3c7; text-decoration: none; transition: color 0.3; }
 	.footer-column a:hover { color: #FF5722; }
+	/* 官方社群区块间距 */
+	.footer-community { margin-top: 2.5rem; }
 	.copyright { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #34495e; color: #95a5a5; font-size: 0.9rem; }
+	.copyright a { 
+	  color: #0066cc; 
+	  text-decoration: none; 
+	  transition: color 0.3s;
+	}
+	.copyright a:hover { 
+	  color: #FF5722; 
+	  text-decoration: underline; 
+	}
 	/* 悬浮按钮 */
 	.floating-buttons { position: fixed; right: 1rem; bottom: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 999; }
 	.float-btn { padding: 0.8rem 1.2rem; border: none; border-radius: 25px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2); color: #fff; text-decoration: none; text-align: center; animation: floatBtn 2s ease-in-out infinite; }
@@ -302,7 +333,13 @@
 	  .section-title { font-size: 1.6rem; }
 	  .btn { display: block; margin: 0.5rem auto; width: 80%; }
 	  .modal-content { padding: 1.5rem; }
-	  .nav ul { gap: 1rem; font-size: 0.9rem; }
+	  .nav { position: absolute; top: 68px; left: 0; width: 100%; background: white; z-index: 999; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+	  .nav.open { max-height: 300px; border-bottom: 1px solid #eee; }
+	  .nav ul { flex-direction: column; gap: 0; padding: 0; }
+	  .nav li { padding: 1rem; text-align: center; border-bottom: 1px solid #eee; }
+	  .nav li:last-child { border-bottom: none; }
+	  .nav li.active::after { display: none; }
+	  .hamburger { display: block; }
 	  .price-card { padding: 1.5rem; }
 	  .demo-carousel-container { margin: 1.5rem auto 0; }
 	  .floating-buttons { bottom: 1rem; right: 0.5rem; }
@@ -334,6 +371,7 @@
 	<div class="header-left"><a href="#" class="back-btn">←</a></div>
 	<div class="header-title">Fox群管机器人</div>
 	<div class="header-right">
+	  <span class="hamburger" onclick="toggleNav()">☰</span>
 	  <a href="#" class="cart-btn">🦊</a>
 	</div>
   </header>
@@ -342,7 +380,7 @@
 	<p>🔥 Fox官方提醒：永久授权无二次收费，谨防诈骗！</p>
   </section>
   <!-- 导航菜单 -->
-  <nav class="nav">
+  <nav class="nav" id="mainNav">
 	<ul>
 	  <li class="active">首页</li>
 	  <li><a href="https://admin.iqapi.cn" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">授权更换</a></li>
@@ -355,7 +393,6 @@
 	<h1>Fox 综合群管机器人</h1>
 	<p>基于C++/Go开发的高性能QQ机器人，毫秒级响应。内置强大的反广告、反暴力、积分系统及可视化后台，为您提供一站式QQ群管理解决方案。</p>
 	
-	<!-- ✅ 统一改为最稳定的同目录相对路径 -->
 	<a href="./jc.html" target="_blank" rel="noopener noreferrer" class="btn primary">查看指令教程</a>
 	<button onclick="showVideoTip()" class="btn secondary">查看视频教程</button>
 	
@@ -364,25 +401,25 @@
 	  <div class="demo-carousel" id="demoCarousel">
 		<!-- 幻灯片1：反广告功能 -->
 		<div class="demo-slide">
-		  <img src="https://s3.bmp.ovh/2026/04/22/KCZYHwhQ.png" alt="Fox群管反广告功能演示" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=反广告+关键词Interceptor';">
+		  <img src="https://s3.bmp.ovh/2026/04/22/KCZYHwhQ.png" alt="Fox群管反广告功能演示" width="800" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=反广告+关键词Interceptor';">
 		</div>
 		
 		<!-- 幻灯片2：积分系统 -->
 		<div class="demo-slide">
-		  <img src="https://s3.bmp.ovh/2026/04/22/Qzyj9yK6.png" alt="Fox群管积分系统演示" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=积分+签到+排行榜';">
+		  <img src="https://s3.bmp.ovh/2026/04/22/Qzyj9yK6.png" alt="Fox群管积分系统演示" width="800" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=积分+签到+排行榜';">
 		</div>
 		
 		<!-- 幻灯片3：可视化后台 -->
 		<div class="demo-slide">
-		  <img src="https://s3.bmp.ovh/2026/04/22/TpOhopss.png" alt="Fox群管可视化后台演示" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=可视化+数据统计';">
+		  <img src="https://s3.bmp.ovh/2026/04/22/TpOhopss.png" alt="Fox群管可视化后台演示" width="800" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=可视化+数据统计';">
 		</div>
 		<!-- 幻灯片4：刷屏检测配置 -->
 		<div class="demo-slide">
-		  <img src="https://s3.bmp.ovh/2026/04/23/Ke1YNw8Q.png" alt="Fox群管刷屏检测功能演示" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=刷屏检测+智能拦截';">
+		  <img src="https://s3.bmp.ovh/2026/04/23/Ke1YNw8Q.png" alt="Fox群管刷屏检测功能演示" width="800" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=刷屏检测+智能拦截';">
 		</div>
 		<!-- 幻灯片5：撤禁系统配置 -->
 		<div class="demo-slide">
-		  <img src="https://s3.bmp.ovh/2026/04/23/sjvOhE58.png" alt="Fox群管撤禁系统功能演示" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=撤禁系统+全类型管控';">
+		  <img src="https://s3.bmp.ovh/2026/04/23/sjvOhE58.png" alt="Fox群管撤禁系统功能演示" width="800" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x450/FF5722/FFFFFF?text=撤禁系统+全类型管控';">
 		</div>
 	  </div>
 	</div>
@@ -416,7 +453,30 @@
 	</div>
   </section>
   
-  <!-- 价格方案（调整顺序+明确群数限制+新手推荐） -->
+  <!-- 用户真实评价（4条） -->
+  <section class="content-section" style="background-color: #f8f9fa;">
+	<h2 class="section-title">用户真实评价</h2>
+	<div class="testimonials-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+	  <div class="testimonial-card" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+		<p style="color: #666; margin-bottom: 1rem;">"反广告功能太强大了，以前每天要删几十条广告，现在机器人自动拦截，省了超多时间！"</p>
+		<p style="font-weight: bold; color: #FF5722;">— 某游戏群群主</p>
+	  </div>
+	  <div class="testimonial-card" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+		<p style="color: #666; margin-bottom: 1rem;">"99块永久授权太值了，我10个群都在用，后台管理也很方便，客服响应也很快。"</p>
+		<p style="font-weight: bold; color: #FF5722;">— 某资源群群主</p>
+	  </div>
+	  <div class="testimonial-card" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+		<p style="color: #666; margin-bottom: 1rem;">"积分系统很好用，群里活跃度明显提高了，还能设置签到和排行榜，功能很全面。"</p>
+		<p style="font-weight: bold; color: #FF5722;">— 某学习群群主</p>
+	  </div>
+	  <div class="testimonial-card" style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+		<p style="color: #666; margin-bottom: 1rem;">"设备授权太适合我这种多号多群的了，一个授权搞定所有机器人，管理效率直接翻倍。"</p>
+		<p style="font-weight: bold; color: #FF5722;">— 多群运营工作室</p>
+	  </div>
+	</div>
+  </section>
+  
+  <!-- 价格方案（已添加退款提示） -->
   <section class="content-section" id="pricing">
 	<h2 class="section-title">授权价格方案</h2>
 	<p style="text-align: center; margin-bottom: 3rem; color: #666;">官方承诺：一次付费，永久使用，无任何隐藏费用！出租版官方托管，即开即用</p>
@@ -434,6 +494,7 @@
 		  <li>无需下载安装，加群即用</li>
 		  <li>专属客服技术支持</li>
 		</ul>
+		<p class="refund-tip">24小时内全额退，超期按天退</p>
 		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即开通</a>
 	  </div>
 	  <!-- 方案2：出租版·带后台（单群·新手推荐） -->
@@ -449,6 +510,7 @@
 		  <li>一键批量配置群规则</li>
 		  <li>远程实时管理机器人</li>
 		</ul>
+		<p class="refund-tip">24小时内全额退，超期按天退</p>
 		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即开通</a>
 	  </div>
 	  <!-- 方案3：插件授权 · 单Q月卡（不限群） -->
@@ -464,6 +526,7 @@
 		  <li>需自行部署机器人框架</li>
 		  <li>配套框架+插件一站式提供</li>
 		</ul>
+		<p class="refund-tip">支持24小时免费体验，授权后不退款</p>
 		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即开通</a>
 	  </div>
 	  <!-- 方案4：插件授权 · 单Q永久（不限群·热门推荐） -->
@@ -479,7 +542,8 @@
 		  <li>需自行部署机器人框架</li>
 		  <li>配套框架+插件永久提供</li>
 		</ul>
-		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即开通</a>
+		<p class="refund-tip">支持24小时免费体验，授权后不退款</p>
+		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即购买</a>
 	  </div>
 	  <!-- 方案5：设备授权 · 月卡（不限群+不限QQ） -->
 	  <div class="price-card">
@@ -494,6 +558,7 @@
 		  <li>需自行部署机器人框架</li>
 		  <li>配套框架+插件一站式提供</li>
 		</ul>
+		<p class="refund-tip">支持24小时免费体验，授权后不退款</p>
 		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即开通</a>
 	  </div>
 	  <!-- 方案6：设备授权 · 永久（不限群+不限QQ） -->
@@ -509,7 +574,8 @@
 		  <li>需自行部署机器人框架</li>
 		  <li>配套框架+插件永久提供</li>
 		</ul>
-		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即开通</a>
+		<p class="refund-tip">支持24小时免费体验，授权后不退款</p>
+		<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary" style="width: 100%;">立即购买</a>
 	  </div>
 	</div>
   </section>
@@ -574,7 +640,7 @@
 	  <a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="btn primary">咨询代理详情</a>
 	</div>
   </section>
-  <!-- FAQ常见问题 -->
+  <!-- FAQ常见问题（已更新退款政策） -->
   <section class="content-section" id="faq">
 	<h2 class="section-title">常见问题</h2>
 	<div class="faq-container">
@@ -611,12 +677,16 @@
 		  <span>+</span>
 		</div>
 		<div class="faq-answer">
-		  开通授权后24小时内，如遇无法使用且技术无法解决的问题，可申请全额退款。超过24小时后，因产品特性，不支持退款，敬请谅解。
+		  <p><strong>【插件授权版（单Q/设备授权）】</strong><br>
+		  支持免费体验24小时，体验满意后再购买；一旦完成授权开通，因软件产品可复制性的特性，不支持任何形式的退款，敬请谅解。</p>
+		  <p style="margin-top: 0.8rem;"><strong>【出租托管版（单群无后台/带后台）】</strong><br>
+		  开通后24小时内可申请全额退款；超过24小时，支持按剩余未使用天数比例退款，退款金额=实付金额×(剩余天数/30天)。</p>
+		  <p style="margin-top: 0.8rem; color: #999; font-size: 0.9rem;">注：如因官方技术故障导致服务无法使用且72小时内无法修复，无论任何版本均支持全额退款。</p>
 		</div>
 	  </div>
 	</div>
   </section>
-  <!-- 页脚 -->
+  <!-- 页脚（已调整布局） -->
   <footer class="footer">
 	<div class="footer-grid">
 	  <div class="footer-column">
@@ -626,14 +696,15 @@
 		  <li>授权咨询QQ：<a href="https://qm.qq.com/q/9j79jaLmKs" target="_blank" rel="noopener noreferrer">750708031</a></li>
 		  <li><a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer">📞 企业微信客服</a></li>
 		</ul>
-	  </div>
-	  <div class="footer-column">
-		<h3>官方社群</h3>
-		<ul>
-		  <li>问题反馈、功能建议、售后支持</li>
-		  <li><a href="https://qm.qq.com/q/dRn1Qk4xGg" target="_blank" rel="noopener noreferrer">🚀 一键加入Fox群管售后群</a></li>
-		  <li>群号：910077718</li>
-		</ul>
+		<!-- 官方社群移至此处 -->
+		<div class="footer-community">
+		  <h3>官方社群</h3>
+		  <ul>
+			<li>问题反馈、功能建议、售后支持</li>
+			<li><a href="https://qm.qq.com/q/dRn1Qk4xGg" target="_blank" rel="noopener noreferrer">🚀 一键加入Fox群管售后群</a></li>
+			<li>群号：910077718</li>
+		  </ul>
+		</div>
 	  </div>
 	  <div class="footer-column">
 		<h3>站点导航</h3>
@@ -643,11 +714,12 @@
 		  <li><a href="#agent">代理合作</a></li>
 		  <li><a href="#faq">常见问题</a></li>
 		  <li><a href="#" onclick="showLoginModal()">Web后台</a></li>
+		  <li><a href="./agreement.html" target="_blank" rel="noopener noreferrer">用户服务协议</a></li>
 		</ul>
 	  </div>
 	</div>
 	<div class="copyright">
-	  © 2026 Fox群管机器人 版权所有 | 专业QQ社群管理解决方案
+	  © <span id="currentYear"></span> Fox群管机器人 版权所有 | 专业QQ社群管理解决方案 | <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" title="点击查询工信部ICP备案信息">苏ICP备2026026368号-1</a>
 	</div>
   </footer>
   <!-- 右侧悬浮按钮 -->
@@ -657,11 +729,11 @@
 	<a href="https://qm.qq.com/q/dRn1Qk4xGg" 
 	   class="float-btn join" target="_blank" rel="noopener noreferrer">加入售后群</a>
   </aside>
-  <!-- 登录过期提示弹窗 -->
+  <!-- Web后台跳转弹窗（已去掉倒计时） -->
   <div id="loginModal" class="modal-overlay">
 	<div class="modal-content">
 	  <h2>温馨提示</h2>
-	  <p>页面将在 <span id="countdown">3</span> 秒后自动跳转至Web后台</p>
+	  <p>点击下方按钮跳转到Fox群管Web后台</p>
 	  <p style="font-size: 0.9rem; color: #999; margin-top: 0.5rem;">如跳转失败，请手动访问：v3.iqapi.cn/user/</p>
 	  <div class="modal-buttons">
 		<button class="modal-btn back" onclick="hideLoginModal()">返回上一页</button>
@@ -746,24 +818,14 @@
 	  icon.textContent = answer.classList.contains('show') ? '−' : '+';
 	}
 	
-	// 后台弹窗
+	// Web后台跳转（已去掉倒计时，保留原弹窗样式）
 	function showLoginModal() {
-	  const modal = document.getElementById('loginModal');
-	  modal.style.display = 'flex';
-	  let count = 3;
-	  document.getElementById('countdown').innerText = count;
-	  loginTimer = setInterval(() => {
-		count--;
-		document.getElementById('countdown').innerText = count;
-		if (count <= 0) redirectNow();
-	  }, 1000);
+	  document.getElementById('loginModal').style.display = 'flex';
 	}
 	function hideLoginModal() {
-	  clearInterval(loginTimer);
 	  document.getElementById('loginModal').style.display = 'none';
 	}
 	function redirectNow() {
-	  clearInterval(loginTimer);
 	  window.open(targetUrl, '_blank', 'noopener noreferrer');
 	  hideLoginModal();
 	}
@@ -775,9 +837,47 @@
 	  document.getElementById('videoTipModal').style.display = 'none';
 	}
 	
+	// 移动端导航切换
+	function toggleNav() {
+	  const nav = document.getElementById('mainNav');
+	  nav.classList.toggle('open');
+	}
+	
+	// 数字滚动动画
+	function animateNumber(element, target, duration=2000) {
+	  let start = 0;
+	  const increment = target / (duration / 16);
+	  const timer = setInterval(() => {
+		start += increment;
+		if(start >= target) {
+		  clearInterval(timer);
+		  element.textContent = target.toLocaleString();
+		} else {
+		  element.textContent = Math.floor(start).toLocaleString();
+		}
+	  }, 16);
+	}
+	
 	// 加载完成
 	document.addEventListener('DOMContentLoaded', () => {
 	  initDemoCarousel();
+	  
+	  // 自动设置版权年份
+	  document.getElementById('currentYear').textContent = new Date().getFullYear();
+	  
+	  // 监听数据统计区域进入视口时触发动画
+	  const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+		  if(entry.isIntersecting) {
+			const stats = [45235, 361, 35626, 2765];
+			document.querySelectorAll('.stat-number').forEach((el, i) => {
+			  animateNumber(el, stats[i]);
+			});
+			observer.unobserve(entry.target);
+		  }
+		});
+	  }, {threshold: 0.5});
+	  observer.observe(document.querySelector('.stats-section'));
 	  
 	  // 点击遮罩关闭
 	  document.getElementById('loginModal').onclick = function(e){
@@ -802,6 +902,13 @@
 	  box.addEventListener('touchend', () => {
 		const d = startX - endX;
 		if (Math.abs(d) > 50) d > 0 ? nextDemoSlide() : goToDemoSlide(currentDemoSlide - 1);
+	  });
+	  
+	  // 点击导航链接后关闭移动端菜单
+	  document.querySelectorAll('.nav a, .nav li[onclick]').forEach(item => {
+		item.addEventListener('click', () => {
+		  document.getElementById('mainNav').classList.remove('open');
+		});
 	  });
 	});
   </script>
