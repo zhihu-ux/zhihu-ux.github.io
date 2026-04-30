@@ -15,13 +15,13 @@
   <style>
 	/* 通用样式重置 */
 	* { margin: 0; padding: 0; box-sizing: border-box; }
-	body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #fff; color: #333; line-height: 1.6; }
-	/* 头部导航栏 */
-	.header { display: flex; align-items: center; justify-content: space-between; padding: 1rem; background-color: #fff; border-bottom: 1px solid #eee; }
+	body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #fff; color: #333; line-height: 1.6; padding-top: 68px; /* 为固定头部预留空间 */ }
+	/* 头部导航栏 - 已固定顶部 */
+	.header { display: flex; align-items: center; justify-content: space-between; padding: 1rem; background-color: #fff; border-bottom: 1px solid #eee; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }
 	.header-left .back-btn, .header-right a { text-decoration: none; color: #333; font-size: 1.5rem; }
 	.header-title { font-size: 1.2rem; font-weight: bold; color: #FF5722; }
 	.header-right { display: flex; gap: 1rem; }
-	/* 移动端汉堡菜单 */
+	/* 移动端汉堡菜单 - 已隐藏 */
 	.hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
 	/* 官方提醒横幅 */
 	.banner { background-color: #FF5722; color: #fff; text-align: center; padding: 1rem; }
@@ -254,7 +254,7 @@
 	.copyright a { 
 	  color: #0066cc; 
 	  text-decoration: none; 
-	  transition: color 0.3s;
+	  transition: color 0.3;
 	}
 	.copyright a:hover { 
 	  color: #FF5722; 
@@ -327,19 +327,19 @@
 	}
 	.modal-btn.back { background-color: #eee; color: #333; }
 	.modal-btn.jump { background-color: #FF5722; color: white; }
-	/* 移动端适配 */
+	/* 移动端适配 - 已取消汉堡菜单 */
 	@media (max-width: 768px) {
+	  body { padding-top: 60px; /* 移动端头部高度调整 */ }
 	  .hero-section h1 { font-size: 1.8rem; }
 	  .section-title { font-size: 1.6rem; }
 	  .btn { display: block; margin: 0.5rem auto; width: 80%; }
 	  .modal-content { padding: 1.5rem; }
-	  .nav { position: absolute; top: 68px; left: 0; width: 100%; background: white; z-index: 999; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-	  .nav.open { max-height: 300px; border-bottom: 1px solid #eee; }
-	  .nav ul { flex-direction: column; gap: 0; padding: 0; }
-	  .nav li { padding: 1rem; text-align: center; border-bottom: 1px solid #eee; }
-	  .nav li:last-child { border-bottom: none; }
-	  .nav li.active::after { display: none; }
-	  .hamburger { display: block; }
+	  /* 移动端导航恢复正常显示 */
+	  .nav { position: static; max-height: none; overflow: visible; border-bottom: 1px solid #eee; }
+	  .nav ul { flex-direction: row; gap: 1rem; padding: 0; justify-content: space-around; }
+	  .nav li { padding: 1rem 0.5rem; text-align: center; border-bottom: none; font-size: 0.9rem; }
+	  .nav li.active::after { display: block; }
+	  .hamburger { display: none; }
 	  .price-card { padding: 1.5rem; }
 	  .demo-carousel-container { margin: 1.5rem auto 0; }
 	  .floating-buttons { bottom: 1rem; right: 0.5rem; }
@@ -362,16 +362,17 @@
 	
 	@media (max-width: 480px) {
 	  .demo-carousel-container { border-radius: 6px; }
+	  .nav ul { gap: 0.5rem; }
+	  .nav li { font-size: 0.85rem; }
 	}
   </style>
 </head>
 <body>
-  <!-- 头部导航 -->
+  <!-- 头部导航（已固定顶部） -->
   <header class="header">
 	<div class="header-left"><a href="#" class="back-btn">←</a></div>
 	<div class="header-title">Fox群管机器人</div>
 	<div class="header-right">
-	  <span class="hamburger" onclick="toggleNav()">☰</span>
 	  <a href="#" class="cart-btn">🦊</a>
 	</div>
   </header>
@@ -379,7 +380,7 @@
   <section class="banner">
 	<p>🔥 Fox官方提醒：永久授权无二次收费，谨防诈骗！</p>
   </section>
-  <!-- 导航菜单 -->
+  <!-- 导航菜单（移动端直接显示，无汉堡菜单） -->
   <nav class="nav" id="mainNav">
 	<ul>
 	  <li class="active">首页</li>
@@ -710,9 +711,11 @@
 		<h3>站点导航</h3>
 		<ul>
 		  <li><a href="#">首页</a></li>
+		  <li><a href="https://admin.iqapi.cn" target="_blank" rel="noopener noreferrer">授权更换</a></li>
 		  <li><a href="#pricing">授权价格</a></li>
 		  <li><a href="#agent">代理合作</a></li>
 		  <li><a href="#faq">常见问题</a></li>
+		  <li><a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer">客户端下载</a></li>
 		  <li><a href="#" onclick="showLoginModal()">Web后台</a></li>
 		  <li><a href="./agreement.html" target="_blank" rel="noopener noreferrer">用户服务协议</a></li>
 		</ul>
@@ -837,7 +840,7 @@
 	  document.getElementById('videoTipModal').style.display = 'none';
 	}
 	
-	// 移动端导航切换
+	// 移动端导航切换（已保留但无实际作用，不影响功能）
 	function toggleNav() {
 	  const nav = document.getElementById('mainNav');
 	  nav.classList.toggle('open');
@@ -902,13 +905,6 @@
 	  box.addEventListener('touchend', () => {
 		const d = startX - endX;
 		if (Math.abs(d) > 50) d > 0 ? nextDemoSlide() : goToDemoSlide(currentDemoSlide - 1);
-	  });
-	  
-	  // 点击导航链接后关闭移动端菜单
-	  document.querySelectorAll('.nav a, .nav li[onclick]').forEach(item => {
-		item.addEventListener('click', () => {
-		  document.getElementById('mainNav').classList.remove('open');
-		});
 	  });
 	});
   </script>
