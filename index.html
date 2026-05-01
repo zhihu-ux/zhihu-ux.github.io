@@ -111,47 +111,94 @@
 	  font-size: 0.9rem;
 	}
 	
-	/* 数据统计区域 */
+	/* 数据统计区域（合并为单张卡片） */
 	.stats-section {
 	  padding: 3rem 2rem;
 	  background-color: #fff;
 	}
 	.stats-container {
-	  display: grid;
-	  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-	  gap: 1.5rem;
-	  max-width: 1000px;
+	  max-width: 800px;
 	  margin: 0 auto;
 	}
-	.stat-card {
+	.combined-stat-card {
 	  background: white;
 	  border-radius: 12px;
-	  padding: 1.5rem;
+	  padding: 2rem 1.5rem;
 	  text-align: center;
 	  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 	  border: 1px solid #eee;
 	  animation: float 3s ease-in-out infinite;
 	}
-	.stat-card:nth-child(2) {
-	  animation-delay: 0.5s;
+	/* 上方4项核心数据网格 */
+	.core-stats-grid {
+	  display: grid;
+	  grid-template-columns: repeat(4, 1fr);
+	  gap: 1.5rem;
+	  margin-bottom: 2rem;
+	  padding-bottom: 1.5rem;
+	  border-bottom: 1px dashed #eee;
 	}
-	.stat-card:nth-child(3) {
-	  animation-delay: 1s;
+	.core-stat-item {
+	  text-align: center;
 	}
-	.stat-card:nth-child(4) {
-	  animation-delay: 1.5s;
-	}
-	.stat-number {
-	  font-size: 2rem;
+	.core-stat-number {
+	  font-size: 1.8rem;
 	  font-weight: bold;
 	  color: #FF5722;
-	  margin-bottom: 0.5rem;
-	  /* 数字滚动对齐优化 */
+	  margin-bottom: 0.3rem;
 	  font-variant-numeric: tabular-nums;
 	}
-	.stat-label {
-	  font-size: 0.9rem;
+	.core-stat-label {
+	  font-size: 0.85rem;
 	  color: #666;
+	}
+	/* 下方实时运行时长 */
+	.runtime-section {
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: center;
+	  align-items: center;
+	  gap: 1rem;
+	}
+	.runtime-display {
+	  font-size: 2.2rem;
+	  font-weight: bold;
+	  line-height: 1;
+	  font-variant-numeric: tabular-nums;
+	}
+	#runDays {
+	  color: #f43f5e; /* 红色数字 */
+	}
+	.day-unit {
+	  color: #3b82f6; /* 蓝色"天"字 */
+	  margin: 0 0.3rem;
+	}
+	#runHours, #runMinutes, #runSeconds {
+	  color: #f43f5e; /* 红色时分秒 */
+	}
+	.colon {
+	  color: #3b82f6; /* 蓝色冒号 */
+	  margin: 0 0.1rem;
+	}
+	.runtime-status {
+	  display: flex;
+	  align-items: center;
+	  gap: 1rem;
+	  font-size: 1.1rem;
+	  width: 100%;
+	  justify-content: center;
+	}
+	.runtime-label {
+	  color: #666;
+	  font-weight: 500;
+	}
+	.status-badge {
+	  background-color: #10b981; /* 绿色正常运营标签 */
+	  color: white;
+	  padding: 0.5rem 1.5rem;
+	  border-radius: 25px;
+	  font-weight: bold;
+	  white-space: nowrap;
 	}
 	@keyframes float {
 	  0% {
@@ -171,7 +218,7 @@
 	.section-title::after { content: ''; display: block; width: 60px; height: 3px; background: #FF5722; margin: 0.5rem auto; }
 	/* 价格表 */
 	.pricing-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
-	.price-card { background: white; border-radius: 10px; padding: 2rem; text-align: center; border: 2px solid #eee; transition: border-color 0.3, transform 0.2s; }
+	.price-card { background: white; border-radius: 10px; padding: 2rem; text-align: center; border: 2px solid #eee; transition: border-color 0.3, transform 0.2; }
 	.price-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); }
 	.price-card.popular { border-color: #FF5722; position: relative; }
 	.price-card.popular::before { content: '🔥 热门推荐'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #FF5722; color: white; padding: 0.3rem 1rem; border-radius: 15px; font-size: 0.8rem; }
@@ -327,7 +374,7 @@
 	}
 	.modal-btn.back { background-color: #eee; color: #333; }
 	.modal-btn.jump { background-color: #FF5722; color: white; }
-	/* 移动端适配 - 已取消汉堡菜单 */
+	/* 移动端适配 */
 	@media (max-width: 768px) {
 	  body { padding-top: 60px; /* 移动端头部高度调整 */ }
 	  .hero-section h1 { font-size: 1.8rem; }
@@ -352,11 +399,23 @@
 		font-size: 0.9rem;
 		padding: 0.8rem 1rem;
 	  }
-	  .stat-number {
+	  /* 移动端合并统计卡片适配 */
+	  .core-stats-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+	  }
+	  .core-stat-number {
 		font-size: 1.5rem;
 	  }
-	  .stats-container {
-		grid-template-columns: repeat(2, 1fr);
+	  .runtime-display {
+		font-size: 1.6rem;
+	  }
+	  .runtime-status {
+		font-size: 0.9rem;
+		gap: 0.5rem;
+	  }
+	  .status-badge {
+		padding: 0.4rem 1rem;
 	  }
 	}
 	
@@ -364,6 +423,9 @@
 	  .demo-carousel-container { border-radius: 6px; }
 	  .nav ul { gap: 0.5rem; }
 	  .nav li { font-size: 0.85rem; }
+	  .runtime-display {
+		font-size: 1.3rem;
+	  }
 	}
   </style>
 </head>
@@ -385,7 +447,7 @@
 	<ul>
 	  <li class="active">首页</li>
 	  <li><a href="https://admin.iqapi.cn" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">授权更换</a></li>
-	  <li><a href="https://wwbus.lanzouv.com/b009hxr5ra" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">客户端下载</a></li>
+	  <li onclick="showDownloadPassword()"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">客户端下载</a></li>
 	  <li onclick="showLoginModal()">Web后台</li>
 	</ul>
   </nav>
@@ -432,24 +494,42 @@
 	<p class="caption">Fox机器人核心功能演示 | 反广告·积分·后台·刷屏检测·撤禁系统</p>
   </main>
   
-  <!-- 数据统计区域 -->
+  <!-- 数据统计区域（5项数据合并为单张卡片） -->
   <section class="stats-section">
 	<div class="stats-container">
-	  <div class="stat-card">
-		<div class="stat-number">45,235</div>
-		<div class="stat-label">下载次数</div>
-	  </div>
-	  <div class="stat-card">
-		<div class="stat-number">361</div>
-		<div class="stat-label">更新次数</div>
-	  </div>
-	  <div class="stat-card">
-		<div class="stat-number">35,626</div>
-		<div class="stat-label">用户数量</div>
-	  </div>
-	  <div class="stat-card">
-		<div class="stat-number">2,765</div>
-		<div class="stat-label">代理数量</div>
+	  <div class="combined-stat-card">
+		<!-- 上方4项核心数据 -->
+		<div class="core-stats-grid">
+		  <div class="core-stat-item">
+			<div class="core-stat-number" id="downloadCount">0</div>
+			<div class="core-stat-label">下载次数</div>
+		  </div>
+		  <div class="core-stat-item">
+			<div class="core-stat-number" id="updateCount">0</div>
+			<div class="core-stat-label">更新次数</div>
+		  </div>
+		  <div class="core-stat-item">
+			<div class="core-stat-number" id="userCount">0</div>
+			<div class="core-stat-label">用户数量</div>
+		  </div>
+		  <div class="core-stat-item">
+			<div class="core-stat-number" id="agentCount">0</div>
+			<div class="core-stat-label">代理数量</div>
+		  </div>
+		</div>
+		<!-- 下方实时运行时长 -->
+		<div class="runtime-section">
+		  <div class="runtime-display">
+			<span id="runDays">0</span><span class="day-unit">天</span>
+			<span id="runHours">00</span><span class="colon">:</span>
+			<span id="runMinutes">00</span><span class="colon">:</span>
+			<span id="runSeconds">00</span>
+		  </div>
+		  <div class="runtime-status">
+			<span class="runtime-label">运行时长</span>
+			<span class="status-badge">正常运营</span>
+		  </div>
+		</div>
 	  </div>
 	</div>
   </section>
@@ -715,7 +795,7 @@
 		  <li><a href="#pricing">授权价格</a></li>
 		  <li><a href="#agent">代理合作</a></li>
 		  <li><a href="#faq">常见问题</a></li>
-		  <li><a href="https://wwbus.lanzouv.com/b009hxr5ra" target="_blank" rel="noopener noreferrer">客户端下载</a></li>
+		  <li><a href="javascript:void(0)" onclick="showDownloadPassword()">客户端下载</a></li>
 		  <li><a href="#" onclick="showLoginModal()">Web后台</a></li>
 		  <li><a href="./agreement.html" target="_blank" rel="noopener noreferrer">用户服务协议</a></li>
 		</ul>
@@ -761,6 +841,12 @@
 	const qunUrl = "https://qm.qq.com/q/dRn1Qk4xGg";
 	const qqKfUrl = "https://qm.qq.com/q/9j79jaLmKs";
 	const downloadUrl = "https://wwbus.lanzouv.com/b009hxr5ra"; // 下载链接已单独定义
+	
+	// 下载密码提示函数
+	function showDownloadPassword() {
+	  alert("客户端下载密码：8888");
+	  window.open(downloadUrl, '_blank', 'noopener noreferrer');
+	}
 	
 	// 轮播相关
 	let demoCarouselInterval;
@@ -862,6 +948,26 @@
 	  }, 16);
 	}
 	
+	// 实时更新运行时长（天时分秒）
+	function updateRuntime() {
+	  // 基准日期：2020-10-18（2026-05-02正好2047天，每日自动+1）
+	  const startDate = new Date('2020-10-18 00:00:00');
+	  const now = new Date();
+	  const diff = now - startDate;
+	  
+	  // 计算天时分秒
+	  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+	  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+	  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+	  
+	  // 更新页面（自动补零）
+	  document.getElementById('runDays').textContent = days;
+	  document.getElementById('runHours').textContent = hours.toString().padStart(2, '0');
+	  document.getElementById('runMinutes').textContent = minutes.toString().padStart(2, '0');
+	  document.getElementById('runSeconds').textContent = seconds.toString().padStart(2, '0');
+	}
+	
 	// 加载完成
 	document.addEventListener('DOMContentLoaded', () => {
 	  initDemoCarousel();
@@ -869,12 +975,24 @@
 	  // 自动设置版权年份
 	  document.getElementById('currentYear').textContent = new Date().getFullYear();
 	  
+	  // 立即更新运行时长
+	  updateRuntime();
+	  // 每秒更新一次
+	  setInterval(updateRuntime, 1000);
+	  
 	  // 监听数据统计区域进入视口时触发动画
 	  const observer = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
 		  if(entry.isIntersecting) {
+			// 4项核心数据滚动动画
 			const stats = [45235, 361, 35626, 2765];
-			document.querySelectorAll('.stat-number').forEach((el, i) => {
+			const statElements = [
+			  document.getElementById('downloadCount'),
+			  document.getElementById('updateCount'),
+			  document.getElementById('userCount'),
+			  document.getElementById('agentCount')
+			];
+			statElements.forEach((el, i) => {
 			  animateNumber(el, stats[i]);
 			});
 			observer.unobserve(entry.target);
