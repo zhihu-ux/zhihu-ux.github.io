@@ -295,8 +295,6 @@
 	.footer-column li { margin-bottom: 0.8rem; }
 	.footer-column a { color: #bdc3c7; text-decoration: none; transition: color 0.3; }
 	.footer-column a:hover { color: #FF5722; }
-	/* 官方社群区块间距 */
-	.footer-community { margin-top: 2.5rem; }
 	.copyright { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #34495e; color: #95a5a5; font-size: 0.9rem; }
 	.copyright a { 
 	  color: #0066cc; 
@@ -313,9 +311,6 @@
 	.float-btn:nth-child(2) {
 	  animation-delay: 0.3s;
 	}
-	.float-btn:nth-child(3) {
-	  animation-delay: 0.6s;
-	}
 	@keyframes floatBtn {
 	  0% {
 		transform: translateY(0px);
@@ -329,7 +324,6 @@
 	}
 	.contact { background-color: #FF5722; }
 	.qq-contact { background-color: #12B7F5; }
-	.join { background-color: #4CAF50; }
 	/* 登录提示弹窗样式 */
 	.modal-overlay {
 	  position: fixed;
@@ -777,15 +771,6 @@
 		  <li>授权咨询QQ：<a href="https://qm.qq.com/q/9j79jaLmKs" target="_blank" rel="noopener noreferrer">750708031</a></li>
 		  <li><a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer">📞 企业微信客服</a></li>
 		</ul>
-		<!-- 官方社群移至此处 -->
-		<div class="footer-community">
-		  <h3>官方社群</h3>
-		  <ul>
-			<li>问题反馈、功能建议、售后支持</li>
-			<li><a href="https://qm.qq.com/q/dRn1Qk4xGg" target="_blank" rel="noopener noreferrer">🚀 一键加入Fox群管售后群</a></li>
-			<li>群号：910077718</li>
-		  </ul>
-		</div>
 	  </div>
 	  <div class="footer-column">
 		<h3>站点导航</h3>
@@ -809,8 +794,6 @@
   <aside class="floating-buttons">
 	<a href="https://qm.qq.com/q/9j79jaLmKs" target="_blank" rel="noopener noreferrer" class="float-btn qq-contact">QQ在线咨询</a>
 	<a href="https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843" target="_blank" rel="noopener noreferrer" class="float-btn contact">企业微信客服</a>
-	<a href="https://qm.qq.com/q/dRn1Qk4xGg" 
-	   class="float-btn join" target="_blank" rel="noopener noreferrer">加入售后群</a>
   </aside>
   <!-- Web后台跳转弹窗（已去掉倒计时） -->
   <div id="loginModal" class="modal-overlay">
@@ -838,7 +821,6 @@
 	let loginTimer;
 	const targetUrl = "https://v3.iqapi.cn/user/";
 	const wechatKfUrl = "https://work.weixin.qq.com/kfid/kfc7e1b37e88b1ff843";
-	const qunUrl = "https://qm.qq.com/q/dRn1Qk4xGg";
 	const qqKfUrl = "https://qm.qq.com/q/9j79jaLmKs";
 	const downloadUrl = "https://wwbus.lanzouv.com/b009hxr5ra"; // 下载链接已单独定义
 	
